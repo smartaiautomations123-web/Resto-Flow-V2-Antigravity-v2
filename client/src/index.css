@@ -1,0 +1,236 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar-background);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --radius: 0.75rem;
+
+  --background: hsl(220 20% 97%);
+  --foreground: hsl(220 20% 10%);
+
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(220 20% 10%);
+
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(220 20% 10%);
+
+  --primary: hsl(32 95% 50%);
+  --primary-foreground: hsl(0 0% 100%);
+
+  --secondary: hsl(220 14% 92%);
+  --secondary-foreground: hsl(220 20% 20%);
+
+  --muted: hsl(220 14% 95%);
+  --muted-foreground: hsl(220 10% 46%);
+
+  --accent: hsl(32 80% 95%);
+  --accent-foreground: hsl(32 95% 30%);
+
+  --destructive: hsl(0 72% 51%);
+  --destructive-foreground: hsl(0 0% 100%);
+
+  --success: hsl(142 71% 45%);
+  --success-foreground: hsl(0 0% 100%);
+
+  --warning: hsl(38 92% 50%);
+  --warning-foreground: hsl(0 0% 100%);
+
+  --border: hsl(220 13% 90%);
+  --input: hsl(220 13% 90%);
+  --ring: hsl(32 95% 50%);
+
+  --sidebar-background: hsl(220 20% 12%);
+  --sidebar-foreground: hsl(220 10% 75%);
+  --sidebar-primary: hsl(32 95% 50%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(220 20% 18%);
+  --sidebar-accent-foreground: hsl(220 10% 90%);
+  --sidebar-border: hsl(220 20% 20%);
+  --sidebar-ring: hsl(32 95% 50%);
+
+  --chart-1: hsl(32 95% 50%);
+  --chart-2: hsl(142 71% 45%);
+  --chart-3: hsl(217 91% 60%);
+  --chart-4: hsl(280 65% 60%);
+  --chart-5: hsl(0 72% 51%);
+}
+
+.dark {
+  --background: hsl(220 20% 7%);
+  --foreground: hsl(220 10% 92%);
+
+  --card: hsl(220 20% 10%);
+  --card-foreground: hsl(220 10% 92%);
+
+  --popover: hsl(220 20% 10%);
+  --popover-foreground: hsl(220 10% 92%);
+
+  --primary: hsl(32 95% 50%);
+  --primary-foreground: hsl(0 0% 100%);
+
+  --secondary: hsl(220 20% 16%);
+  --secondary-foreground: hsl(220 10% 85%);
+
+  --muted: hsl(220 20% 14%);
+  --muted-foreground: hsl(220 10% 55%);
+
+  --accent: hsl(32 60% 15%);
+  --accent-foreground: hsl(32 95% 65%);
+
+  --destructive: hsl(0 62% 40%);
+  --destructive-foreground: hsl(0 0% 100%);
+
+  --success: hsl(142 60% 40%);
+  --success-foreground: hsl(0 0% 100%);
+
+  --warning: hsl(38 80% 45%);
+  --warning-foreground: hsl(0 0% 100%);
+
+  --border: hsl(220 20% 18%);
+  --input: hsl(220 20% 18%);
+  --ring: hsl(32 95% 50%);
+
+  --sidebar-background: hsl(220 25% 6%);
+  --sidebar-foreground: hsl(220 10% 65%);
+  --sidebar-primary: hsl(32 95% 50%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(220 20% 12%);
+  --sidebar-accent-foreground: hsl(220 10% 90%);
+  --sidebar-border: hsl(220 20% 14%);
+  --sidebar-ring: hsl(32 95% 50%);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv11", "ss01", "ss03";
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1440px;
+    }
+  }
+
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-xl border border-border/50 shadow-sm;
+  }
+  
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(32, 95%, 50%), hsl(25, 95%, 42%));
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(32, 95%, 55%), hsl(25, 95%, 45%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+
+  /* Status badges */
+  .badge-success { @apply bg-success/15 text-success; }
+  .badge-warning { @apply bg-warning/15 text-warning; }
+  .badge-danger { @apply bg-destructive/15 text-destructive; }
+  .badge-info { @apply bg-chart-3/15 text-chart-3; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}

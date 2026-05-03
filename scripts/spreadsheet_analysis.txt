@@ -1,0 +1,2958 @@
+================================================================================
+DEEP ANALYSIS: Prisura BETA APP Spreadsheet
+================================================================================
+File: D:\Resto-Flow_2026-03-31\scripts\Prisura_BETA_APP.xlsx
+Total Sheets: 26
+Sheet Names: PriceUploads, Teddy_Helper, Teddy_Upload, Teddy_Static, Vendor_Price_Tracking, Teddy_Item_Map, Order_Compare, Capital_Upload, Capital_Helper, Capital_Item_Map, Capital_Static, Unit_Conversions, Items, 2025, Sheet15, Price_Current, UoM_Aliases, Old Prices, Best_Price, Orders_Calc, InventoryCounts, Settings, OnHand_View, Locations, Formulas_GS, Exports
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "PriceUploads"
+   Rows: 634, Columns: 38
+   Range: A1:AL634
+
+   📋 COLUMN HEADERS:
+      A: "Upload_Row_Key"
+      B: "Vendor"
+      C: "VendorSKU"
+      D: "Vendor_Item_Key"
+      E: "Upload_ProductDescription"
+      F: "Static_ProductDescription"
+      G: "UploadID"
+      H: "BatchID"
+      I: "UploadDate"
+      J: "ItemID"
+      K: "PricePerCase"
+      L: "Pack"
+      M: "Size"
+      N: "Pack_Size"
+      O: "UoM"
+      P: "BaseUoM"
+      Q: "D_Pack"
+      R: "D_SizeQty"
+      S: "D_UOM"
+      T: "Case_Size"
+      U: "Converted_Pack_Size"
+      V: "Price_Per_Unit"
+      W: "Currency"
+      X: "EnteredBy"
+      Y: "Source"
+      Z: "ConversionNotes"
+      AA: "Flags"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "Upload_Row_Key": types=[string], filled=198, empty=1, formulas=0
+         samples: ["Capital46056-0001|Capital-01582","Capital46056-0002|Capital-02271","Capital46056-0003|Capital-00202","Capital46056-0004|Capital-00346","Capital46056-0006|Capital-00541"]
+      B "Vendor": types=[string], filled=198, empty=1, formulas=0
+         samples: ["Capital","Capital","Capital","Capital","Capital"]
+      C "VendorSKU": types=[number], filled=198, empty=1, formulas=0
+         samples: ["1582","2271","202","346","541"]
+      D "Vendor_Item_Key": types=[string], filled=198, empty=1, formulas=0
+         samples: ["Capital-01582","Capital-02271","Capital-00202","Capital-00346","Capital-00541"]
+      E "Upload_ProductDescription": types=[string], filled=198, empty=1, formulas=0
+         samples: ["Arugula- Baby B & W 3# Case","Arugula- Wild 2/2# Case","Apples- Fuji 88ct 88ct","Asparagus- Large 11# Case","Broccolini-(Asparation) 18ct Case"]
+      F "Static_ProductDescription": types=[string], filled=198, empty=1, formulas=0
+         samples: ["Arugula- Baby B & W 3# Case","Arugula- Wild 2/2# Case","Apples- Fuji 88ct 88ct","Asparagus- Large 11# Case","Broccolini-(Asparation) 18ct Case"]
+      G "UploadID": types=[string], filled=198, empty=1, formulas=0
+         samples: ["Capital46056-0001","Capital46056-0002","Capital46056-0003","Capital46056-0004","Capital46056-0006"]
+      H "BatchID": types=[string], filled=198, empty=1, formulas=0
+         samples: ["Capital46056","Capital46056","Capital46056","Capital46056","Capital46056"]
+      I "UploadDate": types=[object], filled=198, empty=1, formulas=0
+         samples: ["Tue Feb 03 2026 00:00:00 GMT+0000 (Green...","Tue Feb 03 2026 00:00:00 GMT+0000 (Green...","Tue Feb 03 2026 00:00:00 GMT+0000 (Green...","Tue Feb 03 2026 00:00:00 GMT+0000 (Green...","Tue Feb 03 2026 00:00:00 GMT+0000 (Green..."]
+      J "ItemID": types=[string], filled=198, empty=1, formulas=0
+         samples: ["ARUGULA_BABY","ARUGULA_WILD","APPLES_FUJI","ASPARAGUS_LARGE","BROCCOLINI"]
+      K "PricePerCase": types=[number], filled=198, empty=1, formulas=0
+         samples: ["17.45","16.5","44.75","40.75","46.75"]
+      L "Pack": types=[number], filled=198, empty=1, formulas=0
+         samples: ["1","1","1","1","1"]
+      M "Size": types=[number], filled=198, empty=1, formulas=0
+         samples: ["3","2","88","11","18"]
+      N "Pack_Size": types=[string], filled=198, empty=1, formulas=0
+         samples: ["1/3 LB","1/2 LB","1/88 CT","1/11 LB","1/18 CT"]
+      O "UoM": types=[string], filled=198, empty=1, formulas=0
+         samples: ["LB","LB","CT","LB","CT"]
+      P "BaseUoM": types=[string], filled=198, empty=1, formulas=0
+         samples: ["LB","LB","EA","LB","EA"]
+      Q "D_Pack": types=[number], filled=198, empty=1, formulas=199
+         samples: ["1","1","1","1","1"]
+      R "D_SizeQty": types=[number], filled=198, empty=1, formulas=199
+         samples: ["3","2","88","11","18"]
+      S "D_UOM": types=[string], filled=198, empty=1, formulas=199
+         samples: ["LB","LB","CT","LB","CT"]
+      T "Case_Size": types=[number], filled=199, empty=0, formulas=199
+         samples: ["0","3","2","88","11"]
+      U "Converted_Pack_Size": types=[number], filled=198, empty=1, formulas=199
+         samples: ["3","2","88","11","18"]
+      V "Price_Per_Unit": types=[number], filled=198, empty=1, formulas=199
+         samples: ["5.816667","8.25","0.508523","3.704545","2.597222"]
+      W "Currency": types=[], filled=0, empty=199, formulas=0
+      X "EnteredBy": types=[], filled=0, empty=199, formulas=0
+      Y "Source": types=[], filled=0, empty=199, formulas=0
+      Z "ConversionNotes": types=[], filled=0, empty=199, formulas=0
+      AA "Flags": types=[string], filled=1, empty=198, formulas=1
+         samples: ["UNKNOWN_BASE"]
+      AB "(Col AB)": types=[], filled=0, empty=199, formulas=0
+      AC "(Col AC)": types=[], filled=0, empty=199, formulas=0
+      AD "(Col AD)": types=[], filled=0, empty=199, formulas=0
+
+   ⚙️  FORMULAS FOUND: 3799 total
+   📐 UNIQUE FORMULA PATTERNS: 8
+      [Q2] L2  (used 1899x)
+      [T2] L2*M2  (used 633x)
+      [U2] IFERROR(__xludf.DUMMYFUNCTION("IF($P2=""LB"",
+  IF(
+    REGEXMATCH(UPPER(TRIM($S2)),""^(LB|LBS?|#)$""), $T2,
+    IF(REGEXMATCH(UPPER(TRIM($S2)),""^(OZ|OUNCE|OUNCES)$""), $T2/16,
+      IF(REGEXMATCH(UPPER(TRIM($S2)),""^(KG|KGS|KILOGRAM|KILOGRAMS)$""), $T2*2.2046226,
+        IF(REGEXMATC"&"H(UPPER(TRIM($S2)),""^(G|GRAM|GRAMS)$""), $T2/453.59237,
+          IF(REGEXMATCH(UPPER(TRIM($S2)),""^(TON|TONS)$""), $T2*2000,
+            IF(REGEXMATCH(UPPER(TRIM($S2)),""^(MG|MILLIGRAM|MILLIGRAMS)$""), $T2/453592.37,
+              IF(REGEXMATCH(UPPER(TR"&"IM($S2)),""^(GAL|GALLON|GALLONS)$""), $T2*8.34,
+                IF(REGEXMATCH(UPPER(TRIM($S2)),""^(QT|QTS|QUART|QUARTS)$""), $T2*2.085,
+                  IF(REGEXMATCH(UPPER(TRIM($S2)),""^(PT|PTS|PINT|PINTS)$""), $T2*1.043,
+                    IF(REGEXMAT"&"CH(UPPER(TRIM($S2)),""^(CUP|CUPS)$""), $T2*0.5216,
+                      IF(REGEXMATCH(UPPER(TRIM($S2)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T2*0.0652,
+                      )
+                    )
+                  )
+                )
+          "&"    )
+            )
+          )
+        )
+      )
+    )
+  ),
+
+  IF($P2=""GAL"",
+    IF(
+      REGEXMATCH(UPPER(TRIM($S2)),""^(GL|GAL|GALLON|GALLONS)$""), $T2,
+      IF(REGEXMATCH(UPPER(TRIM($S2)),""^(HALF\s*GAL(LON)?|1/2\s*(GL|GAL)|0\.?5\s*(GL|GAL))$""), "&"$T2/2,
+        IF(REGEXMATCH(UPPER(TRIM($S2)),""^(QT|QTS|QUART|QUARTS)$""), $T2/4,
+          IF(REGEXMATCH(UPPER(TRIM($S2)),""^(PT|PTS|PINT|PINTS)$""), $T2/8,
+            IF(REGEXMATCH(UPPER(TRIM($S2)),""^(CUP|CUPS)$""), $T2/16,
+              IF(REGEXMATC"&"H(UPPER(TRIM($S2)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T2/128,
+                IF(REGEXMATCH(UPPER(TRIM($S2)),""^(L|LTR|LITER|LITERS)$""), $T2*0.2641720524,
+                  IF(REGEXMATCH(UPPER(TRIM($S2)),""^(ML|MILLILITER|MILLILITERS)$""), $T2"&"/3785.411784,
+                    IF(REGEXMATCH(UPPER(TRIM($S2)),""^(CL|CENTILITER|CENTILITERS)$""), $T2/378.5411784,
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    ),
+
+    IF($P"&"2=""QT"",
+      IF(
+        REGEXMATCH(UPPER(TRIM($S2)),""^(QT|QTS|QUART|QUARTS)$""), $T2,
+        IF(REGEXMATCH(UPPER(TRIM($S2)),""^(GL|GAL|GALLON|GALLONS)$""), $T2*4,
+          IF(REGEXMATCH(UPPER(TRIM($S2)),""^(HALF\s*GAL(LON)?|1/2\s*(GL|GAL)|0\.?5\s*("&"GL|GAL))$""), $T2*2,
+            IF(REGEXMATCH(UPPER(TRIM($S2)),""^(PT|PTS|PINT|PINTS)$""), $T2/2,
+              IF(REGEXMATCH(UPPER(TRIM($S2)),""^(CUP|CUPS)$""), $T2/4,
+                IF(REGEXMATCH(UPPER(TRIM($S2)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES"&")$""), $T2/32,
+                  IF(REGEXMATCH(UPPER(TRIM($S2)),""^(L|LTR|LITER|LITERS)$""), $T2*1.05668821,
+                    IF(REGEXMATCH(UPPER(TRIM($S2)),""^(ML|MILLILITER|MILLILITERS)$""), $T2/946.352946,
+                      IF(REGEXMATCH(UPPER(T"&"RIM($S2)),""^(CL|CENTILITER|CENTILITERS)$""), $T2/94.6352946,
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      ),
+
+      IF($P2=""OZ"",
+        IF(
+          REGE"&"XMATCH(UPPER(TRIM($S2)),""^(OZ|OUNCE|OUNCES)$""), $T2,
+          IF(REGEXMATCH(UPPER(TRIM($S2)),""^(LB|LBS?|#)$""), $T2*16,
+            IF(REGEXMATCH(UPPER(TRIM($S2)),""^(KG|KGS|KILOGRAM|KILOGRAMS)$""), $T2*35.2739619,
+              IF(REGEXMATCH(UPPER(TR"&"IM($S2)),""^(G|GRAM|GRAMS)$""), $T2/28.3495231,
+                IF(REGEXMATCH(UPPER(TRIM($S2)),""^(TON|TONS)$""), $T2*32000,
+                  IF(REGEXMATCH(UPPER(TRIM($S2)),""^(MG|MILLIGRAM|MILLIGRAMS)$""), $T2/28349.5231,
+                    IF(REGEXMAT"&"CH(UPPER(TRIM($S2)),""^(GAL|GALLON|GALLONS)$""), $T2*133.44,
+                      IF(REGEXMATCH(UPPER(TRIM($S2)),""^(QT|QTS|QUART|QUARTS)$""), $T2*33.36,
+                        IF(REGEXMATCH(UPPER(TRIM($S2)),""^(PT|PTS|PINT|PINTS)$""), $T2*16.688,
+     "&"                     IF(REGEXMATCH(UPPER(TRIM($S2)),""^(CUP|CUPS)$""), $T2*8.345,
+                            IF(REGEXMATCH(UPPER(TRIM($S2)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T2,
+                            )
+                          )
+      "&"                  )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        ),
+
+        IF($P2=""EA"",
+          IF(
+            REGEXMATCH(UPPER(TRIM($S2)),""^(CT|COUNT|EA|EACH"&"|PCS?|PIECES?|PCE|PC)$""), $T2,
+            IF(REGEXMATCH(UPPER(TRIM($S2)),""^(DZ|DOZEN)$""), $T2*12,
+              IF(REGEXMATCH(UPPER(TRIM($S2)),""^(1/2\s*DOZ|HALF\s*DOZEN)$""), $T2*6,
+                IF(REGEXMATCH(UPPER(TRIM($S2)),""^#\s*\d+""), $T2,
+ "&"               )
+              )
+            )
+          ),
+        )
+      )
+    )
+  )
+)"),"")  (used 1x)
+      [V2] IFERROR(ROUND($K2 / $U2, 6), )
+  (used 633x)
+      [AA2] if($P2="","UNKNOWN_BASE",
+  IF(OR($U2="", $U2<=0),"UNPARSED_CONV",
+    IF(OR($V2="", $V2<=0),"BAD_PRICE","OK")))
+  (used 1x)
+      [U3] IFERROR(__xludf.DUMMYFUNCTION("IF($P3=""LB"",
+  IF(
+    REGEXMATCH(UPPER(TRIM($S3)),""^(LB|LBS?|#)$""), $T3,
+    IF(REGEXMATCH(UPPER(TRIM($S3)),""^(OZ|OUNCE|OUNCES)$""), $T3/16,
+      IF(REGEXMATCH(UPPER(TRIM($S3)),""^(KG|KGS|KILOGRAM|KILOGRAMS)$""), $T3*2.2046226,
+        IF(REGEXMATC"&"H(UPPER(TRIM($S3)),""^(G|GRAM|GRAMS)$""), $T3/453.59237,
+          IF(REGEXMATCH(UPPER(TRIM($S3)),""^(TON|TONS)$""), $T3*2000,
+            IF(REGEXMATCH(UPPER(TRIM($S3)),""^(MG|MILLIGRAM|MILLIGRAMS)$""), $T3/453592.37,
+              IF(REGEXMATCH(UPPER(TR"&"IM($S3)),""^(GAL|GALLON|GALLONS)$""), $T3*8.34,
+                IF(REGEXMATCH(UPPER(TRIM($S3)),""^(QT|QTS|QUART|QUARTS)$""), $T3*2.085,
+                  IF(REGEXMATCH(UPPER(TRIM($S3)),""^(PT|PTS|PINT|PINTS)$""), $T3*1.043,
+                    IF(REGEXMAT"&"CH(UPPER(TRIM($S3)),""^(CUP|CUPS)$""), $T3*0.5216,
+                      IF(REGEXMATCH(UPPER(TRIM($S3)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T3*0.0652,
+                      )
+                    )
+                  )
+                )
+          "&"    )
+            )
+          )
+        )
+      )
+    )
+  ),
+
+  IF($P3=""GAL"",
+    IF(
+      REGEXMATCH(UPPER(TRIM($S3)),""^(GL|GAL|GALLON|GALLONS)$""), $T3,
+      IF(REGEXMATCH(UPPER(TRIM($S3)),""^(HALF\s*GAL(LON)?|1/2\s*(GL|GAL)|0\.?5\s*(GL|GAL))$""), "&"$T3/2,
+        IF(REGEXMATCH(UPPER(TRIM($S3)),""^(QT|QTS|QUART|QUARTS)$""), $T3/4,
+          IF(REGEXMATCH(UPPER(TRIM($S3)),""^(PT|PTS|PINT|PINTS)$""), $T3/8,
+            IF(REGEXMATCH(UPPER(TRIM($S3)),""^(CUP|CUPS)$""), $T3/16,
+              IF(REGEXMATC"&"H(UPPER(TRIM($S3)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T3/128,
+                IF(REGEXMATCH(UPPER(TRIM($S3)),""^(L|LTR|LITER|LITERS)$""), $T3*0.2641720524,
+                  IF(REGEXMATCH(UPPER(TRIM($S3)),""^(ML|MILLILITER|MILLILITERS)$""), $T3"&"/3785.411784,
+                    IF(REGEXMATCH(UPPER(TRIM($S3)),""^(CL|CENTILITER|CENTILITERS)$""), $T3/378.5411784,
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    ),
+
+    IF($P"&"3=""QT"",
+      IF(
+        REGEXMATCH(UPPER(TRIM($S3)),""^(QT|QTS|QUART|QUARTS)$""), $T3,
+        IF(REGEXMATCH(UPPER(TRIM($S3)),""^(GL|GAL|GALLON|GALLONS)$""), $T3*4,
+          IF(REGEXMATCH(UPPER(TRIM($S3)),""^(HALF\s*GAL(LON)?|1/2\s*(GL|GAL)|0\.?5\s*("&"GL|GAL))$""), $T3*2,
+            IF(REGEXMATCH(UPPER(TRIM($S3)),""^(PT|PTS|PINT|PINTS)$""), $T3/2,
+              IF(REGEXMATCH(UPPER(TRIM($S3)),""^(CUP|CUPS)$""), $T3/4,
+                IF(REGEXMATCH(UPPER(TRIM($S3)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES"&")$""), $T3/32,
+                  IF(REGEXMATCH(UPPER(TRIM($S3)),""^(L|LTR|LITER|LITERS)$""), $T3*1.05668821,
+                    IF(REGEXMATCH(UPPER(TRIM($S3)),""^(ML|MILLILITER|MILLILITERS)$""), $T3/946.352946,
+                      IF(REGEXMATCH(UPPER(T"&"RIM($S3)),""^(CL|CENTILITER|CENTILITERS)$""), $T3/94.6352946,
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      ),
+
+      IF($P3=""OZ"",
+        IF(
+          REGE"&"XMATCH(UPPER(TRIM($S3)),""^(OZ|OUNCE|OUNCES)$""), $T3,
+          IF(REGEXMATCH(UPPER(TRIM($S3)),""^(LB|LBS?|#)$""), $T3*16,
+            IF(REGEXMATCH(UPPER(TRIM($S3)),""^(KG|KGS|KILOGRAM|KILOGRAMS)$""), $T3*35.2739619,
+              IF(REGEXMATCH(UPPER(TR"&"IM($S3)),""^(G|GRAM|GRAMS)$""), $T3/28.3495231,
+                IF(REGEXMATCH(UPPER(TRIM($S3)),""^(TON|TONS)$""), $T3*32000,
+                  IF(REGEXMATCH(UPPER(TRIM($S3)),""^(MG|MILLIGRAM|MILLIGRAMS)$""), $T3/28349.5231,
+                    IF(REGEXMAT"&"CH(UPPER(TRIM($S3)),""^(GAL|GALLON|GALLONS)$""), $T3*133.44,
+                      IF(REGEXMATCH(UPPER(TRIM($S3)),""^(QT|QTS|QUART|QUARTS)$""), $T3*33.36,
+                        IF(REGEXMATCH(UPPER(TRIM($S3)),""^(PT|PTS|PINT|PINTS)$""), $T3*16.688,
+     "&"                     IF(REGEXMATCH(UPPER(TRIM($S3)),""^(CUP|CUPS)$""), $T3*8.345,
+                            IF(REGEXMATCH(UPPER(TRIM($S3)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T3,
+                            )
+                          )
+      "&"                  )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        ),
+
+        IF($P3=""EA"",
+          IF(
+            REGEXMATCH(UPPER(TRIM($S3)),""^(CT|COUNT|EA|EACH"&"|PCS?|PIECES?|PCE|PC)$""), $T3,
+            IF(REGEXMATCH(UPPER(TRIM($S3)),""^(DZ|DOZEN)$""), $T3*12,
+              IF(REGEXMATCH(UPPER(TRIM($S3)),""^(1/2\s*DOZ|HALF\s*DOZEN)$""), $T3*6,
+                IF(REGEXMATCH(UPPER(TRIM($S3)),""^#\s*\d+""), $T3,
+ "&"               )
+              )
+            )
+          ),
+        )
+      )
+    )
+  )
+)"),3.0)  (used 7x)
+      [U10] IFERROR(__xludf.DUMMYFUNCTION("IF($P10=""LB"",
+  IF(
+    REGEXMATCH(UPPER(TRIM($S10)),""^(LB|LBS?|#)$""), $T10,
+    IF(REGEXMATCH(UPPER(TRIM($S10)),""^(OZ|OUNCE|OUNCES)$""), $T10/16,
+      IF(REGEXMATCH(UPPER(TRIM($S10)),""^(KG|KGS|KILOGRAM|KILOGRAMS)$""), $T10*2.2046226,
+        IF(RE"&"GEXMATCH(UPPER(TRIM($S10)),""^(G|GRAM|GRAMS)$""), $T10/453.59237,
+          IF(REGEXMATCH(UPPER(TRIM($S10)),""^(TON|TONS)$""), $T10*2000,
+            IF(REGEXMATCH(UPPER(TRIM($S10)),""^(MG|MILLIGRAM|MILLIGRAMS)$""), $T10/453592.37,
+              IF(REGEXM"&"ATCH(UPPER(TRIM($S10)),""^(GAL|GALLON|GALLONS)$""), $T10*8.34,
+                IF(REGEXMATCH(UPPER(TRIM($S10)),""^(QT|QTS|QUART|QUARTS)$""), $T10*2.085,
+                  IF(REGEXMATCH(UPPER(TRIM($S10)),""^(PT|PTS|PINT|PINTS)$""), $T10*1.043,
+            "&"        IF(REGEXMATCH(UPPER(TRIM($S10)),""^(CUP|CUPS)$""), $T10*0.5216,
+                      IF(REGEXMATCH(UPPER(TRIM($S10)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T10*0.0652,
+                      )
+                    )
+                  )
+     "&"           )
+              )
+            )
+          )
+        )
+      )
+    )
+  ),
+
+  IF($P10=""GAL"",
+    IF(
+      REGEXMATCH(UPPER(TRIM($S10)),""^(GL|GAL|GALLON|GALLONS)$""), $T10,
+      IF(REGEXMATCH(UPPER(TRIM($S10)),""^(HALF\s*GAL(LON)?|1/2\s*(GL|G"&"AL)|0\.?5\s*(GL|GAL))$""), $T10/2,
+        IF(REGEXMATCH(UPPER(TRIM($S10)),""^(QT|QTS|QUART|QUARTS)$""), $T10/4,
+          IF(REGEXMATCH(UPPER(TRIM($S10)),""^(PT|PTS|PINT|PINTS)$""), $T10/8,
+            IF(REGEXMATCH(UPPER(TRIM($S10)),""^(CUP|CUPS)$""), $"&"T10/16,
+              IF(REGEXMATCH(UPPER(TRIM($S10)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T10/128,
+                IF(REGEXMATCH(UPPER(TRIM($S10)),""^(L|LTR|LITER|LITERS)$""), $T10*0.2641720524,
+                  IF(REGEXMATCH(UPPER(TRIM($S10)),"&"""^(ML|MILLILITER|MILLILITERS)$""), $T10/3785.411784,
+                    IF(REGEXMATCH(UPPER(TRIM($S10)),""^(CL|CENTILITER|CENTILITERS)$""), $T10/378.5411784,
+                    )
+                  )
+                )
+              )
+            )
+     "&"     )
+        )
+      )
+    ),
+
+    IF($P10=""QT"",
+      IF(
+        REGEXMATCH(UPPER(TRIM($S10)),""^(QT|QTS|QUART|QUARTS)$""), $T10,
+        IF(REGEXMATCH(UPPER(TRIM($S10)),""^(GL|GAL|GALLON|GALLONS)$""), $T10*4,
+          IF(REGEXMATCH(UPPER(TRIM($S10"&")),""^(HALF\s*GAL(LON)?|1/2\s*(GL|GAL)|0\.?5\s*(GL|GAL))$""), $T10*2,
+            IF(REGEXMATCH(UPPER(TRIM($S10)),""^(PT|PTS|PINT|PINTS)$""), $T10/2,
+              IF(REGEXMATCH(UPPER(TRIM($S10)),""^(CUP|CUPS)$""), $T10/4,
+                IF(REGEXMATCH(UP"&"PER(TRIM($S10)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T10/32,
+                  IF(REGEXMATCH(UPPER(TRIM($S10)),""^(L|LTR|LITER|LITERS)$""), $T10*1.05668821,
+                    IF(REGEXMATCH(UPPER(TRIM($S10)),""^(ML|MILLILITER|MILLILITERS)$""), $"&"T10/946.352946,
+                      IF(REGEXMATCH(UPPER(TRIM($S10)),""^(CL|CENTILITER|CENTILITERS)$""), $T10/94.6352946,
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+      "&"  )
+      ),
+
+      IF($P10=""OZ"",
+        IF(
+          REGEXMATCH(UPPER(TRIM($S10)),""^(OZ|OUNCE|OUNCES)$""), $T10,
+          IF(REGEXMATCH(UPPER(TRIM($S10)),""^(LB|LBS?|#)$""), $T10*16,
+            IF(REGEXMATCH(UPPER(TRIM($S10)),""^(KG|KGS|KILOGRAM|K"&"ILOGRAMS)$""), $T10*35.2739619,
+              IF(REGEXMATCH(UPPER(TRIM($S10)),""^(G|GRAM|GRAMS)$""), $T10/28.3495231,
+                IF(REGEXMATCH(UPPER(TRIM($S10)),""^(TON|TONS)$""), $T10*32000,
+                  IF(REGEXMATCH(UPPER(TRIM($S10)),""^(MG|M"&"ILLIGRAM|MILLIGRAMS)$""), $T10/28349.5231,
+                    IF(REGEXMATCH(UPPER(TRIM($S10)),""^(GAL|GALLON|GALLONS)$""), $T10*133.44,
+                      IF(REGEXMATCH(UPPER(TRIM($S10)),""^(QT|QTS|QUART|QUARTS)$""), $T10*33.36,
+                      "&"  IF(REGEXMATCH(UPPER(TRIM($S10)),""^(PT|PTS|PINT|PINTS)$""), $T10*16.688,
+                          IF(REGEXMATCH(UPPER(TRIM($S10)),""^(CUP|CUPS)$""), $T10*8.345,
+                            IF(REGEXMATCH(UPPER(TRIM($S10)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID"&" OUNCES)$""), $T10,
+                            )
+                          )
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        ),
+
+        IF($P"&"10=""EA"",
+          IF(
+            REGEXMATCH(UPPER(TRIM($S10)),""^(CT|COUNT|EA|EACH|PCS?|PIECES?|PCE|PC)$""), $T10,
+            IF(REGEXMATCH(UPPER(TRIM($S10)),""^(DZ|DOZEN)$""), $T10*12,
+              IF(REGEXMATCH(UPPER(TRIM($S10)),""^(1/2\s*DOZ|HALF"&"\s*DOZEN)$""), $T10*6,
+                IF(REGEXMATCH(UPPER(TRIM($S10)),""^#\s*\d+""), $T10,
+                )
+              )
+            )
+          ),
+        )
+      )
+    )
+  )
+)"),4.5)  (used 90x)
+      [U100] IFERROR(__xludf.DUMMYFUNCTION("IF($P100=""LB"",
+  IF(
+    REGEXMATCH(UPPER(TRIM($S100)),""^(LB|LBS?|#)$""), $T100,
+    IF(REGEXMATCH(UPPER(TRIM($S100)),""^(OZ|OUNCE|OUNCES)$""), $T100/16,
+      IF(REGEXMATCH(UPPER(TRIM($S100)),""^(KG|KGS|KILOGRAM|KILOGRAMS)$""), $T100*2.2046226,
+      "&"  IF(REGEXMATCH(UPPER(TRIM($S100)),""^(G|GRAM|GRAMS)$""), $T100/453.59237,
+          IF(REGEXMATCH(UPPER(TRIM($S100)),""^(TON|TONS)$""), $T100*2000,
+            IF(REGEXMATCH(UPPER(TRIM($S100)),""^(MG|MILLIGRAM|MILLIGRAMS)$""), $T100/453592.37,
+          "&"    IF(REGEXMATCH(UPPER(TRIM($S100)),""^(GAL|GALLON|GALLONS)$""), $T100*8.34,
+                IF(REGEXMATCH(UPPER(TRIM($S100)),""^(QT|QTS|QUART|QUARTS)$""), $T100*2.085,
+                  IF(REGEXMATCH(UPPER(TRIM($S100)),""^(PT|PTS|PINT|PINTS)$""), $T100*"&"1.043,
+                    IF(REGEXMATCH(UPPER(TRIM($S100)),""^(CUP|CUPS)$""), $T100*0.5216,
+                      IF(REGEXMATCH(UPPER(TRIM($S100)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T100*0.0652,
+                      )
+                    )
+  "&"                )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  ),
+
+  IF($P100=""GAL"",
+    IF(
+      REGEXMATCH(UPPER(TRIM($S100)),""^(GL|GAL|GALLON|GALLONS)$""), $T100,
+      IF(REGEXMATCH(UPPER(TRIM($S100)),""^(H"&"ALF\s*GAL(LON)?|1/2\s*(GL|GAL)|0\.?5\s*(GL|GAL))$""), $T100/2,
+        IF(REGEXMATCH(UPPER(TRIM($S100)),""^(QT|QTS|QUART|QUARTS)$""), $T100/4,
+          IF(REGEXMATCH(UPPER(TRIM($S100)),""^(PT|PTS|PINT|PINTS)$""), $T100/8,
+            IF(REGEXMATCH(UPPER("&"TRIM($S100)),""^(CUP|CUPS)$""), $T100/16,
+              IF(REGEXMATCH(UPPER(TRIM($S100)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T100/128,
+                IF(REGEXMATCH(UPPER(TRIM($S100)),""^(L|LTR|LITER|LITERS)$""), $T100*0.2641720524,
+            "&"      IF(REGEXMATCH(UPPER(TRIM($S100)),""^(ML|MILLILITER|MILLILITERS)$""), $T100/3785.411784,
+                    IF(REGEXMATCH(UPPER(TRIM($S100)),""^(CL|CENTILITER|CENTILITERS)$""), $T100/378.5411784,
+                    )
+                  )
+           "&"     )
+              )
+            )
+          )
+        )
+      )
+    ),
+
+    IF($P100=""QT"",
+      IF(
+        REGEXMATCH(UPPER(TRIM($S100)),""^(QT|QTS|QUART|QUARTS)$""), $T100,
+        IF(REGEXMATCH(UPPER(TRIM($S100)),""^(GL|GAL|GALLON|GALLONS)$""), $"&"T100*4,
+          IF(REGEXMATCH(UPPER(TRIM($S100)),""^(HALF\s*GAL(LON)?|1/2\s*(GL|GAL)|0\.?5\s*(GL|GAL))$""), $T100*2,
+            IF(REGEXMATCH(UPPER(TRIM($S100)),""^(PT|PTS|PINT|PINTS)$""), $T100/2,
+              IF(REGEXMATCH(UPPER(TRIM($S100)),""^(CUP"&"|CUPS)$""), $T100/4,
+                IF(REGEXMATCH(UPPER(TRIM($S100)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T100/32,
+                  IF(REGEXMATCH(UPPER(TRIM($S100)),""^(L|LTR|LITER|LITERS)$""), $T100*1.05668821,
+                    IF(REGEXMATC"&"H(UPPER(TRIM($S100)),""^(ML|MILLILITER|MILLILITERS)$""), $T100/946.352946,
+                      IF(REGEXMATCH(UPPER(TRIM($S100)),""^(CL|CENTILITER|CENTILITERS)$""), $T100/94.6352946,
+                      )
+                    )
+                  )
+     "&"           )
+              )
+            )
+          )
+        )
+      ),
+
+      IF($P100=""OZ"",
+        IF(
+          REGEXMATCH(UPPER(TRIM($S100)),""^(OZ|OUNCE|OUNCES)$""), $T100,
+          IF(REGEXMATCH(UPPER(TRIM($S100)),""^(LB|LBS?|#)$""), $T100*16,"&"
+            IF(REGEXMATCH(UPPER(TRIM($S100)),""^(KG|KGS|KILOGRAM|KILOGRAMS)$""), $T100*35.2739619,
+              IF(REGEXMATCH(UPPER(TRIM($S100)),""^(G|GRAM|GRAMS)$""), $T100/28.3495231,
+                IF(REGEXMATCH(UPPER(TRIM($S100)),""^(TON|TONS)$""),"&" $T100*32000,
+                  IF(REGEXMATCH(UPPER(TRIM($S100)),""^(MG|MILLIGRAM|MILLIGRAMS)$""), $T100/28349.5231,
+                    IF(REGEXMATCH(UPPER(TRIM($S100)),""^(GAL|GALLON|GALLONS)$""), $T100*133.44,
+                      IF(REGEXMATCH(UPPER("&"TRIM($S100)),""^(QT|QTS|QUART|QUARTS)$""), $T100*33.36,
+                        IF(REGEXMATCH(UPPER(TRIM($S100)),""^(PT|PTS|PINT|PINTS)$""), $T100*16.688,
+                          IF(REGEXMATCH(UPPER(TRIM($S100)),""^(CUP|CUPS)$""), $T100*8.345,
+         "&"                   IF(REGEXMATCH(UPPER(TRIM($S100)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T100,
+                            )
+                          )
+                        )
+                      )
+                    )
+                  )
+ "&"               )
+              )
+            )
+          )
+        ),
+
+        IF($P100=""EA"",
+          IF(
+            REGEXMATCH(UPPER(TRIM($S100)),""^(CT|COUNT|EA|EACH|PCS?|PIECES?|PCE|PC)$""), $T100,
+            IF(REGEXMATCH(UPPER(TRIM($S100)),""^("&"DZ|DOZEN)$""), $T100*12,
+              IF(REGEXMATCH(UPPER(TRIM($S100)),""^(1/2\s*DOZ|HALF\s*DOZEN)$""), $T100*6,
+                IF(REGEXMATCH(UPPER(TRIM($S100)),""^#\s*\d+""), $T100,
+                )
+              )
+            )
+          ),
+        )"&"
+      )
+    )
+  )
+)"),11.0)  (used 535x)
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"Case_Size":0,"Flags":"UNKNOWN_BASE"}
+      Row 2: {"Upload_Row_Key":"Capital46056-0001|Capital-01582","Vendor":"Capital","VendorSKU":1582,"Vendor_Item_Key":"Capital-01582","Upload_ProductDescription":"Arugula- Baby B & W 3# Case","Static_ProductDescription":"Arugula- Baby B & W 3# Case","UploadID":"Capital46056-0001","BatchID":"Capital46056","UploadDate":"2026-02-03T00:00:00.000Z","ItemID":"ARUGULA_BABY","PricePerCase":17.45,"Pack":1,"Size":3,"Pack_Size":"1/3 LB","UoM":"LB","BaseUoM":"LB","D_Pack":1,"D_SizeQty":3,"D_UOM":"LB","Case_Size":3,"Converted_Pack_Size":3,"Price_Per_Unit":5.816667}
+      Row 3: {"Upload_Row_Key":"Capital46056-0002|Capital-02271","Vendor":"Capital","VendorSKU":2271,"Vendor_Item_Key":"Capital-02271","Upload_ProductDescription":"Arugula- Wild 2/2# Case","Static_ProductDescription":"Arugula- Wild 2/2# Case","UploadID":"Capital46056-0002","BatchID":"Capital46056","UploadDate":"2026-02-03T00:00:00.000Z","ItemID":"ARUGULA_WILD","PricePerCase":16.5,"Pack":1,"Size":2,"Pack_Size":"1/2 LB","UoM":"LB","BaseUoM":"LB","D_Pack":1,"D_SizeQty":2,"D_UOM":"LB","Case_Size":2,"Converted_Pack_Size":2,"Price_Per_Unit":8.25}
+      Row 4: {"Upload_Row_Key":"Capital46056-0003|Capital-00202","Vendor":"Capital","VendorSKU":202,"Vendor_Item_Key":"Capital-00202","Upload_ProductDescription":"Apples- Fuji 88ct 88ct","Static_ProductDescription":"Apples- Fuji 88ct 88ct","UploadID":"Capital46056-0003","BatchID":"Capital46056","UploadDate":"2026-02-03T00:00:00.000Z","ItemID":"APPLES_FUJI","PricePerCase":44.75,"Pack":1,"Size":88,"Pack_Size":"1/88 CT","UoM":"CT","BaseUoM":"EA","D_Pack":1,"D_SizeQty":88,"D_UOM":"CT","Case_Size":88,"Converted_Pack_Size":88,"Price_Per_Unit":0.508523}
+      Row 5: {"Upload_Row_Key":"Capital46056-0004|Capital-00346","Vendor":"Capital","VendorSKU":346,"Vendor_Item_Key":"Capital-00346","Upload_ProductDescription":"Asparagus- Large 11# Case","Static_ProductDescription":"Asparagus- Large 11# Case","UploadID":"Capital46056-0004","BatchID":"Capital46056","UploadDate":"2026-02-03T00:00:00.000Z","ItemID":"ASPARAGUS_LARGE","PricePerCase":40.75,"Pack":1,"Size":11,"Pack_Size":"1/11 LB","UoM":"LB","BaseUoM":"LB","D_Pack":1,"D_SizeQty":11,"D_UOM":"LB","Case_Size":11,"Converted_Pack_Size":11,"Price_Per_Unit":3.704545}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Teddy_Helper"
+   Rows: 1000, Columns: 35
+   Range: A1:AI1000
+
+   📋 COLUMN HEADERS:
+      A: "Vendor"
+      B: "VendorSKU"
+      C: "Vendor_Item_Key"
+      D: "Upload_ProductDescription"
+      E: "PricePerCase"
+      F: "UploadID"
+      G: "BatchID"
+      H: "UploadDate"
+      I: "Static_ProductDescription"
+      J: "Pack_Size_Raw"
+      K: "Pack"
+      L: "SizeQty"
+      M: "UoM"
+      N: "Case_Size"
+      O: "Static_Status"
+      P: "Static_Notes"
+      Q: "ItemID"
+      R: "ItemName"
+      S: "Map_Status"
+      T: "Map_Notes"
+      U: "BaseUoM"
+      V: "Conversion_Status"
+      W: "Helper_Flag"
+      X: "Upload_Row_Key"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "Vendor": types=[string], filled=143, empty=56, formulas=143
+         samples: ["Teddy","Teddy","Teddy","Teddy","Teddy"]
+      B "VendorSKU": types=[string], filled=143, empty=56, formulas=143
+         samples: ["00038","00039","00060","00072","00074"]
+      C "Vendor_Item_Key": types=[string], filled=143, empty=56, formulas=143
+         samples: ["Teddy-00038","Teddy-00039","Teddy-00060","Teddy-00072","Teddy-00074"]
+      D "Upload_ProductDescription": types=[string], filled=143, empty=56, formulas=143
+         samples: ["Asparagus - Jumbo 11# CS","Asparagus - Large 11# CS","Bean - French 5# CS","Beet - Golden - LG 5#","Beet - Red - Loose 5#"]
+      E "PricePerCase": types=[number], filled=143, empty=56, formulas=143
+         samples: ["55.5","53.15","29.5","5.7","5.75"]
+      F "UploadID": types=[string], filled=143, empty=56, formulas=143
+         samples: ["Teddy46113-0001","Teddy46113-0002","Teddy46113-0003","Teddy46113-0004","Teddy46113-0005"]
+      G "BatchID": types=[string], filled=143, empty=56, formulas=143
+         samples: ["Teddy46113","Teddy46113","Teddy46113","Teddy46113","Teddy46113"]
+      H "UploadDate": types=[object], filled=143, empty=56, formulas=143
+         samples: ["Wed Apr 01 2026 00:00:00 GMT+0100 (Briti...","Wed Apr 01 2026 00:00:00 GMT+0100 (Briti...","Wed Apr 01 2026 00:00:00 GMT+0100 (Briti...","Wed Apr 01 2026 00:00:00 GMT+0100 (Briti...","Wed Apr 01 2026 00:00:00 GMT+0100 (Briti..."]
+      I "Static_ProductDescription": types=[string], filled=45, empty=154, formulas=181
+         samples: ["Asparagus - Large 11# CS","Bean - French 5# CS","Berry TB - BlackBerry 12/1ct CS","Berry TB - Straw 8/1# CS","Broccoli - Crowns 20# CS"]
+      J "Pack_Size_Raw": types=[string], filled=49, empty=150, formulas=169
+         samples: ["11# CS","5# CS","12/1ct CS","8/1# CS","20# CS"]
+      K "Pack": types=[number], filled=49, empty=150, formulas=158
+         samples: ["1","1","12","8","1"]
+      L "SizeQty": types=[number], filled=49, empty=150, formulas=169
+         samples: ["11","5","1","1","20"]
+      M "UoM": types=[string], filled=49, empty=150, formulas=170
+         samples: ["LB","LB","CT","LB","LB"]
+      N "Case_Size": types=[number], filled=49, empty=150, formulas=197
+         samples: ["11","5","12","8","20"]
+      O "Static_Status": types=[string], filled=49, empty=150, formulas=197
+         samples: ["READY","READY","READY","READY","READY"]
+      P "Static_Notes": types=[], filled=0, empty=199, formulas=197
+      Q "ItemID": types=[string], filled=49, empty=150, formulas=197
+         samples: ["ASPARAGUS_LARGE","BEANS_FRENCH","BLACKBERRIES","STRAWBERRIES","BROCCOLI_CROWN"]
+      R "ItemName": types=[string], filled=49, empty=150, formulas=197
+         samples: ["Large Asparagus","French Beans","Black Berries","Strawberries","Broccoli Crown"]
+      S "Map_Status": types=[string], filled=49, empty=150, formulas=197
+         samples: ["Mapped","Mapped","Mapped","Mapped","Mapped"]
+      T "Map_Notes": types=[], filled=0, empty=199, formulas=197
+      U "BaseUoM": types=[string], filled=49, empty=150, formulas=199
+         samples: ["LB","LB","LB","LB","EA"]
+      V "Conversion_Status": types=[string], filled=197, empty=2, formulas=197
+         samples: ["MISSING_UOM","OK","OK","MISSING_UOM","MISSING_UOM"]
+      W "Helper_Flag": types=[string], filled=143, empty=56, formulas=196
+         samples: ["MISSING_STATIC","OK","OK","MISSING_STATIC","MISSING_STATIC"]
+      X "Upload_Row_Key": types=[string], filled=143, empty=56, formulas=197
+         samples: ["Teddy46113-0001|Teddy-00038","Teddy46113-0002|Teddy-00039","Teddy46113-0003|Teddy-00060","Teddy46113-0004|Teddy-00072","Teddy46113-0005|Teddy-00074"]
+      Y "(Col Y)": types=[], filled=0, empty=199, formulas=0
+      Z "(Col Z)": types=[], filled=0, empty=199, formulas=0
+      AA "(Col AA)": types=[], filled=0, empty=199, formulas=0
+      AB "(Col AB)": types=[], filled=0, empty=199, formulas=0
+      AC "(Col AC)": types=[], filled=0, empty=199, formulas=0
+      AD "(Col AD)": types=[], filled=0, empty=199, formulas=0
+
+   ⚙️  FORMULAS FOUND: 4166 total
+   📐 UNIQUE FORMULA PATTERNS: 182
+      [A2] IFERROR(__xludf.DUMMYFUNCTION("FILTER(
+  {
+    Teddy_Upload!I2:I1000,
+    Teddy_Upload!D2:D1000,
+    Teddy_Upload!J2:J1000,
+    Teddy_Upload!C2:C1000,
+    Teddy_Upload!E2:E1000,
+    Teddy_Upload!F2:F1000,
+    Teddy_Upload!G2:G1000,
+    Teddy_Upload!H2:H1000
+  },
+  Teddy_Upload!J2:J1000"&"<>""""
+)"),"Teddy")  (used 1x)
+      [B2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"00038")  (used 143x)
+      [C2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Teddy-00038")  (used 143x)
+      [D2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Asparagus - Jumbo 11# CS")  (used 1x)
+      [E2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),55.5)  (used 286x)
+      [F2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Teddy46113-0001")  (used 143x)
+      [G2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Teddy46113")  (used 143x)
+      [I2] IF($C2="","",IFERROR(XLOOKUP($C2,Teddy_Static!$C:$C,Teddy_Static!$D:$D,""),""))  (used 134x)
+      [J2] IF($C2="","",IFERROR(XLOOKUP($C2,Teddy_Static!$C:$C,Teddy_Static!$E:$E,""),""))  (used 147x)
+      [K2] IF($C2="","",IFERROR(XLOOKUP($C2,Teddy_Static!$C:$C,Teddy_Static!$F:$F,""),""))  (used 158x)
+      [L2] IF($C2="","",IFERROR(XLOOKUP($C2,Teddy_Static!$C:$C,Teddy_Static!$G:$G,""),""))  (used 167x)
+      [M2] IF($C2="","",IFERROR(XLOOKUP($C2,Teddy_Static!$C:$C,Teddy_Static!$H:$H,""),""))  (used 170x)
+      [N2] IF($C2="","",IFERROR(XLOOKUP($C2,Teddy_Static!$C:$C,Teddy_Static!$I:$I,""),""))  (used 197x)
+      [O2] IF($C2="","",IFERROR(XLOOKUP($C2,Teddy_Static!$C:$C,Teddy_Static!$J:$J,""),""))  (used 197x)
+      [P2] IF($C2="","",IFERROR(XLOOKUP($C2,Teddy_Static!$C:$C,Teddy_Static!$K:$K,""),""))  (used 197x)
+      [Q2] IF($C2="","",IFERROR(XLOOKUP($C2,Teddy_Item_Map!$C:$C,Teddy_Item_Map!$E:$E,""),""))  (used 197x)
+      [R2] IF($Q2="","",IFERROR(XLOOKUP($Q2,Items!$A:$A,Items!$B:$B,""),""))  (used 197x)
+      [S2] IF($C2="","",IFERROR(XLOOKUP($C2,Teddy_Item_Map!$C:$C,Teddy_Item_Map!$G:$G,""),""))  (used 197x)
+      [T2] IF($C2="","",IFERROR(XLOOKUP($C2,Teddy_Item_Map!$C:$C,Teddy_Item_Map!$H:$H,""),""))  (used 197x)
+      [U2] IF($Q2="","",IFERROR(XLOOKUP($Q2,Items!$A:$A,Items!$D:$D,""),""))  (used 206x)
+      ... and 162 more patterns
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"Vendor":"Teddy","VendorSKU":"00038","Vendor_Item_Key":"Teddy-00038","Upload_ProductDescription":"Asparagus - Jumbo 11# CS","PricePerCase":55.5,"UploadID":"Teddy46113-0001","BatchID":"Teddy46113","UploadDate":"2026-03-31T23:00:00.000Z","Conversion_Status":"MISSING_UOM","Helper_Flag":"MISSING_STATIC","Upload_Row_Key":"Teddy46113-0001|Teddy-00038"}
+      Row 2: {"Vendor":"Teddy","VendorSKU":"00039","Vendor_Item_Key":"Teddy-00039","Upload_ProductDescription":"Asparagus - Large 11# CS","PricePerCase":53.15,"UploadID":"Teddy46113-0002","BatchID":"Teddy46113","UploadDate":"2026-03-31T23:00:00.000Z","Static_ProductDescription":"Asparagus - Large 11# CS","Pack_Size_Raw":"11# CS","Pack":1,"SizeQty":11,"UoM":"LB","Case_Size":11,"Static_Status":"READY","ItemID":"ASPARAGUS_LARGE","ItemName":"Large Asparagus","Map_Status":"Mapped","BaseUoM":"LB","Conversion_Status":"OK","Helper_Flag":"OK","Upload_Row_Key":"Teddy46113-0002|Teddy-00039"}
+      Row 3: {"Vendor":"Teddy","VendorSKU":"00060","Vendor_Item_Key":"Teddy-00060","Upload_ProductDescription":"Bean - French 5# CS","PricePerCase":29.5,"UploadID":"Teddy46113-0003","BatchID":"Teddy46113","UploadDate":"2026-03-31T23:00:00.000Z","Static_ProductDescription":"Bean - French 5# CS","Pack_Size_Raw":"5# CS","Pack":1,"SizeQty":5,"UoM":"LB","Case_Size":5,"Static_Status":"READY","ItemID":"BEANS_FRENCH","ItemName":"French Beans","Map_Status":"Mapped","BaseUoM":"LB","Conversion_Status":"OK","Helper_Flag":"OK","Upload_Row_Key":"Teddy46113-0003|Teddy-00060"}
+      Row 4: {"Vendor":"Teddy","VendorSKU":"00072","Vendor_Item_Key":"Teddy-00072","Upload_ProductDescription":"Beet - Golden - LG 5#","PricePerCase":5.7,"UploadID":"Teddy46113-0004","BatchID":"Teddy46113","UploadDate":"2026-03-31T23:00:00.000Z","Conversion_Status":"MISSING_UOM","Helper_Flag":"MISSING_STATIC","Upload_Row_Key":"Teddy46113-0004|Teddy-00072"}
+      Row 5: {"Vendor":"Teddy","VendorSKU":"00074","Vendor_Item_Key":"Teddy-00074","Upload_ProductDescription":"Beet - Red - Loose 5#","PricePerCase":5.75,"UploadID":"Teddy46113-0005","BatchID":"Teddy46113","UploadDate":"2026-03-31T23:00:00.000Z","Conversion_Status":"MISSING_UOM","Helper_Flag":"MISSING_STATIC","Upload_Row_Key":"Teddy46113-0005|Teddy-00074"}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Teddy_Upload"
+   Rows: 1000, Columns: 17
+   Range: A1:Q1000
+
+   📋 COLUMN HEADERS:
+      A: "Wed Apr 01 2026 00:00:00 GMT+0100 (British Summer Time)"
+      B: "Date"
+      C: "ProductDescription"
+      D: "VendorSKU"
+      E: "PricePerCase"
+      F: "UploadID"
+      G: "BatchID"
+      H: "UploadDate"
+      I: "Vendor"
+      J: "Vendor_Item_Key"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "Wed Apr 01 2026 00:00:00 GMT+0100 (British Summer Time)": types=[string], filled=1, empty=198, formulas=1
+         samples: ["Teddy46113"]
+      B "Date": types=[string], filled=1, empty=198, formulas=0
+         samples: ["Batch ID"]
+      C "ProductDescription": types=[string], filled=145, empty=54, formulas=0
+         samples: ["Asparagus - Jumbo 11# CS","Asparagus - Large 11# CS","Bean - French 5# CS","Beet - Golden - LG 5#","Beet - Red - Loose 5#"]
+      D "VendorSKU": types=[string], filled=145, empty=54, formulas=0
+         samples: ["00038","00039","00060","00072","00074"]
+      E "PricePerCase": types=[number], filled=145, empty=54, formulas=0
+         samples: ["55.5","53.15","29.5","5.7","5.75"]
+      F "UploadID": types=[string], filled=145, empty=54, formulas=1
+         samples: ["Teddy46113-0001","Teddy46113-0002","Teddy46113-0003","Teddy46113-0004","Teddy46113-0005"]
+      G "BatchID": types=[string], filled=145, empty=54, formulas=1
+         samples: ["Teddy46113","Teddy46113","Teddy46113","Teddy46113","Teddy46113"]
+      H "UploadDate": types=[object], filled=145, empty=54, formulas=1
+         samples: ["Wed Apr 01 2026 00:00:00 GMT+0100 (Briti...","Wed Apr 01 2026 00:00:00 GMT+0100 (Briti...","Wed Apr 01 2026 00:00:00 GMT+0100 (Briti...","Wed Apr 01 2026 00:00:00 GMT+0100 (Briti...","Wed Apr 01 2026 00:00:00 GMT+0100 (Briti..."]
+      I "Vendor": types=[string], filled=145, empty=54, formulas=1
+         samples: ["Teddy","Teddy","Teddy","Teddy","Teddy"]
+      J "Vendor_Item_Key": types=[string], filled=143, empty=56, formulas=143
+         samples: ["Teddy-00038","Teddy-00039","Teddy-00060","Teddy-00072","Teddy-00074"]
+      K "(Col K)": types=[], filled=0, empty=199, formulas=0
+      L "(Col L)": types=[], filled=0, empty=199, formulas=0
+      M "(Col M)": types=[], filled=0, empty=199, formulas=0
+      N "(Col N)": types=[], filled=0, empty=199, formulas=0
+      O "(Col O)": types=[string], filled=145, empty=54, formulas=0
+         samples: ["00038","00039","00060","00072","00074"]
+      P "(Col P)": types=[string], filled=145, empty=54, formulas=0
+         samples: ["Asparagus - Jumbo 11# CS","Asparagus - Large 11# CS","Bean - French 5# CS","Beet - Golden - LG 5#","Beet - Red - Loose 5#"]
+      Q "(Col Q)": types=[number], filled=145, empty=54, formulas=0
+         samples: ["55.5","53.15","29.5","5.7","5.75"]
+
+   ⚙️  FORMULAS FOUND: 148 total
+   📐 UNIQUE FORMULA PATTERNS: 5
+      [A2] I2&A1  (used 1x)
+      [F2] IF(C2:C1000<>"",$A$2&"-"&TEXT(ROW(C2:C1000)-1,"0000"),"")  (used 1x)
+      [G2] IF(C2:C1000<>"",$A$2,"")  (used 2x)
+      [I2] IF(C2:C1000<>"","Teddy","")  (used 1x)
+      [J2] I2&"-"&D2  (used 143x)
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"Wed Apr 01 2026 00:00:00 GMT+0100 (British Summer Time)":"Teddy46113","Date":"Batch ID","ProductDescription":"Asparagus - Jumbo 11# CS","VendorSKU":"00038","PricePerCase":55.5,"UploadID":"Teddy46113-0001","BatchID":"Teddy46113","UploadDate":"2026-03-31T23:00:00.000Z","Vendor":"Teddy","Vendor_Item_Key":"Teddy-00038"}
+      Row 2: {"ProductDescription":"Asparagus - Large 11# CS","VendorSKU":"00039","PricePerCase":53.15,"UploadID":"Teddy46113-0002","BatchID":"Teddy46113","UploadDate":"2026-03-31T23:00:00.000Z","Vendor":"Teddy","Vendor_Item_Key":"Teddy-00039"}
+      Row 3: {"ProductDescription":"Bean - French 5# CS","VendorSKU":"00060","PricePerCase":29.5,"UploadID":"Teddy46113-0003","BatchID":"Teddy46113","UploadDate":"2026-03-31T23:00:00.000Z","Vendor":"Teddy","Vendor_Item_Key":"Teddy-00060"}
+      Row 4: {"ProductDescription":"Beet - Golden - LG 5#","VendorSKU":"00072","PricePerCase":5.7,"UploadID":"Teddy46113-0004","BatchID":"Teddy46113","UploadDate":"2026-03-31T23:00:00.000Z","Vendor":"Teddy","Vendor_Item_Key":"Teddy-00072"}
+      Row 5: {"ProductDescription":"Beet - Red - Loose 5#","VendorSKU":"00074","PricePerCase":5.75,"UploadID":"Teddy46113-0005","BatchID":"Teddy46113","UploadDate":"2026-03-31T23:00:00.000Z","Vendor":"Teddy","Vendor_Item_Key":"Teddy-00074"}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Teddy_Static"
+   Rows: 1000, Columns: 11
+   Range: A1:K1000
+
+   📋 COLUMN HEADERS:
+      A: "Vendor"
+      B: "VendorSKU"
+      C: "Vendor_Item_Key"
+      D: "Description"
+      E: "Pack_Size_Raw"
+      F: "Pack"
+      G: "SizeQty"
+      H: "UoM"
+      I: "Case_Size"
+      J: "Static_Status"
+      K: "Notes"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "Vendor": types=[string], filled=134, empty=65, formulas=1
+         samples: ["Teddy","Teddy","Teddy","Teddy","Teddy"]
+      B "VendorSKU": types=[string], filled=134, empty=65, formulas=133
+         samples: ["00529","03244","00006","00039","00093"]
+      C "Vendor_Item_Key": types=[string], filled=134, empty=65, formulas=134
+         samples: ["Teddy-00529","Teddy-03244","Teddy-00006","Teddy-00039","Teddy-00093"]
+      D "Description": types=[string], filled=134, empty=65, formulas=0
+         samples: ["Lettuce - Arugula Baby","Lettuce - Wild Arugula","Apple - Fuji","Asparagus - Large 11# CS","Broccoli - Crowns 20# CS"]
+      E "Pack_Size_Raw": types=[string], filled=133, empty=66, formulas=0
+         samples: ["2/1.5# CS","8/5oz CS","88ct CS","11# CS","20# CS"]
+      F "Pack": types=[number], filled=131, empty=68, formulas=0
+         samples: ["2","8","1","1","1"]
+      G "SizeQty": types=[number], filled=131, empty=68, formulas=0
+         samples: ["1.5","5","88","11","20"]
+      H "UoM": types=[string], filled=132, empty=67, formulas=0
+         samples: ["LB","OZ","CT","LB","LB"]
+      I "Case_Size": types=[number], filled=134, empty=65, formulas=134
+         samples: ["3","40","88","11","20"]
+      J "Static_Status": types=[string], filled=134, empty=65, formulas=0
+         samples: ["READY","READY","READY","READY","READY"]
+      K "Notes": types=[string], filled=3, empty=196, formulas=0
+         samples: ["Only have case price","Only have case price","Only have case price"]
+
+   ⚙️  FORMULAS FOUND: 402 total
+   📐 UNIQUE FORMULA PATTERNS: 4
+      [A2] IF(B2:B1000<>"","Teddy","")  (used 1x)
+      [C2] A2&"-"&B2  (used 134x)
+      [I2] F2*G2  (used 134x)
+      [B3] "03244"  (used 133x)
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"Vendor":"Teddy","VendorSKU":"00529","Vendor_Item_Key":"Teddy-00529","Description":"Lettuce - Arugula Baby","Pack_Size_Raw":"2/1.5# CS","Pack":2,"SizeQty":1.5,"UoM":"LB","Case_Size":3,"Static_Status":"READY"}
+      Row 2: {"Vendor":"Teddy","VendorSKU":"03244","Vendor_Item_Key":"Teddy-03244","Description":"Lettuce - Wild Arugula","Pack_Size_Raw":"8/5oz CS","Pack":8,"SizeQty":5,"UoM":"OZ","Case_Size":40,"Static_Status":"READY"}
+      Row 3: {"Vendor":"Teddy","VendorSKU":"00006","Vendor_Item_Key":"Teddy-00006","Description":"Apple - Fuji","Pack_Size_Raw":"88ct CS","Pack":1,"SizeQty":88,"UoM":"CT","Case_Size":88,"Static_Status":"READY"}
+      Row 4: {"Vendor":"Teddy","VendorSKU":"00039","Vendor_Item_Key":"Teddy-00039","Description":"Asparagus - Large 11# CS","Pack_Size_Raw":"11# CS","Pack":1,"SizeQty":11,"UoM":"LB","Case_Size":11,"Static_Status":"READY"}
+      Row 5: {"Vendor":"Teddy","VendorSKU":"00093","Vendor_Item_Key":"Teddy-00093","Description":"Broccoli - Crowns 20# CS","Pack_Size_Raw":"20# CS","Pack":1,"SizeQty":20,"UoM":"LB","Case_Size":20,"Static_Status":"READY"}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Vendor_Price_Tracking"
+   Rows: 50500, Columns: 26
+   Range: A1:Z50500
+
+   📋 COLUMN HEADERS:
+      P: "UploadDate"
+      Q: "Capital | EGGPLANT_MEDIUM | 1/2 CT"
+      R: "Teddy | EGGPLANT_MEDIUM | 1/18 CT"
+      S: "Teddy | EGGPLANT_MEDIUM | 2/1 EA"
+      V: "UploadDate"
+      W: "Capital | EGGPLANT_MEDIUM | 1/2 CT"
+      X: "Teddy | EGGPLANT_MEDIUM | 1/18 CT"
+      Y: "Teddy | EGGPLANT_MEDIUM | 2/1 EA"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "(Col A)": types=[string,object], filled=12, empty=187, formulas=8
+         samples: ["Item ID","Start Date","End Date","UploadDate","Tue Feb 03 2026 00:00:00 GMT+0000 (Green..."]
+      B "(Col B)": types=[string,object], filled=12, empty=187, formulas=8
+         samples: ["EGGPLANT_MEDIUM","Sun Feb 01 2026 00:00:00 GMT+0000 (Green...","Thu Apr 30 2026 00:00:00 GMT+0100 (Briti...","Vendor","Capital"]
+      C "(Col C)": types=[string], filled=9, empty=190, formulas=8
+         samples: ["Vendor_Item_Key","Capital-01040","Capital-01040","Capital-01040","Teddy-00358"]
+      D "(Col D)": types=[string,number], filled=9, empty=190, formulas=8
+         samples: ["VendorSKU","1040","1040","1040","358"]
+      E "(Col E)": types=[string], filled=9, empty=190, formulas=8
+         samples: ["Description","Eggplant- Fancy 2ct 2ct","Eggplant- Fancy 2ct 2ct","Eggplant- Fancy 2ct 2ct","Eggplant"]
+      F "(Col F)": types=[string,number], filled=9, empty=190, formulas=8
+         samples: ["PricePerCase","4.5","4.5","4.75","29.15"]
+      G "(Col G)": types=[string,number], filled=9, empty=190, formulas=8
+         samples: ["Price_Per_Unit","2.25","2.25","2.375","1.619444"]
+      H "(Col H)": types=[string], filled=9, empty=190, formulas=8
+         samples: ["Pack_Size","1/2 CT","1/2 CT","1/2 CT","1/18 CT"]
+      I "(Col I)": types=[string], filled=9, empty=190, formulas=8
+         samples: ["BaseUoM","EA","EA","EA","EA"]
+      J "(Col J)": types=[string], filled=8, empty=191, formulas=1
+         samples: ["Capital | EGGPLANT_MEDIUM | 1/2 CT","Capital | EGGPLANT_MEDIUM | 1/2 CT","Capital | EGGPLANT_MEDIUM | 1/2 CT","Teddy | EGGPLANT_MEDIUM | 1/18 CT","Teddy | EGGPLANT_MEDIUM | 2/1 EA"]
+      K "(Col K)": types=[], filled=0, empty=199, formulas=0
+      L "(Col L)": types=[string,object], filled=9, empty=190, formulas=8
+         samples: ["UploadDate","Tue Feb 03 2026 00:00:00 GMT+0000 (Green...","Thu Feb 12 2026 00:00:00 GMT+0000 (Green...","Wed Mar 04 2026 00:00:00 GMT+0000 (Green...","Fri Mar 06 2026 00:00:00 GMT+0000 (Green..."]
+      M "(Col M)": types=[string], filled=9, empty=190, formulas=8
+         samples: ["Series_Label","Capital | EGGPLANT_MEDIUM | 1/2 CT","Capital | EGGPLANT_MEDIUM | 1/2 CT","Capital | EGGPLANT_MEDIUM | 1/2 CT","Teddy | EGGPLANT_MEDIUM | 1/18 CT"]
+      N "(Col N)": types=[string,number], filled=9, empty=190, formulas=8
+         samples: ["Price_Per_Unit","2.25","2.25","2.375","1.619444"]
+      O "(Col O)": types=[], filled=0, empty=199, formulas=0
+      P "UploadDate": types=[object], filled=7, empty=192, formulas=7
+         samples: ["Tue Feb 03 2026 00:00:00 GMT+0000 (Green...","Thu Feb 12 2026 00:00:00 GMT+0000 (Green...","Wed Mar 04 2026 00:00:00 GMT+0000 (Green...","Fri Mar 06 2026 00:00:00 GMT+0000 (Green...","Sat Mar 21 2026 00:00:00 GMT+0000 (Green..."]
+      Q "Capital | EGGPLANT_MEDIUM | 1/2 CT": types=[number], filled=5, empty=194, formulas=5
+         samples: ["2.25","2.25","2.375","2.995","2.995"]
+      R "Teddy | EGGPLANT_MEDIUM | 1/18 CT": types=[number], filled=2, empty=197, formulas=2
+         samples: ["1.619444","1.988889"]
+      S "Teddy | EGGPLANT_MEDIUM | 2/1 EA": types=[number], filled=1, empty=198, formulas=1
+         samples: ["2.05"]
+      T "(Col T)": types=[], filled=0, empty=199, formulas=0
+      U "(Col U)": types=[], filled=0, empty=199, formulas=0
+      V "UploadDate": types=[object], filled=7, empty=192, formulas=199
+         samples: ["Tue Feb 03 2026 00:00:00 GMT+0000 (Green...","Thu Feb 12 2026 00:00:00 GMT+0000 (Green...","Wed Mar 04 2026 00:00:00 GMT+0000 (Green...","Fri Mar 06 2026 00:00:00 GMT+0000 (Green...","Sat Mar 21 2026 00:00:00 GMT+0000 (Green..."]
+      W "Capital | EGGPLANT_MEDIUM | 1/2 CT": types=[number], filled=7, empty=192, formulas=199
+         samples: ["2.25","2.25","2.375","2.375","2.995"]
+      X "Teddy | EGGPLANT_MEDIUM | 1/18 CT": types=[number], filled=4, empty=195, formulas=199
+         samples: ["1.619444","1.619444","1.619444","1.988889"]
+      Y "Teddy | EGGPLANT_MEDIUM | 2/1 EA": types=[number], filled=4, empty=195, formulas=199
+         samples: ["2.05","2.05","2.05","2.05"]
+      Z "(Col Z)": types=[], filled=0, empty=199, formulas=199
+
+   ⚙️  FORMULAS FOUND: 4909 total
+   📐 UNIQUE FORMULA PATTERNS: 22
+      [P1] IFERROR(__xludf.DUMMYFUNCTION("QUERY(
+  L5:N50500,
+  ""SELECT L, MAX(N)
+   WHERE L IS NOT NULL
+   AND L >= date '""&TEXT($B$3,""yyyy-MM-dd"")&""'
+   AND L <= date '""&TEXT($B$4,""yyyy-MM-dd"")&""'
+   GROUP BY L
+   PIVOT M
+   ORDER BY L"",
+  1
+)"),"UploadDate")  (used 1x)
+      [Q1] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Capital | EGGPLANT_MEDIUM | 1/2 CT")  (used 6x)
+      [R1] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Teddy | EGGPLANT_MEDIUM | 1/18 CT")  (used 3x)
+      [S1] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Teddy | EGGPLANT_MEDIUM | 2/1 EA")  (used 2x)
+      [V1] P1:T1  (used 1x)
+      [P2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),46056.0)  (used 61x)
+      [V2] IF(P2="",,P2)  (used 344x)
+      [W2] if(V2="","",(IF(Q2="",W1,Q2)))  (used 4445x)
+      [X2] IF(R2="","",R2)  (used 3x)
+      [A6] IFERROR(__xludf.DUMMYFUNCTION("IF(
+  $B$2="""",
+  ,
+  SORT(
+    FILTER(
+      {
+        PriceUploads!I2:I50500,
+        PriceUploads!B2:B50500,
+        PriceUploads!D2:D50500,
+        PriceUploads!C2:C50500,
+        PriceUploads!F2:F50500,
+        PriceUploads!K2:K50500,
+        PriceU"&"ploads!V2:V50500,
+        PriceUploads!N2:N50500,
+        PriceUploads!P2:P50500
+      },
+      PriceUploads!J2:J50500=$B$2
+    ),
+    1,
+    TRUE
+  )
+)"),46056.0)  (used 1x)
+      [B6] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Capital")  (used 5x)
+      [C6] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Capital-01040")  (used 5x)
+      [E6] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Eggplant- Fancy 2ct 2ct")  (used 5x)
+      [H6] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"1/2 CT")  (used 7x)
+      [I6] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"EA")  (used 8x)
+      [J6] IF(B6:B50500="","",B6:B50500&" | "&B2&" | "&H6:H50500)  (used 1x)
+      [L6] IFERROR(__xludf.DUMMYFUNCTION("FILTER({A6:A50500,J6:J50500,G6:G50500},A6:A50500<>"""")"),46056.0)  (used 1x)
+      [B9] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Teddy")  (used 3x)
+      [C9] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Teddy-00358")  (used 3x)
+      [E9] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Eggplant")  (used 2x)
+      ... and 2 more patterns
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"UploadDate":"2026-02-03T00:00:00.000Z","Capital | EGGPLANT_MEDIUM | 1/2 CT":2.25}
+      Row 2: {"UploadDate":"2026-02-12T00:00:00.000Z","Capital | EGGPLANT_MEDIUM | 1/2 CT":2.25}
+      Row 3: {"UploadDate":"2026-03-04T00:00:00.000Z","Capital | EGGPLANT_MEDIUM | 1/2 CT":2.375}
+      Row 4: {"UploadDate":"2026-03-06T00:00:00.000Z","Teddy | EGGPLANT_MEDIUM | 1/18 CT":1.619444,"Teddy | EGGPLANT_MEDIUM | 2/1 EA":2.05,"Capital | EGGPLANT_MEDIUM | 1/2 CT":2.375}
+      Row 5: {"UploadDate":"2026-03-21T00:00:00.000Z","Capital | EGGPLANT_MEDIUM | 1/2 CT":2.995,"Teddy | EGGPLANT_MEDIUM | 1/18 CT":1.619444,"Teddy | EGGPLANT_MEDIUM | 2/1 EA":2.05}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Teddy_Item_Map"
+   Rows: 1000, Columns: 10
+   Range: A1:J1000
+
+   📋 COLUMN HEADERS:
+      A: "Vendor"
+      B: "VendorSKU"
+      C: "Vendor_Item_Key"
+      D: "Vendor_ProductDescription"
+      E: "ItemID"
+      F: "ItemName"
+      G: "Map_Status"
+      H: "Notes"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "Vendor": types=[string], filled=134, empty=65, formulas=0
+         samples: ["Teddy","Teddy","Teddy","Teddy","Teddy"]
+      B "VendorSKU": types=[string], filled=134, empty=65, formulas=134
+         samples: ["00529","03244","00006","00039","00093"]
+      C "Vendor_Item_Key": types=[string], filled=134, empty=65, formulas=134
+         samples: ["Teddy-00529","Teddy-03244","Teddy-00006","Teddy-00039","Teddy-00093"]
+      D "Vendor_ProductDescription": types=[string], filled=134, empty=65, formulas=0
+         samples: ["Lettuce - Arugula Baby","Lettuce - Wild Arugula","Apple - Fuji","Asparagus - Large 11# CS","Broccoli - Crowns 20# CS"]
+      E "ItemID": types=[string], filled=101, empty=98, formulas=0
+         samples: ["ARUGULA_BABY","ARUGULA_WILD","APPLES_FUJI","ASPARAGUS_LARGE","BROCCOLI_CROWN"]
+      F "ItemName": types=[string], filled=101, empty=98, formulas=134
+         samples: ["Baby Arugula","Wild Arugula","Fuji Apples","Large Asparagus","Broccoli Crown"]
+      G "Map_Status": types=[string], filled=134, empty=65, formulas=0
+         samples: ["Mapped","Mapped","Mapped","Mapped","Mapped"]
+      H "Notes": types=[], filled=0, empty=199, formulas=0
+      I "(Col I)": types=[], filled=0, empty=199, formulas=0
+      J "(Col J)": types=[], filled=0, empty=199, formulas=0
+
+   ⚙️  FORMULAS FOUND: 402 total
+   📐 UNIQUE FORMULA PATTERNS: 3
+      [B2] "00529"  (used 134x)
+      [C2] A2&"-"&B2  (used 134x)
+      [F2] IF($E2="","",IFERROR(XLOOKUP($E2,Items!$A:$A,Items!$B:$B,""),""))  (used 134x)
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"Vendor":"Teddy","VendorSKU":"00529","Vendor_Item_Key":"Teddy-00529","Vendor_ProductDescription":"Lettuce - Arugula Baby","ItemID":"ARUGULA_BABY","ItemName":"Baby Arugula","Map_Status":"Mapped"}
+      Row 2: {"Vendor":"Teddy","VendorSKU":"03244","Vendor_Item_Key":"Teddy-03244","Vendor_ProductDescription":"Lettuce - Wild Arugula","ItemID":"ARUGULA_WILD","ItemName":"Wild Arugula","Map_Status":"Mapped"}
+      Row 3: {"Vendor":"Teddy","VendorSKU":"00006","Vendor_Item_Key":"Teddy-00006","Vendor_ProductDescription":"Apple - Fuji","ItemID":"APPLES_FUJI","ItemName":"Fuji Apples","Map_Status":"Mapped"}
+      Row 4: {"Vendor":"Teddy","VendorSKU":"00039","Vendor_Item_Key":"Teddy-00039","Vendor_ProductDescription":"Asparagus - Large 11# CS","ItemID":"ASPARAGUS_LARGE","ItemName":"Large Asparagus","Map_Status":"Mapped"}
+      Row 5: {"Vendor":"Teddy","VendorSKU":"00093","Vendor_Item_Key":"Teddy-00093","Vendor_ProductDescription":"Broccoli - Crowns 20# CS","ItemID":"BROCCOLI_CROWN","ItemName":"Broccoli Crown","Map_Status":"Mapped"}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Order_Compare"
+   Rows: 982, Columns: 34
+   Range: A1:AH982
+
+   📋 COLUMN HEADERS:
+      A: "Capital_Vendor_Item_Key"
+      B: "ItemID"
+      C: "Item Name"
+      D: "Capital Qty to Order"
+      E: "Capital Case Size"
+      F: "Unit "
+      G: "Capital Case Price"
+      H: "Qty Needed"
+      I: "Teddy_Vendor_Item_Key"
+      J: "Teddy Case Size"
+      K: "Teddy Case Price"
+      L: "Teddy Cases to order"
+      M: "Capital Ext Cost"
+      N: "Teddy Ext Cost"
+      O: "Status"
+      P: "Capital Unit Cost"
+      Q: "Teddy Unit Cost"
+      R: "Capital Price"
+      S: "Teddy Price"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "Capital_Vendor_Item_Key": types=[string], filled=54, empty=145, formulas=0
+         samples: ["Capital-93939","Capital-00580","Capital-01063","Capital-01042","Capital-00346"]
+      B "ItemID": types=[string], filled=48, empty=151, formulas=54
+         samples: ["ROMAINE_HEART","BUTTER_UNSALTED","EGGS_LIQUID","ASPARAGUS_LARGE","STRAWBERRIES"]
+      C "Item Name": types=[string], filled=54, empty=145, formulas=54
+         samples: ["Lettuce- Romaine Hrt ABoy 48ct Case","Butter-Solids (NO SALT) 36# 36/1lb","Eggs- Easy Liquid 15/2# LOCAL 15/2lb","Eggplant- Fancy (Medium) Case","Asparagus- Large 11# Case"]
+      D "Capital Qty to Order": types=[number], filled=3, empty=196, formulas=0
+         samples: ["2","1","1"]
+      E "Capital Case Size": types=[number], filled=54, empty=145, formulas=54
+         samples: ["48","36","30","0","11"]
+      F "Unit ": types=[string], filled=54, empty=145, formulas=54
+         samples: ["CT","LB","LB","CS","LB"]
+      G "Capital Case Price": types=[number], filled=48, empty=151, formulas=54
+         samples: ["36.75","95.15","39.5","45.75","26"]
+      H "Qty Needed": types=[number], filled=3, empty=196, formulas=54
+         samples: ["96","30","12"]
+      I "Teddy_Vendor_Item_Key": types=[string], filled=46, empty=153, formulas=54
+         samples: ["Teddy-02027","Teddy-00102","Teddy-00350","Teddy-00039","Teddy-00085"]
+      J "Teddy Case Size": types=[number], filled=46, empty=153, formulas=54
+         samples: ["48","36","30","11","8"]
+      K "Teddy Case Price": types=[number], filled=46, empty=153, formulas=54
+         samples: ["10","98","48.1","53.15","21.55"]
+      L "Teddy Cases to order": types=[number], filled=3, empty=196, formulas=54
+         samples: ["2","1","1"]
+      M "Capital Ext Cost": types=[number], filled=3, empty=196, formulas=54
+         samples: ["73.5","39.5","28.95"]
+      N "Teddy Ext Cost": types=[number], filled=3, empty=196, formulas=54
+         samples: ["20","48.1","26.15"]
+      O "Status": types=[], filled=0, empty=199, formulas=0
+      P "Capital Unit Cost": types=[number], filled=48, empty=151, formulas=54
+         samples: ["0.765625","2.643056","1.316667","4.159091","3.25"]
+      Q "Teddy Unit Cost": types=[number], filled=46, empty=153, formulas=54
+         samples: ["0.208333","2.722222","1.603333","4.831818","2.69375"]
+      R "Capital Price": types=[number], filled=54, empty=145, formulas=54
+         samples: ["73.5","0","39.50001","0","0"]
+      S "Teddy Price": types=[number], filled=54, empty=145, formulas=54
+         samples: ["19.999968","0","48.09999","0","0"]
+      T "(Col T)": types=[], filled=0, empty=199, formulas=0
+      U "(Col U)": types=[string], filled=4, empty=195, formulas=0
+         samples: ["Capital Total","Teddy Total","Order From","Savings"]
+      V "(Col V)": types=[number,string], filled=4, empty=195, formulas=4
+         samples: ["141.95001","94.249962","Teddy","47.700048"]
+      W "(Col W)": types=[], filled=0, empty=199, formulas=0
+      X "(Col X)": types=[], filled=0, empty=199, formulas=0
+      Y "(Col Y)": types=[], filled=0, empty=199, formulas=0
+      Z "(Col Z)": types=[], filled=0, empty=199, formulas=0
+      AA "(Col AA)": types=[], filled=0, empty=199, formulas=0
+      AB "(Col AB)": types=[], filled=0, empty=199, formulas=0
+      AC "(Col AC)": types=[], filled=0, empty=199, formulas=0
+      AD "(Col AD)": types=[], filled=0, empty=199, formulas=0
+
+   ⚙️  FORMULAS FOUND: 868 total
+   📐 UNIQUE FORMULA PATTERNS: 23
+      [B2] IF(A2="","",XLOOKUP(A2, PriceUploads!D:D,PriceUploads!J:J,""))  (used 54x)
+      [C2] IF(A2="","",XLOOKUP(A2,Capital_Static!C:C,Capital_Static!D:D,""))  (used 54x)
+      [E2] IF(A2="","",XLOOKUP(C2,Capital_Static!D:D, Capital_Static!I:I,""))  (used 54x)
+      [F2] IF(A2="","",XLOOKUP(C2,Capital_Static!D:D, Capital_Static!H:H,""))  (used 54x)
+      [G2] IFERROR(__xludf.DUMMYFUNCTION("IF(A2="""","""",IFERROR(INDEX(SORT(FILTER({PriceUploads!$K$2:$K982,PriceUploads!$I$2:$I982},PriceUploads!$B$2:$B982=""Capital"",PriceUploads!$D$2:$D982=A2,PriceUploads!$K$2:$K982<>""""),2,FALSE),1,1),""""))"),36.75)  (used 48x)
+      [H2] IF(OR(D2="",E2=""),"",D2*E2)  (used 162x)
+      [I2] IFERROR(__xludf.DUMMYFUNCTION("IF(B2="""","""",IFERROR(
+  INDEX(
+    SORT(
+      FILTER(
+        {
+          Teddy_Static!$C$2:$C982,
+          Teddy_Static!$I$2:$I982,
+          ABS(Teddy_Static!$I$2:$I982-$E2)
+        },
+        COUNTIF(
+          UNIQUE(
+            FILTER(
+        "&"      PriceUploads!$D$2:$D982,
+              PriceUploads!$B$2:$B982=""Teddy"",
+              PriceUploads!$J$2:$J982=$B2,
+              PriceUploads!$I$2:$I982=MAXIFS(PriceUploads!$I$2:$I982,PriceUploads!$B$2:$B982,""Teddy"",PriceUploads!$J$2:$J982,$B2)
+"&"            )
+          ),
+          Teddy_Static!$C$2:$C982
+        )>0
+      ),
+      3,TRUE,
+      2,TRUE
+    ),
+    1,1
+  ),
+""""))"),"Teddy-02027")  (used 7x)
+      [J2] IF(I2="","",IFERROR(XLOOKUP(I2,Teddy_Static!$C:$C,Teddy_Static!$I:$I,""),""))  (used 54x)
+      [K2] IFERROR(__xludf.DUMMYFUNCTION("IF(I2="""","""",IFERROR(INDEX(SORT(FILTER({PriceUploads!$K$2:$K982,PriceUploads!$I$2:$I982},PriceUploads!$B$2:$B982=""Teddy"",PriceUploads!$D$2:$D982=I2,PriceUploads!$K$2:$K982<>""""),2,FALSE),1,1),""""))"),10.0)  (used 46x)
+      [L2] IF(OR(H2="",J2=""),"",ROUNDUP(H2/J2,0))  (used 54x)
+      [P2] IFERROR(__xludf.DUMMYFUNCTION("IF(A2="""","""",IFERROR(INDEX(SORT(FILTER({PriceUploads!$V$2:$V982,PriceUploads!$I$2:$I982},PriceUploads!$B$2:$B982=""Capital"",PriceUploads!$D$2:$D982=A2,PriceUploads!$V$2:$V982<>""""),2,FALSE),1,1),""""))"),0.765625)  (used 48x)
+      [Q2] IFERROR(__xludf.DUMMYFUNCTION("IF(I2="""","""",IFERROR(INDEX(SORT(FILTER({PriceUploads!$V$2:$V982,PriceUploads!$I$2:$I982},PriceUploads!$B$2:$B982=""Teddy"",PriceUploads!$D$2:$D982=I2,PriceUploads!$V$2:$V982<>""""),2,FALSE),1,1),""""))"),0.208333)  (used 46x)
+      [R2] P2*H2  (used 108x)
+      [V2] sum(R2:R55)  (used 2x)
+      [G5] IFERROR(__xludf.DUMMYFUNCTION("IF(A5="""","""",IFERROR(INDEX(SORT(FILTER({PriceUploads!$K$2:$K982,PriceUploads!$I$2:$I982},PriceUploads!$B$2:$B982=""Capital"",PriceUploads!$D$2:$D982=A5,PriceUploads!$K$2:$K982<>""""),2,FALSE),1,1),""""))"),"")  (used 6x)
+      [I5] IFERROR(__xludf.DUMMYFUNCTION("IF(B5="""","""",IFERROR(
+  INDEX(
+    SORT(
+      FILTER(
+        {
+          Teddy_Static!$C$2:$C982,
+          Teddy_Static!$I$2:$I982,
+          ABS(Teddy_Static!$I$2:$I982-$E5)
+        },
+        COUNTIF(
+          UNIQUE(
+            FILTER(
+        "&"      PriceUploads!$D$2:$D982,
+              PriceUploads!$B$2:$B982=""Teddy"",
+              PriceUploads!$J$2:$J982=$B5,
+              PriceUploads!$I$2:$I982=MAXIFS(PriceUploads!$I$2:$I982,PriceUploads!$B$2:$B982,""Teddy"",PriceUploads!$J$2:$J982,$B5)
+"&"            )
+          ),
+          Teddy_Static!$C$2:$C982
+        )>0
+      ),
+      3,TRUE,
+      2,TRUE
+    ),
+    1,1
+  ),
+""""))"),"")  (used 1x)
+      [K5] IFERROR(__xludf.DUMMYFUNCTION("IF(I5="""","""",IFERROR(INDEX(SORT(FILTER({PriceUploads!$K$2:$K982,PriceUploads!$I$2:$I982},PriceUploads!$B$2:$B982=""Teddy"",PriceUploads!$D$2:$D982=I5,PriceUploads!$K$2:$K982<>""""),2,FALSE),1,1),""""))"),"")  (used 8x)
+      [P5] IFERROR(__xludf.DUMMYFUNCTION("IF(A5="""","""",IFERROR(INDEX(SORT(FILTER({PriceUploads!$V$2:$V982,PriceUploads!$I$2:$I982},PriceUploads!$B$2:$B982=""Capital"",PriceUploads!$D$2:$D982=A5,PriceUploads!$V$2:$V982<>""""),2,FALSE),1,1),""""))"),"")  (used 6x)
+      [Q5] IFERROR(__xludf.DUMMYFUNCTION("IF(I5="""","""",IFERROR(INDEX(SORT(FILTER({PriceUploads!$V$2:$V982,PriceUploads!$I$2:$I982},PriceUploads!$B$2:$B982=""Teddy"",PriceUploads!$D$2:$D982=I5,PriceUploads!$V$2:$V982<>""""),2,FALSE),1,1),""""))"),"")  (used 8x)
+      [V5] if(V2<V3,"Capital","Teddy")  (used 1x)
+      ... and 3 more patterns
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"Capital_Vendor_Item_Key":"Capital-93939","ItemID":"ROMAINE_HEART","Item Name":"Lettuce- Romaine Hrt ABoy 48ct Case","Capital Qty to Order":2,"Capital Case Size":48,"Unit ":"CT","Capital Case Price":36.75,"Qty Needed":96,"Teddy_Vendor_Item_Key":"Teddy-02027","Teddy Case Size":48,"Teddy Case Price":10,"Teddy Cases to order":2,"Capital Ext Cost":73.5,"Teddy Ext Cost":20,"Capital Unit Cost":0.765625,"Teddy Unit Cost":0.208333,"Capital Price":73.5,"Teddy Price":19.999968}
+      Row 2: {"Capital_Vendor_Item_Key":"Capital-00580","ItemID":"BUTTER_UNSALTED","Item Name":"Butter-Solids (NO SALT) 36# 36/1lb","Capital Case Size":36,"Unit ":"LB","Capital Case Price":95.15,"Teddy_Vendor_Item_Key":"Teddy-00102","Teddy Case Size":36,"Teddy Case Price":98,"Capital Unit Cost":2.643056,"Teddy Unit Cost":2.722222,"Capital Price":0,"Teddy Price":0}
+      Row 3: {"Capital_Vendor_Item_Key":"Capital-01063","ItemID":"EGGS_LIQUID","Item Name":"Eggs- Easy Liquid 15/2# LOCAL 15/2lb","Capital Qty to Order":1,"Capital Case Size":30,"Unit ":"LB","Capital Case Price":39.5,"Qty Needed":30,"Teddy_Vendor_Item_Key":"Teddy-00350","Teddy Case Size":30,"Teddy Case Price":48.1,"Teddy Cases to order":1,"Capital Ext Cost":39.5,"Teddy Ext Cost":48.1,"Capital Unit Cost":1.316667,"Teddy Unit Cost":1.603333,"Capital Price":39.50001,"Teddy Price":48.09999}
+      Row 4: {"Capital_Vendor_Item_Key":"Capital-01042","Item Name":"Eggplant- Fancy (Medium) Case","Capital Case Size":0,"Unit ":"CS","Capital Price":0,"Teddy Price":0}
+      Row 5: {"Capital_Vendor_Item_Key":"Capital-00346","ItemID":"ASPARAGUS_LARGE","Item Name":"Asparagus- Large 11# Case","Capital Case Size":11,"Unit ":"LB","Capital Case Price":45.75,"Teddy_Vendor_Item_Key":"Teddy-00039","Teddy Case Size":11,"Teddy Case Price":53.15,"Capital Unit Cost":4.159091,"Teddy Unit Cost":4.831818,"Capital Price":0,"Teddy Price":0}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Capital_Upload"
+   Rows: 1000, Columns: 14
+   Range: A1:N1000
+
+   📋 COLUMN HEADERS:
+      A: "Tue Mar 24 2026 00:00:00 GMT+0000 (Greenwich Mean Time)"
+      B: "Date"
+      C: "ProductDescription"
+      D: "VendorSKU"
+      E: "PricePerCase"
+      F: "UploadID"
+      G: "BatchID"
+      H: "UploadDate"
+      I: "Vendor"
+      J: "Vendor_Item_Key"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "Tue Mar 24 2026 00:00:00 GMT+0000 (Greenwich Mean Time)": types=[string], filled=1, empty=198, formulas=1
+         samples: ["Capital46105"]
+      B "Date": types=[string], filled=1, empty=198, formulas=0
+         samples: ["Batch ID"]
+      C "ProductDescription": types=[string], filled=170, empty=29, formulas=0
+         samples: ["Arugula- Baby B & W 3# Case","Arugula- Wild 2/2# Case","Apples- Fuji 88ct 88ct","Asparagus- Large 11# Case","Broccoli- Crowns Case"]
+      D "VendorSKU": types=[string], filled=170, empty=29, formulas=0
+         samples: ["01582","02271","00202","00346","00538"]
+      E "PricePerCase": types=[string], filled=170, empty=29, formulas=0
+         samples: ["17.75","15.95","44.75","45.75","30.25"]
+      F "UploadID": types=[string], filled=170, empty=29, formulas=1
+         samples: ["Capital46105-0001","Capital46105-0002","Capital46105-0003","Capital46105-0004","Capital46105-0005"]
+      G "BatchID": types=[string], filled=170, empty=29, formulas=1
+         samples: ["Capital46105","Capital46105","Capital46105","Capital46105","Capital46105"]
+      H "UploadDate": types=[object], filled=170, empty=29, formulas=1
+         samples: ["Tue Mar 24 2026 00:00:00 GMT+0000 (Green...","Tue Mar 24 2026 00:00:00 GMT+0000 (Green...","Tue Mar 24 2026 00:00:00 GMT+0000 (Green...","Tue Mar 24 2026 00:00:00 GMT+0000 (Green...","Tue Mar 24 2026 00:00:00 GMT+0000 (Green..."]
+      I "Vendor": types=[string], filled=170, empty=29, formulas=1
+         samples: ["Capital","Capital","Capital","Capital","Capital"]
+      J "Vendor_Item_Key": types=[string], filled=197, empty=2, formulas=197
+         samples: ["Capital-01582","Capital-02271","Capital-00202","Capital-00346","Capital-00538"]
+      K "(Col K)": types=[], filled=0, empty=199, formulas=0
+      L "(Col L)": types=[], filled=0, empty=199, formulas=0
+      M "(Col M)": types=[], filled=0, empty=199, formulas=0
+      N "(Col N)": types=[], filled=0, empty=199, formulas=0
+
+   ⚙️  FORMULAS FOUND: 202 total
+   📐 UNIQUE FORMULA PATTERNS: 5
+      [A2] I2&A1  (used 1x)
+      [F2] IF(C2:C1000<>"",$A$2&"-"&TEXT(ROW(C2:C1000)-1,"0000"),"")  (used 1x)
+      [G2] IF(C2:C1000<>"",$A$2,"")  (used 2x)
+      [I2] IF(C2:C1000<>"","Capital","")  (used 1x)
+      [J2] I2&"-"&D2  (used 197x)
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"Tue Mar 24 2026 00:00:00 GMT+0000 (Greenwich Mean Time)":"Capital46105","Date":"Batch ID","ProductDescription":"Arugula- Baby B & W 3# Case","VendorSKU":"01582","PricePerCase":"17.75","UploadID":"Capital46105-0001","BatchID":"Capital46105","UploadDate":"2026-03-24T00:00:00.000Z","Vendor":"Capital","Vendor_Item_Key":"Capital-01582"}
+      Row 2: {"ProductDescription":"Arugula- Wild 2/2# Case","VendorSKU":"02271","PricePerCase":"15.95","UploadID":"Capital46105-0002","BatchID":"Capital46105","UploadDate":"2026-03-24T00:00:00.000Z","Vendor":"Capital","Vendor_Item_Key":"Capital-02271"}
+      Row 3: {"ProductDescription":"Apples- Fuji 88ct 88ct","VendorSKU":"00202","PricePerCase":"44.75","UploadID":"Capital46105-0003","BatchID":"Capital46105","UploadDate":"2026-03-24T00:00:00.000Z","Vendor":"Capital","Vendor_Item_Key":"Capital-00202"}
+      Row 4: {"ProductDescription":"Asparagus- Large 11# Case","VendorSKU":"00346","PricePerCase":"45.75","UploadID":"Capital46105-0004","BatchID":"Capital46105","UploadDate":"2026-03-24T00:00:00.000Z","Vendor":"Capital","Vendor_Item_Key":"Capital-00346"}
+      Row 5: {"ProductDescription":"Broccoli- Crowns Case","VendorSKU":"00538","PricePerCase":"30.25","UploadID":"Capital46105-0005","BatchID":"Capital46105","UploadDate":"2026-03-24T00:00:00.000Z","Vendor":"Capital","Vendor_Item_Key":"Capital-00538"}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Capital_Helper"
+   Rows: 1000, Columns: 35
+   Range: A1:AI1000
+
+   📋 COLUMN HEADERS:
+      A: "Vendor"
+      B: "VendorSKU"
+      C: "Vendor_Item_Key"
+      D: "Upload_ProductDescription"
+      E: "PricePerCase"
+      F: "UploadID"
+      G: "BatchID"
+      H: "UploadDate"
+      I: "Static_ProductDescription"
+      J: "Pack_Size_Raw"
+      K: "Pack"
+      L: "SizeQty"
+      M: "UoM"
+      N: "Case_Size"
+      O: "Static_Status"
+      P: "Static_Notes"
+      Q: "ItemID"
+      R: "ItemName"
+      S: "Map_Status"
+      T: "Map_Notes"
+      U: "BaseUoM"
+      V: "Conversion_Status"
+      W: "Helper_Flag"
+      X: "Upload_Row_Key"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "Vendor": types=[string], filled=170, empty=29, formulas=197
+         samples: ["Capital","Capital","Capital","Capital","Capital"]
+      B "VendorSKU": types=[string], filled=170, empty=29, formulas=170
+         samples: ["01582","02271","00202","00346","00538"]
+      C "Vendor_Item_Key": types=[string], filled=197, empty=2, formulas=197
+         samples: ["Capital-01582","Capital-02271","Capital-00202","Capital-00346","Capital-00538"]
+      D "Upload_ProductDescription": types=[string], filled=170, empty=29, formulas=170
+         samples: ["Arugula- Baby B & W 3# Case","Arugula- Wild 2/2# Case","Apples- Fuji 88ct 88ct","Asparagus- Large 11# Case","Broccoli- Crowns Case"]
+      E "PricePerCase": types=[string], filled=170, empty=29, formulas=170
+         samples: ["17.75","15.95","44.75","45.75","30.25"]
+      F "UploadID": types=[string], filled=170, empty=29, formulas=197
+         samples: ["Capital46105-0001","Capital46105-0002","Capital46105-0003","Capital46105-0004","Capital46105-0005"]
+      G "BatchID": types=[string], filled=170, empty=29, formulas=197
+         samples: ["Capital46105","Capital46105","Capital46105","Capital46105","Capital46105"]
+      H "UploadDate": types=[object], filled=170, empty=29, formulas=197
+         samples: ["Tue Mar 24 2026 00:00:00 GMT+0000 (Green...","Tue Mar 24 2026 00:00:00 GMT+0000 (Green...","Tue Mar 24 2026 00:00:00 GMT+0000 (Green...","Tue Mar 24 2026 00:00:00 GMT+0000 (Green...","Tue Mar 24 2026 00:00:00 GMT+0000 (Green..."]
+      I "Static_ProductDescription": types=[string], filled=108, empty=91, formulas=181
+         samples: ["Arugula- Baby B & W 3# Case","Arugula- Wild 2/2# Case","Apples- Fuji 88ct 88ct","Asparagus- Large 11# Case","Broccoli- Crowns Case"]
+      J "Pack_Size_Raw": types=[string], filled=108, empty=91, formulas=169
+         samples: ["3LB","2LB","88CT","11LB","CS"]
+      K "Pack": types=[number], filled=108, empty=91, formulas=108
+         samples: ["1","1","1","1","1"]
+      L "SizeQty": types=[number], filled=103, empty=96, formulas=169
+         samples: ["3","2","88","11","18"]
+      M "UoM": types=[string], filled=108, empty=91, formulas=169
+         samples: ["LB","LB","CT","LB","CS"]
+      N "Case_Size": types=[number], filled=108, empty=91, formulas=169
+         samples: ["3","2","88","11","0"]
+      O "Static_Status": types=[string], filled=108, empty=91, formulas=169
+         samples: ["READY","READY","READY","READY","REVIEW"]
+      P "Static_Notes": types=[string], filled=5, empty=194, formulas=108
+         samples: ["Need to find the pack size","Need to find the pack size","Need to find the pack size","Need to find the pack size","Need to find the pack size"]
+      Q "ItemID": types=[string], filled=108, empty=91, formulas=169
+         samples: ["ARUGULA_BABY","ARUGULA_WILD","APPLES_FUJI","ASPARAGUS_LARGE","BROCCOLI_CROWN"]
+      R "ItemName": types=[string], filled=108, empty=91, formulas=169
+         samples: ["Baby Arugula","Wild Arugula","Fuji Apples","Large Asparagus","Broccoli Crown"]
+      S "Map_Status": types=[string], filled=108, empty=91, formulas=169
+         samples: ["Mapped","Mapped","Mapped","Mapped","Mapped"]
+      T "Map_Notes": types=[], filled=0, empty=199, formulas=108
+      U "BaseUoM": types=[string], filled=108, empty=91, formulas=198
+         samples: ["LB","LB","EA","LB","EA"]
+      V "Conversion_Status": types=[string], filled=197, empty=2, formulas=197
+         samples: ["OK","OK","OK","OK","CONVERSION_NOT_POSSIBLE"]
+      W "Helper_Flag": types=[string], filled=197, empty=2, formulas=197
+         samples: ["OK","OK","OK","OK","STATIC_REVIEW"]
+      X "Upload_Row_Key": types=[string], filled=169, empty=30, formulas=169
+         samples: ["Capital46105-0001|Capital-01582","Capital46105-0002|Capital-02271","Capital46105-0003|Capital-00202","Capital46105-0004|Capital-00346","Capital46105-0005|Capital-00538"]
+      Y "(Col Y)": types=[], filled=0, empty=199, formulas=0
+      Z "(Col Z)": types=[], filled=0, empty=199, formulas=0
+      AA "(Col AA)": types=[], filled=0, empty=199, formulas=0
+      AB "(Col AB)": types=[], filled=0, empty=199, formulas=0
+      AC "(Col AC)": types=[], filled=0, empty=199, formulas=0
+      AD "(Col AD)": types=[], filled=0, empty=199, formulas=0
+
+   ⚙️  FORMULAS FOUND: 4120 total
+   📐 UNIQUE FORMULA PATTERNS: 204
+      [A2] IFERROR(__xludf.DUMMYFUNCTION("FILTER(
+  {
+    Capital_Upload!I2:I1000,
+    Capital_Upload!D2:D1000,
+    Capital_Upload!J2:J1000,
+    Capital_Upload!C2:C1000,
+    Capital_Upload!E2:E1000,
+    Capital_Upload!F2:F1000,
+    Capital_Upload!G2:G1000,
+    Capital_Upload!H2:H1000
+  },
+  Capit"&"al_Upload!J2:J1000<>""""
+)"),"Capital")  (used 1x)
+      [B2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"01582")  (used 170x)
+      [C2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Capital-01582")  (used 170x)
+      [D2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Arugula- Baby B & W 3# Case")  (used 1x)
+      [E2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"17.75")  (used 167x)
+      [F2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Capital46105-0001")  (used 170x)
+      [G2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Capital46105")  (used 170x)
+      [H2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),46105.0)  (used 170x)
+      [I2] IF($C2="","",IFERROR(XLOOKUP($C2,Capital_Static!$C:$C,Capital_Static!$D:$D,""),""))  (used 181x)
+      [J2] IF($C2="","",IFERROR(XLOOKUP($C2,Capital_Static!$C:$C,Capital_Static!$E:$E,""),""))  (used 169x)
+      [K2] IF($C2="","",IFERROR(XLOOKUP($C2,Capital_Static!$C:$C,Capital_Static!$F:$F,""),""))  (used 108x)
+      [L2] IF($C2="","",IFERROR(XLOOKUP($C2,Capital_Static!$C:$C,Capital_Static!$G:$G,""),""))  (used 169x)
+      [M2] IF($C2="","",IFERROR(XLOOKUP($C2,Capital_Static!$C:$C,Capital_Static!$H:$H,""),""))  (used 169x)
+      [N2] IF($C2="","",IFERROR(XLOOKUP($C2,Capital_Static!$C:$C,Capital_Static!$I:$I,""),""))  (used 169x)
+      [O2] IF($C2="","",IFERROR(XLOOKUP($C2,Capital_Static!$C:$C,Capital_Static!$J:$J,""),""))  (used 169x)
+      [P2] IF($C2="","",IFERROR(XLOOKUP($C2,Capital_Static!$C:$C,Capital_Static!$K:$K,""),""))  (used 108x)
+      [Q2] IF($C2="","",IFERROR(XLOOKUP($C2,Capital_Item_Map!$C:$C,Capital_Item_Map!$E:$E,""),""))  (used 169x)
+      [R2] IF($Q2="","",IFERROR(XLOOKUP($Q2,Items!$A:$A,Items!$B:$B,""),""))  (used 108x)
+      [S2] IF($C2="","",IFERROR(XLOOKUP($C2,Capital_Item_Map!$C:$C,Capital_Item_Map!$G:$G,""),""))  (used 169x)
+      [T2] IF($C2="","",IFERROR(XLOOKUP($C2,Capital_Item_Map!$C:$C,Capital_Item_Map!$H:$H,""),""))  (used 108x)
+      ... and 184 more patterns
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"Vendor":"Capital","VendorSKU":"01582","Vendor_Item_Key":"Capital-01582","Upload_ProductDescription":"Arugula- Baby B & W 3# Case","PricePerCase":"17.75","UploadID":"Capital46105-0001","BatchID":"Capital46105","UploadDate":"2026-03-24T00:00:00.000Z","Static_ProductDescription":"Arugula- Baby B & W 3# Case","Pack_Size_Raw":"3LB","Pack":1,"SizeQty":3,"UoM":"LB","Case_Size":3,"Static_Status":"READY","ItemID":"ARUGULA_BABY","ItemName":"Baby Arugula","Map_Status":"Mapped","BaseUoM":"LB","Conversion_Status":"OK","Helper_Flag":"OK","Upload_Row_Key":"Capital46105-0001|Capital-01582"}
+      Row 2: {"Vendor":"Capital","VendorSKU":"02271","Vendor_Item_Key":"Capital-02271","Upload_ProductDescription":"Arugula- Wild 2/2# Case","PricePerCase":"15.95","UploadID":"Capital46105-0002","BatchID":"Capital46105","UploadDate":"2026-03-24T00:00:00.000Z","Static_ProductDescription":"Arugula- Wild 2/2# Case","Pack_Size_Raw":"2LB","Pack":1,"SizeQty":2,"UoM":"LB","Case_Size":2,"Static_Status":"READY","ItemID":"ARUGULA_WILD","ItemName":"Wild Arugula","Map_Status":"Mapped","BaseUoM":"LB","Conversion_Status":"OK","Helper_Flag":"OK","Upload_Row_Key":"Capital46105-0002|Capital-02271"}
+      Row 3: {"Vendor":"Capital","VendorSKU":"00202","Vendor_Item_Key":"Capital-00202","Upload_ProductDescription":"Apples- Fuji 88ct 88ct","PricePerCase":"44.75","UploadID":"Capital46105-0003","BatchID":"Capital46105","UploadDate":"2026-03-24T00:00:00.000Z","Static_ProductDescription":"Apples- Fuji 88ct 88ct","Pack_Size_Raw":"88CT","Pack":1,"SizeQty":88,"UoM":"CT","Case_Size":88,"Static_Status":"READY","ItemID":"APPLES_FUJI","ItemName":"Fuji Apples","Map_Status":"Mapped","BaseUoM":"EA","Conversion_Status":"OK","Helper_Flag":"OK","Upload_Row_Key":"Capital46105-0003|Capital-00202"}
+      Row 4: {"Vendor":"Capital","VendorSKU":"00346","Vendor_Item_Key":"Capital-00346","Upload_ProductDescription":"Asparagus- Large 11# Case","PricePerCase":"45.75","UploadID":"Capital46105-0004","BatchID":"Capital46105","UploadDate":"2026-03-24T00:00:00.000Z","Static_ProductDescription":"Asparagus- Large 11# Case","Pack_Size_Raw":"11LB","Pack":1,"SizeQty":11,"UoM":"LB","Case_Size":11,"Static_Status":"READY","ItemID":"ASPARAGUS_LARGE","ItemName":"Large Asparagus","Map_Status":"Mapped","BaseUoM":"LB","Conversion_Status":"OK","Helper_Flag":"OK","Upload_Row_Key":"Capital46105-0004|Capital-00346"}
+      Row 5: {"Vendor":"Capital","VendorSKU":"00538","Vendor_Item_Key":"Capital-00538","Upload_ProductDescription":"Broccoli- Crowns Case","PricePerCase":"30.25","UploadID":"Capital46105-0005","BatchID":"Capital46105","UploadDate":"2026-03-24T00:00:00.000Z","Static_ProductDescription":"Broccoli- Crowns Case","Pack_Size_Raw":"CS","Pack":1,"UoM":"CS","Case_Size":0,"Static_Status":"REVIEW","Static_Notes":"Need to find the pack size","ItemID":"BROCCOLI_CROWN","ItemName":"Broccoli Crown","Map_Status":"Mapped","BaseUoM":"EA","Conversion_Status":"CONVERSION_NOT_POSSIBLE","Helper_Flag":"STATIC_REVIEW","Upload_Row_Key":"Capital46105-0005|Capital-00538"}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Capital_Item_Map"
+   Rows: 1000, Columns: 10
+   Range: A1:J1000
+
+   📋 COLUMN HEADERS:
+      A: "Vendor"
+      B: "VendorSKU"
+      C: "Vendor_Item_Key"
+      D: "Vendor_ProductDescription"
+      E: "ItemID"
+      F: "ItemName"
+      G: "Map_Status"
+      H: "Notes"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "Vendor": types=[string], filled=108, empty=91, formulas=1
+         samples: ["Capital","Capital","Capital","Capital","Capital"]
+      B "VendorSKU": types=[string], filled=108, empty=91, formulas=0
+         samples: ["01582","02271","00202","00346","00538"]
+      C "Vendor_Item_Key": types=[string], filled=108, empty=91, formulas=108
+         samples: ["Capital-01582","Capital-02271","Capital-00202","Capital-00346","Capital-00538"]
+      D "Vendor_ProductDescription": types=[string], filled=108, empty=91, formulas=0
+         samples: ["Arugula- Baby B & W 3# Case","Arugula- Wild 2/2# Case","Apples- Fuji 88ct 88ct","Asparagus- Large 11# Case","Broccoli- Crowns Case"]
+      E "ItemID": types=[string], filled=108, empty=91, formulas=0
+         samples: ["ARUGULA_BABY","ARUGULA_WILD","APPLES_FUJI","ASPARAGUS_LARGE","BROCCOLI_CROWN"]
+      F "ItemName": types=[string], filled=108, empty=91, formulas=108
+         samples: ["Baby Arugula","Wild Arugula","Fuji Apples","Large Asparagus","Broccoli Crown"]
+      G "Map_Status": types=[string], filled=108, empty=91, formulas=0
+         samples: ["Mapped","Mapped","Mapped","Mapped","Mapped"]
+      H "Notes": types=[], filled=0, empty=199, formulas=0
+      I "(Col I)": types=[], filled=0, empty=199, formulas=0
+      J "(Col J)": types=[], filled=0, empty=199, formulas=0
+
+   ⚙️  FORMULAS FOUND: 217 total
+   📐 UNIQUE FORMULA PATTERNS: 3
+      [A2] IF(B2:B1000<>"","Capital","")  (used 1x)
+      [C2] A2&"-"&B2  (used 108x)
+      [F2] IF($E2="","",IFERROR(XLOOKUP($E2,Items!$A:$A,Items!$B:$B,""),""))  (used 108x)
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"Vendor":"Capital","VendorSKU":"01582","Vendor_Item_Key":"Capital-01582","Vendor_ProductDescription":"Arugula- Baby B & W 3# Case","ItemID":"ARUGULA_BABY","ItemName":"Baby Arugula","Map_Status":"Mapped"}
+      Row 2: {"Vendor":"Capital","VendorSKU":"02271","Vendor_Item_Key":"Capital-02271","Vendor_ProductDescription":"Arugula- Wild 2/2# Case","ItemID":"ARUGULA_WILD","ItemName":"Wild Arugula","Map_Status":"Mapped"}
+      Row 3: {"Vendor":"Capital","VendorSKU":"00202","Vendor_Item_Key":"Capital-00202","Vendor_ProductDescription":"Apples- Fuji 88ct 88ct","ItemID":"APPLES_FUJI","ItemName":"Fuji Apples","Map_Status":"Mapped"}
+      Row 4: {"Vendor":"Capital","VendorSKU":"00346","Vendor_Item_Key":"Capital-00346","Vendor_ProductDescription":"Asparagus- Large 11# Case","ItemID":"ASPARAGUS_LARGE","ItemName":"Large Asparagus","Map_Status":"Mapped"}
+      Row 5: {"Vendor":"Capital","VendorSKU":"00538","Vendor_Item_Key":"Capital-00538","Vendor_ProductDescription":"Broccoli- Crowns Case","ItemID":"BROCCOLI_CROWN","ItemName":"Broccoli Crown","Map_Status":"Mapped"}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Capital_Static"
+   Rows: 1000, Columns: 27
+   Range: A1:AA1000
+
+   📋 COLUMN HEADERS:
+      A: "Vendor"
+      B: "VendorSKU"
+      C: "Vendor_Item_Key"
+      D: "ProductDescription"
+      E: "Pack_Size_Raw"
+      F: "Pack"
+      G: "SizeQty"
+      H: "UoM"
+      I: "Case_Size"
+      J: "Static_Status"
+      K: "Notes"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "Vendor": types=[string], filled=108, empty=91, formulas=1
+         samples: ["Capital","Capital","Capital","Capital","Capital"]
+      B "VendorSKU": types=[string], filled=108, empty=91, formulas=0
+         samples: ["01582","02271","00202","00346","00538"]
+      C "Vendor_Item_Key": types=[string], filled=108, empty=91, formulas=108
+         samples: ["Capital-01582","Capital-02271","Capital-00202","Capital-00346","Capital-00538"]
+      D "ProductDescription": types=[string], filled=108, empty=91, formulas=0
+         samples: ["Arugula- Baby B & W 3# Case","Arugula- Wild 2/2# Case","Apples- Fuji 88ct 88ct","Asparagus- Large 11# Case","Broccoli- Crowns Case"]
+      E "Pack_Size_Raw": types=[string], filled=108, empty=91, formulas=0
+         samples: ["3LB","2LB","88CT","11LB","CS"]
+      F "Pack": types=[number], filled=108, empty=91, formulas=0
+         samples: ["1","1","1","1","1"]
+      G "SizeQty": types=[number], filled=103, empty=96, formulas=0
+         samples: ["3","2","88","11","18"]
+      H "UoM": types=[string], filled=108, empty=91, formulas=107
+         samples: ["LB","LB","CT","LB","CS"]
+      I "Case_Size": types=[number], filled=108, empty=91, formulas=108
+         samples: ["3","2","88","11","0"]
+      J "Static_Status": types=[string], filled=108, empty=91, formulas=0
+         samples: ["READY","READY","READY","READY","REVIEW"]
+      K "Notes": types=[string], filled=5, empty=194, formulas=0
+         samples: ["Need to find the pack size","Need to find the pack size","Need to find the pack size","Need to find the pack size","Need to find the pack size"]
+      L "(Col L)": types=[], filled=0, empty=199, formulas=0
+      M "(Col M)": types=[], filled=0, empty=199, formulas=0
+      N "(Col N)": types=[], filled=0, empty=199, formulas=0
+      O "(Col O)": types=[], filled=0, empty=199, formulas=0
+      P "(Col P)": types=[], filled=0, empty=199, formulas=0
+      Q "(Col Q)": types=[], filled=0, empty=199, formulas=0
+      R "(Col R)": types=[], filled=0, empty=199, formulas=0
+      S "(Col S)": types=[], filled=0, empty=199, formulas=0
+      T "(Col T)": types=[], filled=0, empty=199, formulas=0
+      U "(Col U)": types=[], filled=0, empty=199, formulas=0
+      V "(Col V)": types=[], filled=0, empty=199, formulas=0
+      W "(Col W)": types=[], filled=0, empty=199, formulas=0
+      X "(Col X)": types=[], filled=0, empty=199, formulas=0
+      Y "(Col Y)": types=[], filled=0, empty=199, formulas=0
+      Z "(Col Z)": types=[], filled=0, empty=199, formulas=0
+      AA "(Col AA)": types=[], filled=0, empty=199, formulas=0
+
+   ⚙️  FORMULAS FOUND: 324 total
+   📐 UNIQUE FORMULA PATTERNS: 10
+      [A2] IF(B2:B1000<>"","Capital","")  (used 1x)
+      [C2] A2&"-"&B2  (used 108x)
+      [H2] IFERROR(__xludf.DUMMYFUNCTION("REGEXEXTRACT(E2,""[A-Z]{2,}"")"),"LB")  (used 65x)
+      [I2] F2*G2  (used 108x)
+      [H4] IFERROR(__xludf.DUMMYFUNCTION("REGEXEXTRACT(E4,""[A-Z]{2,}"")"),"CT")  (used 19x)
+      [H6] IFERROR(__xludf.DUMMYFUNCTION("REGEXEXTRACT(E6,""[A-Z]{2,}"")"),"CS")  (used 5x)
+      [H9] IFERROR(__xludf.DUMMYFUNCTION("REGEXEXTRACT(E9,""[A-Z]{2,}"")"),"PT")  (used 3x)
+      [H10] IFERROR(__xludf.DUMMYFUNCTION("REGEXEXTRACT(E10,""[A-Z]{2,}"")"),"OZ")  (used 6x)
+      [H15] IFERROR(__xludf.DUMMYFUNCTION("REGEXEXTRACT(E15,""[A-Z]{2,}"")"),"QT")  (used 6x)
+      [H19] IFERROR(__xludf.DUMMYFUNCTION("REGEXEXTRACT(E19,""[A-Z]{2,}"")"),"GL")  (used 3x)
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"Vendor":"Capital","VendorSKU":"01582","Vendor_Item_Key":"Capital-01582","ProductDescription":"Arugula- Baby B & W 3# Case","Pack_Size_Raw":"3LB","Pack":1,"SizeQty":3,"UoM":"LB","Case_Size":3,"Static_Status":"READY"}
+      Row 2: {"Vendor":"Capital","VendorSKU":"02271","Vendor_Item_Key":"Capital-02271","ProductDescription":"Arugula- Wild 2/2# Case","Pack_Size_Raw":"2LB","Pack":1,"SizeQty":2,"UoM":"LB","Case_Size":2,"Static_Status":"READY"}
+      Row 3: {"Vendor":"Capital","VendorSKU":"00202","Vendor_Item_Key":"Capital-00202","ProductDescription":"Apples- Fuji 88ct 88ct","Pack_Size_Raw":"88CT","Pack":1,"SizeQty":88,"UoM":"CT","Case_Size":88,"Static_Status":"READY"}
+      Row 4: {"Vendor":"Capital","VendorSKU":"00346","Vendor_Item_Key":"Capital-00346","ProductDescription":"Asparagus- Large 11# Case","Pack_Size_Raw":"11LB","Pack":1,"SizeQty":11,"UoM":"LB","Case_Size":11,"Static_Status":"READY"}
+      Row 5: {"Vendor":"Capital","VendorSKU":"00538","Vendor_Item_Key":"Capital-00538","ProductDescription":"Broccoli- Crowns Case","Pack_Size_Raw":"CS","Pack":1,"UoM":"CS","Case_Size":0,"Static_Status":"REVIEW","Notes":"Need to find the pack size"}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Unit_Conversions"
+   Rows: 32, Columns: 5
+   Range: A1:E32
+
+   📋 COLUMN HEADERS:
+      A: "BaseUoM"
+      B: "SourceUoM"
+      C: "Multiplier"
+      D: "Conversion_Key"
+      E: "Notes"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "BaseUoM": types=[string], filled=31, empty=0, formulas=0
+         samples: ["LB","LB","LB","LB","LB"]
+      B "SourceUoM": types=[string], filled=31, empty=0, formulas=0
+         samples: ["LB","OZ","KG","G","TON"]
+      C "Multiplier": types=[number], filled=31, empty=0, formulas=0
+         samples: ["1","0.0625","2.2046226","0.0022046226","2000"]
+      D "Conversion_Key": types=[string], filled=31, empty=0, formulas=0
+         samples: ["direct","16 oz per lb","kg to lb","g to lb","ton to lb"]
+      E "Notes": types=[], filled=0, empty=31, formulas=0
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"BaseUoM":"LB","SourceUoM":"LB","Multiplier":1,"Conversion_Key":"direct"}
+      Row 2: {"BaseUoM":"LB","SourceUoM":"OZ","Multiplier":0.0625,"Conversion_Key":"16 oz per lb"}
+      Row 3: {"BaseUoM":"LB","SourceUoM":"KG","Multiplier":2.2046226,"Conversion_Key":"kg to lb"}
+      Row 4: {"BaseUoM":"LB","SourceUoM":"G","Multiplier":0.0022046226,"Conversion_Key":"g to lb"}
+      Row 5: {"BaseUoM":"LB","SourceUoM":"TON","Multiplier":2000,"Conversion_Key":"ton to lb"}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Items"
+   Rows: 999, Columns: 27
+   Range: A1:AA999
+
+   📋 COLUMN HEADERS:
+      A: "ItemID"
+      B: "ItemName"
+      C: "Category"
+      D: "BaseUoM"
+      E: "Case_Par"
+      F: "Base_UoM_Min_Par"
+      G: "Base_UoM_Max_Par"
+      H: "SafetyStock"
+      I: "LeadTimeDays"
+      J: "UsagePer$"
+      K: "Active?"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "ItemID": types=[string], filled=84, empty=115, formulas=0
+         samples: ["APPLES_FUJI","ARCADIAN_HARVEST","ARUGULA_BABY","ARUGULA_WILD","ASPARAGUS_LARGE"]
+      B "ItemName": types=[string], filled=84, empty=115, formulas=0
+         samples: ["Fuji Apples","Arcadian Harvest","Baby Arugula","Wild Arugula","Large Asparagus"]
+      C "Category": types=[string], filled=84, empty=115, formulas=0
+         samples: ["Produce","Produce","Produce","Produce","Produce"]
+      D "BaseUoM": types=[string], filled=84, empty=115, formulas=0
+         samples: ["EA","LB","LB","LB","LB"]
+      E "Case_Par": types=[number], filled=31, empty=168, formulas=0
+         samples: ["1","1","1","1","1"]
+      F "Base_UoM_Min_Par": types=[], filled=0, empty=199, formulas=0
+      G "Base_UoM_Max_Par": types=[], filled=0, empty=199, formulas=0
+      H "SafetyStock": types=[], filled=0, empty=199, formulas=0
+      I "LeadTimeDays": types=[], filled=0, empty=199, formulas=0
+      J "UsagePer$": types=[], filled=0, empty=199, formulas=0
+      K "Active?": types=[boolean], filled=84, empty=115, formulas=0
+         samples: ["true","true","true","true","true"]
+      L "(Col L)": types=[], filled=0, empty=199, formulas=0
+      M "(Col M)": types=[], filled=0, empty=199, formulas=0
+      N "(Col N)": types=[], filled=0, empty=199, formulas=0
+      O "(Col O)": types=[], filled=0, empty=199, formulas=0
+      P "(Col P)": types=[], filled=0, empty=199, formulas=0
+      Q "(Col Q)": types=[], filled=0, empty=199, formulas=0
+      R "(Col R)": types=[], filled=0, empty=199, formulas=0
+      S "(Col S)": types=[], filled=0, empty=199, formulas=0
+      T "(Col T)": types=[], filled=0, empty=199, formulas=0
+      U "(Col U)": types=[], filled=0, empty=199, formulas=0
+      V "(Col V)": types=[], filled=0, empty=199, formulas=0
+      W "(Col W)": types=[], filled=0, empty=199, formulas=0
+      X "(Col X)": types=[], filled=0, empty=199, formulas=0
+      Y "(Col Y)": types=[], filled=0, empty=199, formulas=0
+      Z "(Col Z)": types=[], filled=0, empty=199, formulas=0
+      AA "(Col AA)": types=[], filled=0, empty=199, formulas=0
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"ItemID":"APPLES_FUJI","ItemName":"Fuji Apples","Category":"Produce","BaseUoM":"EA","Case_Par":1,"Active?":true}
+      Row 2: {"ItemID":"ARCADIAN_HARVEST","ItemName":"Arcadian Harvest","Category":"Produce","BaseUoM":"LB","Active?":true}
+      Row 3: {"ItemID":"ARUGULA_BABY","ItemName":"Baby Arugula","Category":"Produce","BaseUoM":"LB","Case_Par":1,"Active?":true}
+      Row 4: {"ItemID":"ARUGULA_WILD","ItemName":"Wild Arugula","Category":"Produce","BaseUoM":"LB","Case_Par":1,"Active?":true}
+      Row 5: {"ItemID":"ASPARAGUS_LARGE","ItemName":"Large Asparagus","Category":"Produce","BaseUoM":"LB","Case_Par":1,"Active?":true}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "2025"
+   Rows: 1019, Columns: 28
+   Range: A1:AB1019
+
+   📋 COLUMN HEADERS:
+      A: "Product Code"
+      C: "Product Description"
+      D: "Combined Quanity"
+      E: "Combined Weight"
+      F: "Lewes"
+      G: "Rehoboth"
+      H: "OC"
+      I: "Total"
+      J: "% Cheaper"
+      L: "Cheaper Vendor"
+      M: "Cheaper Vendor SKU"
+      R: "Total Each"
+      S: "Total Use"
+      T: "Capital Price"
+      U: "Teddy Price"
+      W: "Capital Full Price"
+      X: "Teddy Full Price"
+      Y: "Savings if we switch"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "Product Code": types=[string], filled=194, empty=5, formulas=0
+         samples: ["00814","93939","00580","01063","01042"]
+      B "(Col B)": types=[number], filled=95, empty=104, formulas=199
+         samples: ["42","48","36","30","0"]
+      C "Product Description": types=[string], filled=194, empty=5, formulas=0
+         samples: ["Che-Muenster Loaf 6/6# Avg","Lettuce- Romaine Hrt ABoy 48ct","Butter-Solids (NO SALT) 36#","Eggs- Easy Liquid 15/2# LOCAL","Eggplant- Fancy (Medium)"]
+      D "Combined Quanity": types=[number], filled=194, empty=5, formulas=0
+         samples: ["663","525","147","166","363"]
+      E "Combined Weight": types=[number], filled=194, empty=5, formulas=0
+         samples: ["5868","5430","1476","2370","4284"]
+      F "Lewes": types=[number], filled=177, empty=22, formulas=0
+         samples: ["163","181","41","79","153"]
+      G "Rehoboth": types=[number], filled=177, empty=22, formulas=0
+         samples: ["249","198","55","80","132"]
+      H "OC": types=[number], filled=177, empty=22, formulas=0
+         samples: ["250","63","50","6","78"]
+      I "Total": types=[number], filled=194, empty=5, formulas=0
+         samples: ["79466.9","22252.35","17953.9","14569.2","8394.65"]
+      J "% Cheaper": types=[number], filled=63, empty=136, formulas=0
+         samples: ["0.1445","-0.0329","0.005","0.1508","-0.1392"]
+      K "(Col K)": types=[number], filled=63, empty=136, formulas=0
+         samples: ["0.1444968201","-0.03289514404","0.005002779544","0.1507545008","-0.1392162025"]
+      L "Cheaper Vendor": types=[string], filled=5, empty=194, formulas=0
+         samples: ["PFG","PFG","Teddy","Teddy","Teddy"]
+      M "Cheaper Vendor SKU": types=[string,number], filled=3, empty=196, formulas=0
+         samples: ["PFG","PFG","358"]
+      N "(Col N)": types=[number], filled=194, empty=5, formulas=0
+         samples: ["11482.71","-731.99","89.82","2196.37","-1168.67"]
+      O "(Col O)": types=[string], filled=199, empty=0, formulas=0
+         samples: ["Capital","Capital","Capital","Capital","Capital"]
+      P "(Col P)": types=[string], filled=199, empty=0, formulas=199
+         samples: ["Capital-00814","Capital-93939","Capital-00580","Capital-01063","Capital-01042"]
+      Q "(Col Q)": types=[], filled=0, empty=199, formulas=0
+      R "Total Each": types=[number], filled=97, empty=102, formulas=196
+         samples: ["42","48","36","30","0"]
+      S "Total Use": types=[number], filled=156, empty=43, formulas=156
+         samples: ["27846","25200","5292","4980","0"]
+      T "Capital Price": types=[number], filled=91, empty=108, formulas=195
+         samples: ["2.732143","0.765625","2.643056","1.31666666666","2.995"]
+      U "Teddy Price": types=[number], filled=83, empty=116, formulas=194
+         samples: ["2.701667","0.208333","2.722222","1.603333333","1.988889"]
+      V "(Col V)": types=[], filled=0, empty=199, formulas=0
+      W "Capital Full Price": types=[number], filled=199, empty=0, formulas=199
+         samples: ["76079.25398","19293.75","13987.05235","6557","0"]
+      X "Teddy Full Price": types=[number], filled=199, empty=0, formulas=199
+         samples: ["75230.61928","5249.9916","14405.99882","7984.599998","0"]
+      Y "Savings if we switch": types=[number], filled=53, empty=146, formulas=91
+         samples: ["14043.7584","-418.946472","-1427.599998","-2819.398857","916.7"]
+      Z "(Col Z)": types=[string], filled=96, empty=103, formulas=183
+         samples: ["CHEESE_MUENSTER","ROMAINE_HEART","BUTTER_UNSALTED","EGGS_LIQUID","EGGPLANT_MEDIUM"]
+      AA "(Col AA)": types=[], filled=0, empty=199, formulas=0
+      AB "(Col AB)": types=[number], filled=1, empty=198, formulas=1
+         samples: ["16862.85044"]
+
+   ⚙️  FORMULAS FOUND: 2077 total
+   📐 UNIQUE FORMULA PATTERNS: 17
+      [B2] IFERROR(
+  XLOOKUP(A2,Capital_Helper!B:B, Capital_Helper!N:N, ""),
+  ""
+)  (used 258x)
+      [P2] O2&"-"&A2  (used 254x)
+      [R2] B2  (used 247x)
+      [S2] R2*D2  (used 628x)
+      [T2] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(
+  MIN(
+    FILTER(
+      PriceUploads!V$2:V1019,
+      PriceUploads!B$2:B1019=""Capital"",
+      PriceUploads!J$2:J1019=$Z2,
+      PriceUploads!I$2:I1019=MAX(
+        FILTER(
+          PriceUploads!I$2:I1019,
+          PriceUploads!B$2:B1019=""Ca"&"pital"",
+          PriceUploads!J$2:J1019=$Z2,
+          PriceUploads!V$2:V1019<>""""
+        )
+      ),
+      PriceUploads!V$2:V1019<>""""
+    )
+  ),
+  """"
+)"),2.732143)  (used 7x)
+      [U2] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(
+  MIN(
+    FILTER(
+      PriceUploads!V$2:V1019,
+      PriceUploads!B$2:B1019=""Teddy"",
+      PriceUploads!J$2:J1019=$Z2,
+      PriceUploads!I$2:I1019=MAX(
+        FILTER(
+          PriceUploads!I$2:I1019,
+          PriceUploads!B$2:B1019=""Tedd"&"y"",
+          PriceUploads!J$2:J1019=$Z2,
+          PriceUploads!V$2:V1019<>""""
+        )
+      ),
+      PriceUploads!V$2:V1019<>""""
+    )
+  ),
+  """"
+)"),2.701667)  (used 7x)
+      [Z2] IFERROR(
+  XLOOKUP(P2, Capital_Item_Map!C:C, Capital_Item_Map!E:E, ""),
+  ""
+)  (used 183x)
+      [Y3] IF(OR(W3=0, X3=0), "", W3-X3)  (used 91x)
+      [AB9] sum(Y2:Y73)  (used 1x)
+      [T10] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(
+  MIN(
+    FILTER(
+      PriceUploads!V$2:V1019,
+      PriceUploads!B$2:B1019=""Capital"",
+      PriceUploads!J$2:J1019=$Z10,
+      PriceUploads!I$2:I1019=MAX(
+        FILTER(
+          PriceUploads!I$2:I1019,
+          PriceUploads!B$2:B1019=""C"&"apital"",
+          PriceUploads!J$2:J1019=$Z10,
+          PriceUploads!V$2:V1019<>""""
+        )
+      ),
+      PriceUploads!V$2:V1019<>""""
+    )
+  ),
+  """"
+)"),8.65)  (used 53x)
+      [U10] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(
+  MIN(
+    FILTER(
+      PriceUploads!V$2:V1019,
+      PriceUploads!B$2:B1019=""Teddy"",
+      PriceUploads!J$2:J1019=$Z10,
+      PriceUploads!I$2:I1019=MAX(
+        FILTER(
+          PriceUploads!I$2:I1019,
+          PriceUploads!B$2:B1019=""Ted"&"dy"",
+          PriceUploads!J$2:J1019=$Z10,
+          PriceUploads!V$2:V1019<>""""
+        )
+      ),
+      PriceUploads!V$2:V1019<>""""
+    )
+  ),
+  """"
+)"),7.5)  (used 46x)
+      [T42] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(
+  MIN(
+    FILTER(
+      PriceUploads!V$2:V1019,
+      PriceUploads!B$2:B1019=""Capital"",
+      PriceUploads!J$2:J1019=$Z42,
+      PriceUploads!I$2:I1019=MAX(
+        FILTER(
+          PriceUploads!I$2:I1019,
+          PriceUploads!B$2:B1019=""C"&"apital"",
+          PriceUploads!J$2:J1019=$Z42,
+          PriceUploads!V$2:V1019<>""""
+        )
+      ),
+      PriceUploads!V$2:V1019<>""""
+    )
+  ),
+  """"
+)"),"")  (used 34x)
+      [U42] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(
+  MIN(
+    FILTER(
+      PriceUploads!V$2:V1019,
+      PriceUploads!B$2:B1019=""Teddy"",
+      PriceUploads!J$2:J1019=$Z42,
+      PriceUploads!I$2:I1019=MAX(
+        FILTER(
+          PriceUploads!I$2:I1019,
+          PriceUploads!B$2:B1019=""Ted"&"dy"",
+          PriceUploads!J$2:J1019=$Z42,
+          PriceUploads!V$2:V1019<>""""
+        )
+      ),
+      PriceUploads!V$2:V1019<>""""
+    )
+  ),
+  """"
+)"),"")  (used 40x)
+      [T100] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(
+  MIN(
+    FILTER(
+      PriceUploads!V$2:V1019,
+      PriceUploads!B$2:B1019=""Capital"",
+      PriceUploads!J$2:J1019=$Z100,
+      PriceUploads!I$2:I1019=MAX(
+        FILTER(
+          PriceUploads!I$2:I1019,
+          PriceUploads!B$2:B1019="""&"Capital"",
+          PriceUploads!J$2:J1019=$Z100,
+          PriceUploads!V$2:V1019<>""""
+        )
+      ),
+      PriceUploads!V$2:V1019<>""""
+    )
+  ),
+  """"
+)"),4.9875)  (used 27x)
+      [U100] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(
+  MIN(
+    FILTER(
+      PriceUploads!V$2:V1019,
+      PriceUploads!B$2:B1019=""Teddy"",
+      PriceUploads!J$2:J1019=$Z100,
+      PriceUploads!I$2:I1019=MAX(
+        FILTER(
+          PriceUploads!I$2:I1019,
+          PriceUploads!B$2:B1019=""Te"&"ddy"",
+          PriceUploads!J$2:J1019=$Z100,
+          PriceUploads!V$2:V1019<>""""
+        )
+      ),
+      PriceUploads!V$2:V1019<>""""
+    )
+  ),
+  """"
+)"),4.4375)  (used 25x)
+      [T102] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(
+  MIN(
+    FILTER(
+      PriceUploads!V$2:V1019,
+      PriceUploads!B$2:B1019=""Capital"",
+      PriceUploads!J$2:J1019=$Z102,
+      PriceUploads!I$2:I1019=MAX(
+        FILTER(
+          PriceUploads!I$2:I1019,
+          PriceUploads!B$2:B1019="""&"Capital"",
+          PriceUploads!J$2:J1019=$Z102,
+          PriceUploads!V$2:V1019<>""""
+        )
+      ),
+      PriceUploads!V$2:V1019<>""""
+    )
+  ),
+  """"
+)"),"")  (used 91x)
+      [U102] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(
+  MIN(
+    FILTER(
+      PriceUploads!V$2:V1019,
+      PriceUploads!B$2:B1019=""Teddy"",
+      PriceUploads!J$2:J1019=$Z102,
+      PriceUploads!I$2:I1019=MAX(
+        FILTER(
+          PriceUploads!I$2:I1019,
+          PriceUploads!B$2:B1019=""Te"&"ddy"",
+          PriceUploads!J$2:J1019=$Z102,
+          PriceUploads!V$2:V1019<>""""
+        )
+      ),
+      PriceUploads!V$2:V1019<>""""
+    )
+  ),
+  """"
+)"),"")  (used 85x)
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"Product Code":"00814","Product Description":"Che-Muenster Loaf 6/6# Avg","Combined Quanity":663,"Combined Weight":5868,"Lewes":163,"Rehoboth":249,"OC":250,"Total":79466.9,"% Cheaper":0.1445,"Cheaper Vendor":"PFG","Cheaper Vendor SKU":"PFG","Total Each":42,"Total Use":27846,"Capital Price":2.732143,"Teddy Price":2.701667,"Capital Full Price":76079.25398,"Teddy Full Price":75230.61928}
+      Row 2: {"Product Code":"93939","Product Description":"Lettuce- Romaine Hrt ABoy 48ct","Combined Quanity":525,"Combined Weight":5430,"Lewes":181,"Rehoboth":198,"OC":63,"Total":22252.35,"% Cheaper":-0.0329,"Total Each":48,"Total Use":25200,"Capital Price":0.765625,"Teddy Price":0.208333,"Capital Full Price":19293.75,"Teddy Full Price":5249.9916,"Savings if we switch":14043.7584}
+      Row 3: {"Product Code":"00580","Product Description":"Butter-Solids (NO SALT) 36#","Combined Quanity":147,"Combined Weight":1476,"Lewes":41,"Rehoboth":55,"OC":50,"Total":17953.9,"% Cheaper":0.005,"Total Each":36,"Total Use":5292,"Capital Price":2.643056,"Teddy Price":2.722222,"Capital Full Price":13987.05235,"Teddy Full Price":14405.99882,"Savings if we switch":-418.946472}
+      Row 4: {"Product Code":"01063","Product Description":"Eggs- Easy Liquid 15/2# LOCAL","Combined Quanity":166,"Combined Weight":2370,"Lewes":79,"Rehoboth":80,"OC":6,"Total":14569.2,"% Cheaper":0.1508,"Cheaper Vendor":"PFG","Cheaper Vendor SKU":"PFG","Total Each":30,"Total Use":4980,"Capital Price":1.31666666666,"Teddy Price":1.603333333,"Capital Full Price":6557,"Teddy Full Price":7984.599998,"Savings if we switch":-1427.599998}
+      Row 5: {"Product Code":"01042","Product Description":"Eggplant- Fancy (Medium)","Combined Quanity":363,"Combined Weight":4284,"Lewes":153,"Rehoboth":132,"OC":78,"Total":8394.65,"% Cheaper":-0.1392,"Cheaper Vendor":"Teddy","Cheaper Vendor SKU":358,"Total Each":0,"Total Use":0,"Capital Price":2.995,"Teddy Price":1.988889,"Capital Full Price":0,"Teddy Full Price":0}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Sheet15"
+   Rows: 20, Columns: 2
+   Range: A2:B21
+
+   📋 COLUMN HEADERS:
+      A: "SKUs"
+      B: "Item"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "SKUs": types=[string], filled=19, empty=0, formulas=0
+         samples: ["01063","01042","01636","00343","01072"]
+      B "Item": types=[string], filled=8, empty=11, formulas=18
+         samples: ["39.50","29.50","44.00","26.60","61.00"]
+
+   ⚙️  FORMULAS FOUND: 19 total
+   📐 UNIQUE FORMULA PATTERNS: 1
+      [B3] IF(A3="","",XLOOKUP(A3, Capital_Upload!D:D,Capital_Upload!E:E,""))  (used 19x)
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"SKUs":"01063","Item":"39.50"}
+      Row 2: {"SKUs":"01042","Item":"29.50"}
+      Row 3: {"SKUs":"01636"}
+      Row 4: {"SKUs":"00343"}
+      Row 5: {"SKUs":"01072"}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Price_Current"
+   Rows: 1000, Columns: 11
+   Range: A1:K1000
+
+   📋 COLUMN HEADERS:
+      A: "ItemId"
+      B: "Vendor"
+      C: "Base"
+      D: "Units_Per_Case"
+      E: "Price_Per_Unit"
+      F: "Case_Price"
+      G: "Vendor_SKU"
+      H: "Vendor_Name"
+      I: "Vendor_Case"
+      J: "Date"
+      K: "Upload_ID"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "ItemId": types=[string], filled=149, empty=50, formulas=149
+         samples: ["TOMATO_PLUM","TOMATO_PLUM","TOMATO_HEIRLOOM","TOMATO_HEIRLOOM","TOMATO_GREEN"]
+      B "Vendor": types=[string], filled=149, empty=50, formulas=149
+         samples: ["Teddy","Capital","Teddy","Capital","Teddy"]
+      C "Base": types=[string], filled=149, empty=50, formulas=149
+         samples: ["LB","LB","LB","LB","LB"]
+      D "Units_Per_Case": types=[number], filled=149, empty=50, formulas=149
+         samples: ["25","25","10","10","10"]
+      E "Price_Per_Unit": types=[number], filled=149, empty=50, formulas=149
+         samples: ["2.222","2.09","3.335","2.775","2.21"]
+      F "Case_Price": types=[number], filled=149, empty=50, formulas=149
+         samples: ["55.55","52.25","33.35","27.75","22.1"]
+      G "Vendor_SKU": types=[string], filled=149, empty=50, formulas=149
+         samples: ["01095","94098","01090","02935","01088"]
+      H "Vendor_Name": types=[string], filled=149, empty=50, formulas=149
+         samples: ["Tomato - Plum","Tomato- Plum Jumbo 25# 25lb","Tomato - Heirloom Flat","Tomato- Heirloom 10# 10lb","Tomato - Green"]
+      I "Vendor_Case": types=[string], filled=149, empty=50, formulas=149
+         samples: ["1/25 LB","1/25 LB","1/10 LB","1/10 LB","1/10 LB"]
+      J "Date": types=[object], filled=149, empty=50, formulas=149
+         samples: ["Fri Mar 06 2026 00:00:00 GMT+0000 (Green...","Tue Mar 24 2026 00:00:00 GMT+0000 (Green...","Fri Mar 06 2026 00:00:00 GMT+0000 (Green...","Tue Mar 24 2026 00:00:00 GMT+0000 (Green...","Fri Mar 06 2026 00:00:00 GMT+0000 (Green..."]
+      K "Upload_ID": types=[string], filled=149, empty=50, formulas=149
+         samples: ["Teddy46087-0100","Capital46105-0107","Teddy46087-0096","Capital46105-0103","Teddy46087-0101"]
+
+   ⚙️  FORMULAS FOUND: 1639 total
+   📐 UNIQUE FORMULA PATTERNS: 249
+      [A2] IFERROR(__xludf.DUMMYFUNCTION("ARRAYFORMULA(
+  LET(
+    item,   TRIM(PriceUploads!J:J),
+    vendor, TRIM(PriceUploads!B:B),
+    base,   TRIM(PriceUploads!P:P),
+    units,  VALUE(PriceUploads!U:U),
+    ppu,    VALUE(PriceUploads!V:V),
+    ppc,    VALUE(PriceUploads!K:K),
+    sku,    TRI"&"M(PriceUploads!C:C),
+    vname,  TRIM(PriceUploads!E:E),
+    packd,  TRIM(PriceUploads!Q:Q&""/""&PriceUploads!R:R&"" ""&PriceUploads!S:S),
+    eff,    IFERROR(DATEVALUE(PriceUploads!I:I), 0),
+    upid,   PriceUploads!G:G,
+
+    src, FILTER(
+           {ite"&"m, vendor, base, units, ppu, ppc, sku, vname, packd, eff, upid},
+           (item<>"""")*
+           (vendor<>"""")*
+           (base<>"""")*
+           (units>0)*
+           (ISNUMBER(ppu))*
+           (ppu>0)
+         ),
+
+    sorted, SORT(src, 10, FALSE"&", 11, FALSE),
+    key, INDEX(sorted,,1)&""|""&INDEX(sorted,,2),
+
+    SORTN(sorted, 9^9, 2, key, FALSE)
+  )
+)
+"),"TOMATO_PLUM")  (used 1x)
+      [B2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Teddy")  (used 71x)
+      [C2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"LB")  (used 98x)
+      [D2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),25.0)  (used 596x)
+      [G2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"01095")  (used 149x)
+      [H2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Tomato - Plum")  (used 1x)
+      [I2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"1/25 LB")  (used 90x)
+      [K2] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Teddy46087-0100")  (used 71x)
+      [A3] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"TOMATO_PLUM")  (used 1x)
+      [B3] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Capital")  (used 78x)
+      [H3] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Tomato- Plum Jumbo 25# 25lb")  (used 1x)
+      [K3] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Capital46105-0107")  (used 78x)
+      [A4] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"TOMATO_HEIRLOOM")  (used 2x)
+      [H4] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Tomato - Heirloom Flat")  (used 1x)
+      [H5] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Tomato- Heirloom 10# 10lb")  (used 1x)
+      [A6] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"TOMATO_GREEN")  (used 2x)
+      [H6] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Tomato - Green")  (used 1x)
+      [H7] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Tomato- Green 10# 10lb")  (used 1x)
+      [A8] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"TOMATO_GRAPE")  (used 2x)
+      [H8] IFERROR(__xludf.DUMMYFUNCTION("""COMPUTED_VALUE"""),"Tomato - Grape Loose")  (used 1x)
+      ... and 229 more patterns
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"ItemId":"TOMATO_PLUM","Vendor":"Teddy","Base":"LB","Units_Per_Case":25,"Price_Per_Unit":2.222,"Case_Price":55.55,"Vendor_SKU":"01095","Vendor_Name":"Tomato - Plum","Vendor_Case":"1/25 LB","Date":"2026-03-06T00:00:00.000Z","Upload_ID":"Teddy46087-0100"}
+      Row 2: {"ItemId":"TOMATO_PLUM","Vendor":"Capital","Base":"LB","Units_Per_Case":25,"Price_Per_Unit":2.09,"Case_Price":52.25,"Vendor_SKU":"94098","Vendor_Name":"Tomato- Plum Jumbo 25# 25lb","Vendor_Case":"1/25 LB","Date":"2026-03-24T00:00:00.000Z","Upload_ID":"Capital46105-0107"}
+      Row 3: {"ItemId":"TOMATO_HEIRLOOM","Vendor":"Teddy","Base":"LB","Units_Per_Case":10,"Price_Per_Unit":3.335,"Case_Price":33.35,"Vendor_SKU":"01090","Vendor_Name":"Tomato - Heirloom Flat","Vendor_Case":"1/10 LB","Date":"2026-03-06T00:00:00.000Z","Upload_ID":"Teddy46087-0096"}
+      Row 4: {"ItemId":"TOMATO_HEIRLOOM","Vendor":"Capital","Base":"LB","Units_Per_Case":10,"Price_Per_Unit":2.775,"Case_Price":27.75,"Vendor_SKU":"02935","Vendor_Name":"Tomato- Heirloom 10# 10lb","Vendor_Case":"1/10 LB","Date":"2026-03-24T00:00:00.000Z","Upload_ID":"Capital46105-0103"}
+      Row 5: {"ItemId":"TOMATO_GREEN","Vendor":"Teddy","Base":"LB","Units_Per_Case":10,"Price_Per_Unit":2.21,"Case_Price":22.1,"Vendor_SKU":"01088","Vendor_Name":"Tomato - Green","Vendor_Case":"1/10 LB","Date":"2026-03-06T00:00:00.000Z","Upload_ID":"Teddy46087-0101"}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "UoM_Aliases"
+   Rows: 44, Columns: 2
+   Range: A1:B44
+
+   📋 COLUMN HEADERS:
+      A: "RawUoM"
+      B: "NormalizedUoM"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "RawUoM": types=[string], filled=43, empty=0, formulas=0
+         samples: ["LB","LBS","#","OZ","OUNCE"]
+      B "NormalizedUoM": types=[string], filled=43, empty=0, formulas=0
+         samples: ["LB","LB","LB","OZ","OZ"]
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"RawUoM":"LB","NormalizedUoM":"LB"}
+      Row 2: {"RawUoM":"LBS","NormalizedUoM":"LB"}
+      Row 3: {"RawUoM":"#","NormalizedUoM":"LB"}
+      Row 4: {"RawUoM":"OZ","NormalizedUoM":"OZ"}
+      Row 5: {"RawUoM":"OUNCE","NormalizedUoM":"OZ"}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Old Prices"
+   Rows: 474, Columns: 28
+   Range: A1:AB474
+
+   📋 COLUMN HEADERS:
+      A: "Upload_Row_Key"
+      B: "Vendor"
+      C: "VendorSKU"
+      D: "Vendor_Item_Key"
+      E: "Upload_ProductDescription"
+      F: "Static_ProductDescription"
+      G: "UploadID"
+      H: "BatchID"
+      I: "UploadDate"
+      J: "ItemID"
+      K: "PricePerCase"
+      L: "Pack"
+      M: "Size"
+      N: "Pack_Size"
+      O: "UoM"
+      P: "BaseUoM"
+      Q: "D_Pack"
+      R: "D_SizeQty"
+      S: "D_UOM"
+      T: "Case_Size"
+      U: "Converted_Pack_Size"
+      V: "Price_Per_Unit"
+      W: "Currency"
+      X: "EnteredBy"
+      Y: "Source"
+      Z: "ConversionNotes"
+      AA: "Flags"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "Upload_Row_Key": types=[], filled=0, empty=199, formulas=0
+      B "Vendor": types=[string], filled=199, empty=0, formulas=0
+         samples: ["Capital","Teddy","Capital","Teddy","Teddy"]
+      C "VendorSKU": types=[number], filled=197, empty=2, formulas=0
+         samples: ["346","39","1306","415","450"]
+      D "Vendor_Item_Key": types=[], filled=0, empty=199, formulas=0
+      E "Upload_ProductDescription": types=[string], filled=199, empty=0, formulas=0
+         samples: ["Asparagus","Asparagus Large","Basil","Basil","Basil"]
+      F "Static_ProductDescription": types=[], filled=0, empty=199, formulas=0
+      G "UploadID": types=[number], filled=199, empty=0, formulas=0
+         samples: ["1","1","1","1","1"]
+      H "BatchID": types=[], filled=0, empty=199, formulas=0
+      I "UploadDate": types=[object], filled=199, empty=0, formulas=0
+         samples: ["Tue Nov 11 2025 00:00:00 GMT+0000 (Green...","Tue Nov 11 2025 00:00:00 GMT+0000 (Green...","Tue Nov 11 2025 00:00:00 GMT+0000 (Green...","Tue Nov 11 2025 00:00:00 GMT+0000 (Green...","Tue Nov 11 2025 00:00:00 GMT+0000 (Green..."]
+      J "ItemID": types=[string], filled=191, empty=8, formulas=0
+         samples: ["ASP_LG","ASP_LG","BASIL","BASIL","BASIL"]
+      K "PricePerCase": types=[number], filled=199, empty=0, formulas=0
+         samples: ["39.75","37.75","8.45","7.75","2.45"]
+      L "Pack": types=[number], filled=47, empty=152, formulas=0
+         samples: ["36","36","1","15","15"]
+      M "Size": types=[string], filled=196, empty=3, formulas=0
+         samples: ["11LB","11LB","1LB","1LB",".25LB"]
+      N "Pack_Size": types=[string], filled=2, empty=197, formulas=0
+         samples: ["2/1.5LB","15/12 EA"]
+      O "UoM": types=[], filled=0, empty=199, formulas=0
+      P "BaseUoM": types=[string], filled=198, empty=1, formulas=199
+         samples: ["LB","LB","LB","LB","LB"]
+      Q "D_Pack": types=[number], filled=198, empty=1, formulas=199
+         samples: ["1","1","1","1","1"]
+      R "D_SizeQty": types=[number], filled=198, empty=1, formulas=199
+         samples: ["11","11","1","1","0.25"]
+      S "D_UOM": types=[string], filled=198, empty=1, formulas=199
+         samples: ["LB","LB","LB","LB","LB"]
+      T "Case_Size": types=[number], filled=199, empty=0, formulas=199
+         samples: ["11","11","1","1","0.25"]
+      U "Converted_Pack_Size": types=[number], filled=198, empty=1, formulas=199
+         samples: ["11","11","1","1","0.25"]
+      V "Price_Per_Unit": types=[number], filled=198, empty=1, formulas=199
+         samples: ["3.613636","3.431818","8.45","7.75","9.8"]
+      W "Currency": types=[string], filled=7, empty=192, formulas=0
+         samples: ["Dollar","Dollar","Dollar","Dollar","Dollar"]
+      X "EnteredBy": types=[string], filled=7, empty=192, formulas=0
+         samples: ["Matt","Matt","Matt","Matt","Matt"]
+      Y "Source": types=[string], filled=7, empty=192, formulas=0
+         samples: ["Teddy Bear","Capital","Teddy Bear","PFG","Capital"]
+      Z "ConversionNotes": types=[], filled=0, empty=199, formulas=0
+      AA "Flags": types=[string], filled=7, empty=192, formulas=7
+         samples: ["OK","OK","OK","OK","OK"]
+      AB "(Col AB)": types=[], filled=0, empty=199, formulas=0
+
+   ⚙️  FORMULAS FOUND: 3150 total
+   📐 UNIQUE FORMULA PATTERNS: 62
+      [P2] IFERROR(__xludf.DUMMYFUNCTION("IF(
+  REGEXMATCH(UPPER(TRIM($S2)),""^(GL|GAL|GALLON|GALS?|FOZ|FL OZ|QT|QTS?|QUARTS?|L|LITERS?|LITRES?|ML|HG)$""),
+  ""GAL"",
+  IF(
+    OR(
+      REGEXMATCH(UPPER(TRIM($S2)),""^(LB|LBS?|POUNDS?)$""),
+      REGEXMATCH(UPPER(TRIM($S2)),""^KG$""),
+      REGEX"&"MATCH(UPPER(TRIM($S2)),""^G$""),
+      REGEXMATCH(UPPER(TRIM($S2)),""^OZ$""),
+      REGEXMATCH(UPPER(TRIM($S2)),""^#$"")
+    ),
+    ""LB"",
+    IF(
+      OR(
+        REGEXMATCH(UPPER(TRIM($S2)),""^(CT|EA|PCS?|PCE|PC)$""),
+        REGEXMATCH(UPPER(TRIM($S2"&")),""#\s*\d+"")
+      ),
+      ""EA"",
+      """"
+    )
+  )
+)
+"),"LB")  (used 8x)
+      [Q2] IFERROR(__xludf.DUMMYFUNCTION("iferror(IF(LEN($L2),
+  VALUE($L2),
+  IF(LEN($N2),
+    IF(REGEXMATCH($N2,""^\s*\d+\s*/""),
+       VALUE(REGEXEXTRACT($N2,""^\s*(\d+)\s*/"")),
+       IF(REGEXMATCH($N2,""^\s*\d+\s*[A-Za-z#]""),
+          VALUE(REGEXEXTRACT($N2,""^\s*(\d+)\s*[A-Za-z#]"")),
+ "&"         IF(LEN($M2),1,"""")
+       )
+    ),
+    IF(LEN($M2),1,"""")
+  )
+)
+)"),1.0)  (used 8x)
+      [R2] IFERROR(__xludf.DUMMYFUNCTION("IF(LEN($M2),
+  IF(REGEXMATCH(UPPER($M2),""^\s*#\s*\d+""), 
+     1,
+     IFERROR(
+       VALUE(REGEXEXTRACT($M2,""^\s*(\d+)\s*/\s*(\d+)"")) / VALUE(REGEXEXTRACT($M2,""^\s*\d+\s*/\s*(\d+)"")),
+       IF(REGEXMATCH(UPPER($M2),""\bHALF\b""),
+          0.5,
+  "&"        IFERROR(
+            VALUE(REGEXEXTRACT($M2,""^\s*([0-9]*\.?[0-9]+)"")),
+
+            """"
+          )
+       )
+     )
+  ),
+  IF(LEN($N2),
+     IF(REGEXMATCH($N2,""^\s*\d+\s*/""),
+        VALUE(REGEXEXTRACT($N2,""^\s*\d+\s*/\s*([0-9]*\.?[0-9]+)"")"&"),
+        IF(REGEXMATCH(UPPER($N2),""^\s*\d+\s*#\s*\d+""),
+           1,
+           IF(REGEXMATCH(UPPER($N2),""^\s*\d+\s*[A-Z#]""),
+              1,
+              IFERROR(VALUE(REGEXEXTRACT($N2,""^\s*([0-9]*\.?[0-9]+)"")), """")
+           )
+        )
+  "&"   ),
+     """"
+  )
+)
+"),11.0)  (used 8x)
+      [S2] IFERROR(__xludf.DUMMYFUNCTION("IF(LEN($M2),
+  IF(REGEXMATCH(UPPER($M2),""\s*#\s*\d+""),
+     UPPER(REGEXEXTRACT($M2,""#\s*\d+"")),
+     IFERROR(UPPER(REGEXEXTRACT($M2,""[A-Za-z]+\.?\s*[A-Za-z]*"")), """")
+  ),
+  IF(LEN($N2),
+    IF(REGEXMATCH($N2,""^\s*\d+\s*/""),
+       IFERROR(UPPER("&"REGEXEXTRACT($N2,""^\s*\d+\s*/\s*[0-9]+(?:\.[0-9]+)?\s*([A-Za-z]+\.?\s*[A-Za-z]*)"")), """"),
+       IF(REGEXMATCH($N2,""^\s*\d+\s*#\s*\d+""),
+          UPPER(REGEXEXTRACT($N2,""#\s*\d+"")),
+          IFERROR(UPPER(REGEXEXTRACT($N2,""^\s*\d+\s*([A-Za-z]+\"&".?\s*[A-Za-z]*)"")), """")
+       )
+    ),
+    """"
+  )
+)
+"),"LB")  (used 8x)
+      [T2] Q2*R2  (used 473x)
+      [U2] IFERROR(__xludf.DUMMYFUNCTION("IF($P2=""LB"",
+  IF(
+    REGEXMATCH(UPPER(TRIM($S2)),""^(LB|LBS?|#)$""), $T2,
+    IF(REGEXMATCH(UPPER(TRIM($S2)),""^(OZ|OUNCE|OUNCES)$""), $T2/16,
+      IF(REGEXMATCH(UPPER(TRIM($S2)),""^(KG|KGS|KILOGRAM|KILOGRAMS)$""), $T2*2.2046226,
+        IF(REGEXMATC"&"H(UPPER(TRIM($S2)),""^(G|GRAM|GRAMS)$""), $T2/453.59237,
+          IF(REGEXMATCH(UPPER(TRIM($S2)),""^(TON|TONS)$""), $T2*2000,
+            IF(REGEXMATCH(UPPER(TRIM($S2)),""^(MG|MILLIGRAM|MILLIGRAMS)$""), $T2/453592.37,
+              IF(REGEXMATCH(UPPER(TR"&"IM($S2)),""^(GAL|GALLON|GALLONS)$""), $T2*8.34,
+                IF(REGEXMATCH(UPPER(TRIM($S2)),""^(QT|QTS|QUART|QUARTS)$""), $T2*2.085,
+                  IF(REGEXMATCH(UPPER(TRIM($S2)),""^(PT|PTS|PINT|PINTS)$""), $T2*1.043,
+                    IF(REGEXMAT"&"CH(UPPER(TRIM($S2)),""^(CUP|CUPS)$""), $T2*0.5216,
+                      IF(REGEXMATCH(UPPER(TRIM($S2)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T2*0.0652,
+                      )
+                    )
+                  )
+                )
+          "&"    )
+            )
+          )
+        )
+      )
+    )
+  ),
+
+  IF($P2=""GAL"",
+    IF(
+      REGEXMATCH(UPPER(TRIM($S2)),""^(GL|GAL|GALLON|GALLONS)$""), $T2,
+      IF(REGEXMATCH(UPPER(TRIM($S2)),""^(HALF\s*GAL(LON)?|1/2\s*(GL|GAL)|0\.?5\s*(GL|GAL))$""), "&"$T2/2,
+        IF(REGEXMATCH(UPPER(TRIM($S2)),""^(QT|QTS|QUART|QUARTS)$""), $T2/4,
+          IF(REGEXMATCH(UPPER(TRIM($S2)),""^(PT|PTS|PINT|PINTS)$""), $T2/8,
+            IF(REGEXMATCH(UPPER(TRIM($S2)),""^(CUP|CUPS)$""), $T2/16,
+              IF(REGEXMATC"&"H(UPPER(TRIM($S2)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T2/128,
+                IF(REGEXMATCH(UPPER(TRIM($S2)),""^(L|LTR|LITER|LITERS)$""), $T2*0.2641720524,
+                  IF(REGEXMATCH(UPPER(TRIM($S2)),""^(ML|MILLILITER|MILLILITERS)$""), $T2"&"/3785.411784,
+                    IF(REGEXMATCH(UPPER(TRIM($S2)),""^(CL|CENTILITER|CENTILITERS)$""), $T2/378.5411784,
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    ),
+
+    IF($P"&"2=""QT"",
+      IF(
+        REGEXMATCH(UPPER(TRIM($S2)),""^(QT|QTS|QUART|QUARTS)$""), $T2,
+        IF(REGEXMATCH(UPPER(TRIM($S2)),""^(GL|GAL|GALLON|GALLONS)$""), $T2*4,
+          IF(REGEXMATCH(UPPER(TRIM($S2)),""^(HALF\s*GAL(LON)?|1/2\s*(GL|GAL)|0\.?5\s*("&"GL|GAL))$""), $T2*2,
+            IF(REGEXMATCH(UPPER(TRIM($S2)),""^(PT|PTS|PINT|PINTS)$""), $T2/2,
+              IF(REGEXMATCH(UPPER(TRIM($S2)),""^(CUP|CUPS)$""), $T2/4,
+                IF(REGEXMATCH(UPPER(TRIM($S2)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES"&")$""), $T2/32,
+                  IF(REGEXMATCH(UPPER(TRIM($S2)),""^(L|LTR|LITER|LITERS)$""), $T2*1.05668821,
+                    IF(REGEXMATCH(UPPER(TRIM($S2)),""^(ML|MILLILITER|MILLILITERS)$""), $T2/946.352946,
+                      IF(REGEXMATCH(UPPER(T"&"RIM($S2)),""^(CL|CENTILITER|CENTILITERS)$""), $T2/94.6352946,
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      ),
+
+      IF($P2=""OZ"",
+        IF(
+          REGE"&"XMATCH(UPPER(TRIM($S2)),""^(OZ|OUNCE|OUNCES)$""), $T2,
+          IF(REGEXMATCH(UPPER(TRIM($S2)),""^(LB|LBS?|#)$""), $T2*16,
+            IF(REGEXMATCH(UPPER(TRIM($S2)),""^(KG|KGS|KILOGRAM|KILOGRAMS)$""), $T2*35.2739619,
+              IF(REGEXMATCH(UPPER(TR"&"IM($S2)),""^(G|GRAM|GRAMS)$""), $T2/28.3495231,
+                IF(REGEXMATCH(UPPER(TRIM($S2)),""^(TON|TONS)$""), $T2*32000,
+                  IF(REGEXMATCH(UPPER(TRIM($S2)),""^(MG|MILLIGRAM|MILLIGRAMS)$""), $T2/28349.5231,
+                    IF(REGEXMAT"&"CH(UPPER(TRIM($S2)),""^(GAL|GALLON|GALLONS)$""), $T2*133.44,
+                      IF(REGEXMATCH(UPPER(TRIM($S2)),""^(QT|QTS|QUART|QUARTS)$""), $T2*33.36,
+                        IF(REGEXMATCH(UPPER(TRIM($S2)),""^(PT|PTS|PINT|PINTS)$""), $T2*16.688,
+     "&"                     IF(REGEXMATCH(UPPER(TRIM($S2)),""^(CUP|CUPS)$""), $T2*8.345,
+                            IF(REGEXMATCH(UPPER(TRIM($S2)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T2,
+                            )
+                          )
+      "&"                  )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        ),
+
+        IF($P2=""EA"",
+          IF(
+            REGEXMATCH(UPPER(TRIM($S2)),""^(CT|COUNT|EA|EACH"&"|PCS?|PIECES?|PCE|PC)$""), $T2,
+            IF(REGEXMATCH(UPPER(TRIM($S2)),""^(DOZ|DOZEN)$""), $T2*12,
+              IF(REGEXMATCH(UPPER(TRIM($S2)),""^(1/2\s*DOZ|HALF\s*DOZEN)$""), $T2*6,
+                IF(REGEXMATCH(UPPER(TRIM($S2)),""^#\s*\d+""), $T2,
+"&"                )
+              )
+            )
+          ),
+        )
+      )
+    )
+  )
+)"),11.0)  (used 8x)
+      [V2] IFERROR(ROUND($K2 / $U2, 6), )
+  (used 389x)
+      [P10] IFERROR(__xludf.DUMMYFUNCTION("IF(
+  REGEXMATCH(UPPER(TRIM($S10)),""^(GL|GAL|GALLON|GALS?|FOZ|FL OZ|QT|QTS?|QUARTS?|L|LITERS?|LITRES?|ML|HG)$""),
+  ""GAL"",
+  IF(
+    OR(
+      REGEXMATCH(UPPER(TRIM($S10)),""^(LB|LBS?|POUNDS?)$""),
+      REGEXMATCH(UPPER(TRIM($S10)),""^KG$""),
+      RE"&"GEXMATCH(UPPER(TRIM($S10)),""^G$""),
+      REGEXMATCH(UPPER(TRIM($S10)),""^OZ$""),
+      REGEXMATCH(UPPER(TRIM($S10)),""^#$"")
+    ),
+    ""LB"",
+    IF(
+      OR(
+        REGEXMATCH(UPPER(TRIM($S10)),""^(CT|EA|PCS?|PCE|PC)$""),
+        REGEXMATCH(UPPER(T"&"RIM($S10)),""#\s*\d+"")
+      ),
+      ""EA"",
+      """"
+    )
+  )
+)
+"),"LB")  (used 29x)
+      [Q10] IFERROR(__xludf.DUMMYFUNCTION("iferror(IF(LEN($L10),
+  VALUE($L10),
+  IF(LEN($N10),
+    IF(REGEXMATCH($N10,""^\s*\d+\s*/""),
+       VALUE(REGEXEXTRACT($N10,""^\s*(\d+)\s*/"")),
+       IF(REGEXMATCH($N10,""^\s*\d+\s*[A-Za-z#]""),
+          VALUE(REGEXEXTRACT($N10,""^\s*(\d+)\s*[A-Za-z#]"&""")),
+          IF(LEN($M10),1,"""")
+       )
+    ),
+    IF(LEN($M10),1,"""")
+  )
+)
+)"),1.0)  (used 88x)
+      [R10] IFERROR(__xludf.DUMMYFUNCTION("IF(LEN($M10),
+  IF(REGEXMATCH(UPPER($M10),""^\s*#\s*\d+""), 
+     1,
+     IFERROR(
+       VALUE(REGEXEXTRACT($M10,""^\s*(\d+)\s*/\s*(\d+)"")) / VALUE(REGEXEXTRACT($M10,""^\s*\d+\s*/\s*(\d+)"")),
+       IF(REGEXMATCH(UPPER($M10),""\bHALF\b""),
+          0."&"5,
+          IFERROR(
+            VALUE(REGEXEXTRACT($M10,""^\s*([0-9]*\.?[0-9]+)"")),
+
+            """"
+          )
+       )
+     )
+  ),
+  IF(LEN($N10),
+     IF(REGEXMATCH($N10,""^\s*\d+\s*/""),
+        VALUE(REGEXEXTRACT($N10,""^\s*\d+\s*/\s*([0-9]*\.?["&"0-9]+)"")),
+        IF(REGEXMATCH(UPPER($N10),""^\s*\d+\s*#\s*\d+""),
+           1,
+           IF(REGEXMATCH(UPPER($N10),""^\s*\d+\s*[A-Z#]""),
+              1,
+              IFERROR(VALUE(REGEXEXTRACT($N10,""^\s*([0-9]*\.?[0-9]+)"")), """")
+           )
+"&"        )
+     ),
+     """"
+  )
+)
+"),4.0)  (used 89x)
+      [S10] IFERROR(__xludf.DUMMYFUNCTION("IF(LEN($M10),
+  IF(REGEXMATCH(UPPER($M10),""\s*#\s*\d+""),
+     UPPER(REGEXEXTRACT($M10,""#\s*\d+"")),
+     IFERROR(UPPER(REGEXEXTRACT($M10,""[A-Za-z]+\.?\s*[A-Za-z]*"")), """")
+  ),
+  IF(LEN($N10),
+    IF(REGEXMATCH($N10,""^\s*\d+\s*/""),
+       IFERROR("&"UPPER(REGEXEXTRACT($N10,""^\s*\d+\s*/\s*[0-9]+(?:\.[0-9]+)?\s*([A-Za-z]+\.?\s*[A-Za-z]*)"")), """"),
+       IF(REGEXMATCH($N10,""^\s*\d+\s*#\s*\d+""),
+          UPPER(REGEXEXTRACT($N10,""#\s*\d+"")),
+          IFERROR(UPPER(REGEXEXTRACT($N10,""^\s*\d+\s*("&"[A-Za-z]+\.?\s*[A-Za-z]*)"")), """")
+       )
+    ),
+    """"
+  )
+)
+"),"LB")  (used 48x)
+      [U10] IFERROR(__xludf.DUMMYFUNCTION("IF($P10=""LB"",
+  IF(
+    REGEXMATCH(UPPER(TRIM($S10)),""^(LB|LBS?|#)$""), $T10,
+    IF(REGEXMATCH(UPPER(TRIM($S10)),""^(OZ|OUNCE|OUNCES)$""), $T10/16,
+      IF(REGEXMATCH(UPPER(TRIM($S10)),""^(KG|KGS|KILOGRAM|KILOGRAMS)$""), $T10*2.2046226,
+        IF(RE"&"GEXMATCH(UPPER(TRIM($S10)),""^(G|GRAM|GRAMS)$""), $T10/453.59237,
+          IF(REGEXMATCH(UPPER(TRIM($S10)),""^(TON|TONS)$""), $T10*2000,
+            IF(REGEXMATCH(UPPER(TRIM($S10)),""^(MG|MILLIGRAM|MILLIGRAMS)$""), $T10/453592.37,
+              IF(REGEXM"&"ATCH(UPPER(TRIM($S10)),""^(GAL|GALLON|GALLONS)$""), $T10*8.34,
+                IF(REGEXMATCH(UPPER(TRIM($S10)),""^(QT|QTS|QUART|QUARTS)$""), $T10*2.085,
+                  IF(REGEXMATCH(UPPER(TRIM($S10)),""^(PT|PTS|PINT|PINTS)$""), $T10*1.043,
+            "&"        IF(REGEXMATCH(UPPER(TRIM($S10)),""^(CUP|CUPS)$""), $T10*0.5216,
+                      IF(REGEXMATCH(UPPER(TRIM($S10)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T10*0.0652,
+                      )
+                    )
+                  )
+     "&"           )
+              )
+            )
+          )
+        )
+      )
+    )
+  ),
+
+  IF($P10=""GAL"",
+    IF(
+      REGEXMATCH(UPPER(TRIM($S10)),""^(GL|GAL|GALLON|GALLONS)$""), $T10,
+      IF(REGEXMATCH(UPPER(TRIM($S10)),""^(HALF\s*GAL(LON)?|1/2\s*(GL|G"&"AL)|0\.?5\s*(GL|GAL))$""), $T10/2,
+        IF(REGEXMATCH(UPPER(TRIM($S10)),""^(QT|QTS|QUART|QUARTS)$""), $T10/4,
+          IF(REGEXMATCH(UPPER(TRIM($S10)),""^(PT|PTS|PINT|PINTS)$""), $T10/8,
+            IF(REGEXMATCH(UPPER(TRIM($S10)),""^(CUP|CUPS)$""), $"&"T10/16,
+              IF(REGEXMATCH(UPPER(TRIM($S10)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T10/128,
+                IF(REGEXMATCH(UPPER(TRIM($S10)),""^(L|LTR|LITER|LITERS)$""), $T10*0.2641720524,
+                  IF(REGEXMATCH(UPPER(TRIM($S10)),"&"""^(ML|MILLILITER|MILLILITERS)$""), $T10/3785.411784,
+                    IF(REGEXMATCH(UPPER(TRIM($S10)),""^(CL|CENTILITER|CENTILITERS)$""), $T10/378.5411784,
+                    )
+                  )
+                )
+              )
+            )
+     "&"     )
+        )
+      )
+    ),
+
+    IF($P10=""QT"",
+      IF(
+        REGEXMATCH(UPPER(TRIM($S10)),""^(QT|QTS|QUART|QUARTS)$""), $T10,
+        IF(REGEXMATCH(UPPER(TRIM($S10)),""^(GL|GAL|GALLON|GALLONS)$""), $T10*4,
+          IF(REGEXMATCH(UPPER(TRIM($S10"&")),""^(HALF\s*GAL(LON)?|1/2\s*(GL|GAL)|0\.?5\s*(GL|GAL))$""), $T10*2,
+            IF(REGEXMATCH(UPPER(TRIM($S10)),""^(PT|PTS|PINT|PINTS)$""), $T10/2,
+              IF(REGEXMATCH(UPPER(TRIM($S10)),""^(CUP|CUPS)$""), $T10/4,
+                IF(REGEXMATCH(UP"&"PER(TRIM($S10)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID OUNCES)$""), $T10/32,
+                  IF(REGEXMATCH(UPPER(TRIM($S10)),""^(L|LTR|LITER|LITERS)$""), $T10*1.05668821,
+                    IF(REGEXMATCH(UPPER(TRIM($S10)),""^(ML|MILLILITER|MILLILITERS)$""), $"&"T10/946.352946,
+                      IF(REGEXMATCH(UPPER(TRIM($S10)),""^(CL|CENTILITER|CENTILITERS)$""), $T10/94.6352946,
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+      "&"  )
+      ),
+
+      IF($P10=""OZ"",
+        IF(
+          REGEXMATCH(UPPER(TRIM($S10)),""^(OZ|OUNCE|OUNCES)$""), $T10,
+          IF(REGEXMATCH(UPPER(TRIM($S10)),""^(LB|LBS?|#)$""), $T10*16,
+            IF(REGEXMATCH(UPPER(TRIM($S10)),""^(KG|KGS|KILOGRAM|K"&"ILOGRAMS)$""), $T10*35.2739619,
+              IF(REGEXMATCH(UPPER(TRIM($S10)),""^(G|GRAM|GRAMS)$""), $T10/28.3495231,
+                IF(REGEXMATCH(UPPER(TRIM($S10)),""^(TON|TONS)$""), $T10*32000,
+                  IF(REGEXMATCH(UPPER(TRIM($S10)),""^(MG|M"&"ILLIGRAM|MILLIGRAMS)$""), $T10/28349.5231,
+                    IF(REGEXMATCH(UPPER(TRIM($S10)),""^(GAL|GALLON|GALLONS)$""), $T10*133.44,
+                      IF(REGEXMATCH(UPPER(TRIM($S10)),""^(QT|QTS|QUART|QUARTS)$""), $T10*33.36,
+                      "&"  IF(REGEXMATCH(UPPER(TRIM($S10)),""^(PT|PTS|PINT|PINTS)$""), $T10*16.688,
+                          IF(REGEXMATCH(UPPER(TRIM($S10)),""^(CUP|CUPS)$""), $T10*8.345,
+                            IF(REGEXMATCH(UPPER(TRIM($S10)),""^(FOZ|FL OZ|FLUID OUNCE|FLUID"&" OUNCES)$""), $T10,
+                            )
+                          )
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        ),
+
+        IF($P"&"10=""EA"",
+          IF(
+            REGEXMATCH(UPPER(TRIM($S10)),""^(CT|COUNT|EA|EACH|PCS?|PIECES?|PCE|PC)$""), $T10,
+            IF(REGEXMATCH(UPPER(TRIM($S10)),""^(DOZ|DOZEN)$""), $T10*12,
+              IF(REGEXMATCH(UPPER(TRIM($S10)),""^(1/2\s*DOZ|HAL"&"F\s*DOZEN)$""), $T10*6,
+                IF(REGEXMATCH(UPPER(TRIM($S10)),""^#\s*\d+""), $T10,
+                )
+              )
+            )
+          ),
+        )
+      )
+    )
+  )
+)"),4.0)  (used 89x)
+      [P14] IFERROR(__xludf.DUMMYFUNCTION("IF(
+  REGEXMATCH(UPPER(TRIM($S14)),""^(GL|GAL|GALLON|GALS?|FOZ|FL OZ|QT|QTS?|QUARTS?|L|LITERS?|LITRES?|ML|HG)$""),
+  ""GAL"",
+  IF(
+    OR(
+      REGEXMATCH(UPPER(TRIM($S14)),""^(LB|LBS?|POUNDS?)$""),
+      REGEXMATCH(UPPER(TRIM($S14)),""^KG$""),
+      RE"&"GEXMATCH(UPPER(TRIM($S14)),""^G$""),
+      REGEXMATCH(UPPER(TRIM($S14)),""^OZ$""),
+      REGEXMATCH(UPPER(TRIM($S14)),""^#$"")
+    ),
+    ""LB"",
+    IF(
+      OR(
+        REGEXMATCH(UPPER(TRIM($S14)),""^(CT|EA|PCS?|PCE|PC)$""),
+        REGEXMATCH(UPPER(T"&"RIM($S14)),""#\s*\d+"")
+      ),
+      ""EA"",
+      """"
+    )
+  )
+)
+"),"GAL")  (used 3x)
+      [S14] IFERROR(__xludf.DUMMYFUNCTION("IF(LEN($M14),
+  IF(REGEXMATCH(UPPER($M14),""\s*#\s*\d+""),
+     UPPER(REGEXEXTRACT($M14,""#\s*\d+"")),
+     IFERROR(UPPER(REGEXEXTRACT($M14,""[A-Za-z]+\.?\s*[A-Za-z]*"")), """")
+  ),
+  IF(LEN($N14),
+    IF(REGEXMATCH($N14,""^\s*\d+\s*/""),
+       IFERROR("&"UPPER(REGEXEXTRACT($N14,""^\s*\d+\s*/\s*[0-9]+(?:\.[0-9]+)?\s*([A-Za-z]+\.?\s*[A-Za-z]*)"")), """"),
+       IF(REGEXMATCH($N14,""^\s*\d+\s*#\s*\d+""),
+          UPPER(REGEXEXTRACT($N14,""#\s*\d+"")),
+          IFERROR(UPPER(REGEXEXTRACT($N14,""^\s*\d+\s*("&"[A-Za-z]+\.?\s*[A-Za-z]*)"")), """")
+       )
+    ),
+    """"
+  )
+)
+"),"GL")  (used 3x)
+      [P17] IFERROR(__xludf.DUMMYFUNCTION("IF(
+  REGEXMATCH(UPPER(TRIM($S17)),""^(GL|GAL|GALLON|GALS?|FOZ|FL OZ|QT|QTS?|QUARTS?|L|LITERS?|LITRES?|ML|HG)$""),
+  ""GAL"",
+  IF(
+    OR(
+      REGEXMATCH(UPPER(TRIM($S17)),""^(LB|LBS?|POUNDS?)$""),
+      REGEXMATCH(UPPER(TRIM($S17)),""^KG$""),
+      RE"&"GEXMATCH(UPPER(TRIM($S17)),""^G$""),
+      REGEXMATCH(UPPER(TRIM($S17)),""^OZ$""),
+      REGEXMATCH(UPPER(TRIM($S17)),""^#$"")
+    ),
+    ""LB"",
+    IF(
+      OR(
+        REGEXMATCH(UPPER(TRIM($S17)),""^(CT|EA|PCS?|PCE|PC)$""),
+        REGEXMATCH(UPPER(T"&"RIM($S17)),""#\s*\d+"")
+      ),
+      ""EA"",
+      """"
+    )
+  )
+)
+"),"EA")  (used 25x)
+      [S17] IFERROR(__xludf.DUMMYFUNCTION("IF(LEN($M17),
+  IF(REGEXMATCH(UPPER($M17),""\s*#\s*\d+""),
+     UPPER(REGEXEXTRACT($M17,""#\s*\d+"")),
+     IFERROR(UPPER(REGEXEXTRACT($M17,""[A-Za-z]+\.?\s*[A-Za-z]*"")), """")
+  ),
+  IF(LEN($N17),
+    IF(REGEXMATCH($N17,""^\s*\d+\s*/""),
+       IFERROR("&"UPPER(REGEXEXTRACT($N17,""^\s*\d+\s*/\s*[0-9]+(?:\.[0-9]+)?\s*([A-Za-z]+\.?\s*[A-Za-z]*)"")), """"),
+       IF(REGEXMATCH($N17,""^\s*\d+\s*#\s*\d+""),
+          UPPER(REGEXEXTRACT($N17,""#\s*\d+"")),
+          IFERROR(UPPER(REGEXEXTRACT($N17,""^\s*\d+\s*("&"[A-Za-z]+\.?\s*[A-Za-z]*)"")), """")
+       )
+    ),
+    """"
+  )
+)
+"),"CT")  (used 36x)
+      [AA17] if($P17="","UNKNOWN_BASE",
+  IF(OR($U17="", $U17<=0),"UNPARSED_CONV",
+    IF(OR($V17="", $V17<=0),"BAD_PRICE","OK")))
+  (used 7x)
+      [Q27] IFERROR(__xludf.DUMMYFUNCTION("IF(LEN($L27),
+  VALUE($L27),
+  IF(LEN($N27),
+    IF(REGEXMATCH($N27,""^\s*\d+\s*/""),
+       VALUE(REGEXEXTRACT($N27,""^\s*(\d+)\s*/"")),
+       IF(REGEXMATCH($N27,""^\s*\d+\s*[A-Za-z#]""),
+          VALUE(REGEXEXTRACT($N27,""^\s*(\d+)\s*[A-Za-z#]"")),
+  "&"        IF(LEN($M27),1,"""")
+       )
+    ),
+    IF(LEN($M27),1,"""")
+  )
+)
+"),15.0)  (used 1x)
+      [S28] IFERROR(__xludf.DUMMYFUNCTION("IF(LEN($M28),
+  IF(REGEXMATCH(UPPER($M28),""\s*#\s*\d+""),
+     UPPER(REGEXEXTRACT($M28,""#\s*\d+"")),
+     IFERROR(UPPER(REGEXEXTRACT($M28,""[A-Za-z]+\.?\s*[A-Za-z]*"")), """")
+  ),
+  IF(LEN($N28),
+    IF(REGEXMATCH($N28,""^\s*\d+\s*/""),
+       IFERROR("&"UPPER(REGEXEXTRACT($N28,""^\s*\d+\s*/\s*[0-9]+(?:\.[0-9]+)?\s*([A-Za-z]+\.?\s*[A-Za-z]*)"")), """"),
+       IF(REGEXMATCH($N28,""^\s*\d+\s*#\s*\d+""),
+          UPPER(REGEXEXTRACT($N28,""#\s*\d+"")),
+          IFERROR(UPPER(REGEXEXTRACT($N28,""^\s*\d+\s*("&"[A-Za-z]+\.?\s*[A-Za-z]*)"")), """")
+       )
+    ),
+    """"
+  )
+)
+"),"EA")  (used 1x)
+      [S61] IFERROR(__xludf.DUMMYFUNCTION("IF(LEN($M61),
+  IF(REGEXMATCH(UPPER($M61),""\s*#\s*\d+""),
+     UPPER(REGEXEXTRACT($M61,""#\s*\d+"")),
+     IFERROR(UPPER(REGEXEXTRACT($M61,""[A-Za-z]+\.?\s*[A-Za-z]*"")), """")
+  ),
+  IF(LEN($N61),
+    IF(REGEXMATCH($N61,""^\s*\d+\s*/""),
+       IFERROR("&"UPPER(REGEXEXTRACT($N61,""^\s*\d+\s*/\s*[0-9]+(?:\.[0-9]+)?\s*([A-Za-z]+\.?\s*[A-Za-z]*)"")), """"),
+       IF(REGEXMATCH($N61,""^\s*\d+\s*#\s*\d+""),
+          UPPER(REGEXEXTRACT($N61,""#\s*\d+"")),
+          IFERROR(UPPER(REGEXEXTRACT($N61,""^\s*\d+\s*("&"[A-Za-z]+\.?\s*[A-Za-z]*)"")), """")
+       )
+    ),
+    """"
+  )
+)
+"),"OZ")  (used 1x)
+      ... and 42 more patterns
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"Vendor":"Capital","VendorSKU":346,"Upload_ProductDescription":"Asparagus","UploadID":1,"UploadDate":"2025-11-11T00:00:00.000Z","ItemID":"ASP_LG","PricePerCase":39.75,"Size":"11LB","BaseUoM":"LB","D_Pack":1,"D_SizeQty":11,"D_UOM":"LB","Case_Size":11,"Converted_Pack_Size":11,"Price_Per_Unit":3.613636}
+      Row 2: {"Vendor":"Teddy","VendorSKU":39,"Upload_ProductDescription":"Asparagus Large","UploadID":1,"UploadDate":"2025-11-11T00:00:00.000Z","ItemID":"ASP_LG","PricePerCase":37.75,"Size":"11LB","BaseUoM":"LB","D_Pack":1,"D_SizeQty":11,"D_UOM":"LB","Case_Size":11,"Converted_Pack_Size":11,"Price_Per_Unit":3.431818}
+      Row 3: {"Vendor":"Capital","VendorSKU":1306,"Upload_ProductDescription":"Basil","UploadID":1,"UploadDate":"2025-11-11T00:00:00.000Z","ItemID":"BASIL","PricePerCase":8.45,"Size":"1LB","BaseUoM":"LB","D_Pack":1,"D_SizeQty":1,"D_UOM":"LB","Case_Size":1,"Converted_Pack_Size":1,"Price_Per_Unit":8.45}
+      Row 4: {"Vendor":"Teddy","VendorSKU":415,"Upload_ProductDescription":"Basil","UploadID":1,"UploadDate":"2025-11-11T00:00:00.000Z","ItemID":"BASIL","PricePerCase":7.75,"Size":"1LB","BaseUoM":"LB","D_Pack":1,"D_SizeQty":1,"D_UOM":"LB","Case_Size":1,"Converted_Pack_Size":1,"Price_Per_Unit":7.75}
+      Row 5: {"Vendor":"Teddy","VendorSKU":450,"Upload_ProductDescription":"Basil","UploadID":1,"UploadDate":"2025-11-11T00:00:00.000Z","ItemID":"BASIL","PricePerCase":2.45,"Size":".25LB","BaseUoM":"LB","D_Pack":1,"D_SizeQty":0.25,"D_UOM":"LB","Case_Size":0.25,"Converted_Pack_Size":0.25,"Price_Per_Unit":9.8}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Best_Price"
+   Rows: 1000, Columns: 12
+   Range: A1:L1000
+
+   📋 COLUMN HEADERS:
+      A: "ItemID"
+      B: "ItemName"
+      C: "UnitsToOrder"
+      D: "CheapestVendor (calc)"
+      E: "VendorSKU (calc)"
+      F: "PackSize (calc)"
+      G: "UnitsPerPack (calc)"
+      H: "UnitPrice (calc)"
+      I: "PacksToOrder (calc)"
+      J: "Case Price"
+      K: "Extended$ (calc)"
+      L: "EffectiveDate"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "ItemID": types=[string], filled=84, empty=115, formulas=0
+         samples: ["ARUGULA_BABY","ARUGULA_WILD","APPLES_FUJI","ASPARAGUS_LARGE","BROCCOLI_CROWN"]
+      B "ItemName": types=[string], filled=84, empty=115, formulas=199
+         samples: ["Baby Arugula","Wild Arugula","Fuji Apples","Large Asparagus","Broccoli Crown"]
+      C "UnitsToOrder": types=[number], filled=84, empty=115, formulas=199
+         samples: ["0","0","0","0","0"]
+      D "CheapestVendor (calc)": types=[string], filled=78, empty=121, formulas=199
+         samples: ["Capital","Capital","Teddy","Capital","Capital"]
+      E "VendorSKU (calc)": types=[string], filled=78, empty=121, formulas=199
+         samples: ["01582","02271","00006","00346","00541"]
+      F "PackSize (calc)": types=[string], filled=78, empty=121, formulas=199
+         samples: ["1/3 LB","1/2 LB","1/88 CT","1/11 LB","1/18 CT"]
+      G "UnitsPerPack (calc)": types=[number], filled=78, empty=121, formulas=199
+         samples: ["3","2","88","11","18"]
+      H "UnitPrice (calc)": types=[number], filled=78, empty=121, formulas=199
+         samples: ["5.916667","7.975","0.442614","4.159091","1.819444"]
+      I "PacksToOrder (calc)": types=[number], filled=78, empty=121, formulas=199
+         samples: ["0","0","0","0","0"]
+      J "Case Price": types=[number], filled=32, empty=167, formulas=32
+         samples: ["17.750001","15.95","38.950032","45.750001","0"]
+      K "Extended$ (calc)": types=[number], filled=78, empty=121, formulas=199
+         samples: ["0","0","0","0","0"]
+      L "EffectiveDate": types=[object], filled=78, empty=121, formulas=199
+         samples: ["Tue Mar 24 2026 00:00:00 GMT+0000 (Green...","Tue Mar 24 2026 00:00:00 GMT+0000 (Green...","Fri Mar 06 2026 00:00:00 GMT+0000 (Green...","Tue Mar 24 2026 00:00:00 GMT+0000 (Green...","Tue Mar 24 2026 00:00:00 GMT+0000 (Green..."]
+
+   ⚙️  FORMULAS FOUND: 2022 total
+   📐 UNIQUE FORMULA PATTERNS: 23
+      [B2] IFERROR(INDEX(Items!B:B, MATCH($A2, Items!A:A, 0)), )
+  (used 199x)
+      [C2] IFERROR(if(A2="","",(XLOOKUP(A2, Orders_Calc!A:A, Orders_Calc!J:J, 0))
+),"")  (used 199x)
+      [D2] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(LET(
+  r, FILTER(Price_Current!A:K, Price_Current!A:A=$A2),
+  s, SORT(r, 5, TRUE, 10, FALSE, 11, FALSE),
+  INDEX(s, 1, 2)
+), )
+"),"Capital")  (used 38x)
+      [E2] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(LET(r, FILTER(Price_Current!A:K, Price_Current!A:A=$A2), s, SORT(r,5,TRUE,10,FALSE,11,FALSE), INDEX(s,1,7)), )
+"),"01582")  (used 78x)
+      [F2] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(LET(r, FILTER(Price_Current!A:K, Price_Current!A:A=$A2), s, SORT(r,5,TRUE,10,FALSE,11,FALSE), INDEX(s,1,9)), )"),"1/3 LB")  (used 48x)
+      [G2] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(LET(r, FILTER(Price_Current!A:K, Price_Current!A:A=$A2), s, SORT(r,5,TRUE,10,FALSE,11,FALSE), INDEX(s,1,4)), )"),3.0)  (used 78x)
+      [H2] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(LET(r, FILTER(Price_Current!A:K, Price_Current!A:A=$A2), s, SORT(r,5,TRUE,10,FALSE,11,FALSE), INDEX(s,1,5)), )
+"),5.916667)  (used 156x)
+      [I2] IFERROR(CEILING($C2 / $G2,1), )  (used 199x)
+      [J2] G2*H2  (used 32x)
+      [K2] IFERROR(if(G2="","",($H2 * $G2 * $I2)),"")  (used 199x)
+      [D4] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(LET(
+  r, FILTER(Price_Current!A:K, Price_Current!A:A=$A4),
+  s, SORT(r, 5, TRUE, 10, FALSE, 11, FALSE),
+  INDEX(s, 1, 2)
+), )
+"),"Teddy")  (used 40x)
+      [F4] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(LET(r, FILTER(Price_Current!A:K, Price_Current!A:A=$A4), s, SORT(r,5,TRUE,10,FALSE,11,FALSE), INDEX(s,1,9)), )"),"1/88 CT")  (used 13x)
+      [D6] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(LET(
+  r, FILTER(Price_Current!A:K, Price_Current!A:A=$A6),
+  s, SORT(r, 5, TRUE, 10, FALSE, 11, FALSE),
+  INDEX(s, 1, 2)
+), )
+"),"")  (used 121x)
+      [E6] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(LET(r, FILTER(Price_Current!A:K, Price_Current!A:A=$A6), s, SORT(r,5,TRUE,10,FALSE,11,FALSE), INDEX(s,1,7)), )
+"),"")  (used 363x)
+      [F6] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(LET(r, FILTER(Price_Current!A:K, Price_Current!A:A=$A6), s, SORT(r,5,TRUE,10,FALSE,11,FALSE), INDEX(s,1,9)), )"),"")  (used 242x)
+      [F9] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(LET(r, FILTER(Price_Current!A:K, Price_Current!A:A=$A9), s, SORT(r,5,TRUE,10,FALSE,11,FALSE), INDEX(s,1,9)), )"),"12/1 PT")  (used 3x)
+      [F10] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(LET(r, FILTER(Price_Current!A:K, Price_Current!A:A=$A10), s, SORT(r,5,TRUE,10,FALSE,11,FALSE), INDEX(s,1,9)), )"),"12/6 OZ")  (used 2x)
+      [F15] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(LET(r, FILTER(Price_Current!A:K, Price_Current!A:A=$A15), s, SORT(r,5,TRUE,10,FALSE,11,FALSE), INDEX(s,1,9)), )"),"9/0.5 GL")  (used 1x)
+      [F16] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(LET(r, FILTER(Price_Current!A:K, Price_Current!A:A=$A16), s, SORT(r,5,TRUE,10,FALSE,11,FALSE), INDEX(s,1,9)), )"),"12/1 QT")  (used 3x)
+      [F18] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(LET(r, FILTER(Price_Current!A:K, Price_Current!A:A=$A18), s, SORT(r,5,TRUE,10,FALSE,11,FALSE), INDEX(s,1,9)), )"),"4/1 GL")  (used 2x)
+      ... and 3 more patterns
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"ItemID":"ARUGULA_BABY","ItemName":"Baby Arugula","UnitsToOrder":0,"CheapestVendor (calc)":"Capital","VendorSKU (calc)":"01582","PackSize (calc)":"1/3 LB","UnitsPerPack (calc)":3,"UnitPrice (calc)":5.916667,"PacksToOrder (calc)":0,"Case Price":17.750001,"Extended$ (calc)":0,"EffectiveDate":"2026-03-24T00:00:00.000Z"}
+      Row 2: {"ItemID":"ARUGULA_WILD","ItemName":"Wild Arugula","UnitsToOrder":0,"CheapestVendor (calc)":"Capital","VendorSKU (calc)":"02271","PackSize (calc)":"1/2 LB","UnitsPerPack (calc)":2,"UnitPrice (calc)":7.975,"PacksToOrder (calc)":0,"Case Price":15.95,"Extended$ (calc)":0,"EffectiveDate":"2026-03-24T00:00:00.000Z"}
+      Row 3: {"ItemID":"APPLES_FUJI","ItemName":"Fuji Apples","UnitsToOrder":0,"CheapestVendor (calc)":"Teddy","VendorSKU (calc)":"00006","PackSize (calc)":"1/88 CT","UnitsPerPack (calc)":88,"UnitPrice (calc)":0.442614,"PacksToOrder (calc)":0,"Case Price":38.950032,"Extended$ (calc)":0,"EffectiveDate":"2026-03-06T00:00:00.000Z"}
+      Row 4: {"ItemID":"ASPARAGUS_LARGE","ItemName":"Large Asparagus","UnitsToOrder":0,"CheapestVendor (calc)":"Capital","VendorSKU (calc)":"00346","PackSize (calc)":"1/11 LB","UnitsPerPack (calc)":11,"UnitPrice (calc)":4.159091,"PacksToOrder (calc)":0,"Case Price":45.750001,"Extended$ (calc)":0,"EffectiveDate":"2026-03-24T00:00:00.000Z"}
+      Row 5: {"ItemID":"BROCCOLI_CROWN","ItemName":"Broccoli Crown","UnitsToOrder":0,"Case Price":0}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Orders_Calc"
+   Rows: 1000, Columns: 10
+   Range: A1:J1000
+
+   📋 COLUMN HEADERS:
+      A: "ItemID"
+      B: "ItemName (calc)"
+      C: "Par_Base (calc)"
+      D: "Par_Factor (from Settings)"
+      E: "Par_Dynamic (calc)"
+      F: "SafetyStock (calc)"
+      G: "OnHand (calc)"
+      H: "Target (calc)"
+      I: "Par_Diff"
+      J: "UnitsToOrder (calc)"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "ItemID": types=[string], filled=32, empty=167, formulas=0
+         samples: ["SPR_MIX","ASP_LG","BB_ARUG","BB_SPIN","BASIL"]
+      B "ItemName (calc)": types=[string], filled=3, empty=196, formulas=199
+         samples: ["Basil","Orange","Thyme"]
+      C "Par_Base (calc)": types=[number], filled=30, empty=169, formulas=199
+         samples: ["0","0","0","0","1"]
+      D "Par_Factor (from Settings)": types=[number], filled=32, empty=167, formulas=199
+         samples: ["1","1","1","1","1"]
+      E "Par_Dynamic (calc)": types=[number], filled=32, empty=167, formulas=199
+         samples: ["0","0","0","0","1"]
+      F "SafetyStock (calc)": types=[number], filled=29, empty=170, formulas=199
+         samples: ["0","0","0","0","0"]
+      G "OnHand (calc)": types=[number], filled=32, empty=167, formulas=199
+         samples: ["0","0","0","0","0"]
+      H "Target (calc)": types=[number], filled=32, empty=167, formulas=199
+         samples: ["0","0","0","0","1"]
+      I "Par_Diff": types=[number], filled=32, empty=167, formulas=32
+         samples: ["0","0","0","0","1"]
+      J "UnitsToOrder (calc)": types=[number], filled=32, empty=167, formulas=199
+         samples: ["0","0","0","0","1"]
+
+   ⚙️  FORMULAS FOUND: 4024 total
+   📐 UNIQUE FORMULA PATTERNS: 8
+      [B2] IFERROR(XLOOKUP(A2, Items!A:A, Items!B:B, ""), "")
+  (used 499x)
+      [C2] IFERROR(if(A2="","",(XLOOKUP(A2, Items!A:A, Items!E:E, 0))
+),"")  (used 499x)
+      [D2] if(A2="","",(IFERROR(Settings!$E$2, 1)
+))  (used 499x)
+      [E2] if(A2="","",( ROUNDUP(C2*D2,0)))  (used 499x)
+      [F2] if(A2="","", (IFERROR(XLOOKUP(A2, Items!A:A, Items!H:H, 0), 0)
+))  (used 499x)
+      [G2] if(A2="","", (IFERROR(XLOOKUP(A2, OnHand_View!A:A, OnHand_View!B:B, 0), 0)
+))  (used 499x)
+      [H2] if(A2="","", (E2+F2))  (used 499x)
+      [I2] if(A2="","", (MAX(0, H2 - G2)
+))  (used 531x)
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"ItemID":"SPR_MIX","Par_Base (calc)":0,"Par_Factor (from Settings)":1,"Par_Dynamic (calc)":0,"SafetyStock (calc)":0,"OnHand (calc)":0,"Target (calc)":0,"Par_Diff":0,"UnitsToOrder (calc)":0}
+      Row 2: {"ItemID":"ASP_LG","Par_Base (calc)":0,"Par_Factor (from Settings)":1,"Par_Dynamic (calc)":0,"SafetyStock (calc)":0,"OnHand (calc)":0,"Target (calc)":0,"Par_Diff":0,"UnitsToOrder (calc)":0}
+      Row 3: {"ItemID":"BB_ARUG","Par_Base (calc)":0,"Par_Factor (from Settings)":1,"Par_Dynamic (calc)":0,"SafetyStock (calc)":0,"OnHand (calc)":0,"Target (calc)":0,"Par_Diff":0,"UnitsToOrder (calc)":0}
+      Row 4: {"ItemID":"BB_SPIN","Par_Base (calc)":0,"Par_Factor (from Settings)":1,"Par_Dynamic (calc)":0,"SafetyStock (calc)":0,"OnHand (calc)":0,"Target (calc)":0,"Par_Diff":0,"UnitsToOrder (calc)":0}
+      Row 5: {"ItemID":"BASIL","ItemName (calc)":"Basil","Par_Base (calc)":1,"Par_Factor (from Settings)":1,"Par_Dynamic (calc)":1,"OnHand (calc)":0,"Target (calc)":1,"Par_Diff":1,"UnitsToOrder (calc)":1}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "InventoryCounts"
+   Rows: 1000, Columns: 7
+   Range: A1:G1000
+
+   📋 COLUMN HEADERS:
+      A: "CountID"
+      B: "Timestamp"
+      C: "User"
+      D: "LocationID"
+      E: "ItemID"
+      F: "OnHandQty"
+      G: "Notes"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "CountID": types=[number,string], filled=199, empty=0, formulas=0
+         samples: ["1","2","3","6368d3be","f52653ad"]
+      B "Timestamp": types=[object], filled=196, empty=3, formulas=0
+         samples: ["Mon Aug 25 2025 20:38:57 GMT+0100 (Briti...","Mon Aug 25 2025 20:38:57 GMT+0100 (Briti...","Mon Aug 25 2025 20:43:15 GMT+0100 (Briti...","Mon Aug 25 2025 20:43:15 GMT+0100 (Briti...","Mon Aug 25 2025 20:43:16 GMT+0100 (Briti..."]
+      C "User": types=[string], filled=196, empty=3, formulas=0
+         samples: ["mattnarewski@gmail.com","mattnarewski@gmail.com","mattnarewski@gmail.com","mattnarewski@gmail.com","mattnarewski@gmail.com"]
+      D "LocationID": types=[], filled=0, empty=199, formulas=0
+      E "ItemID": types=[string], filled=199, empty=0, formulas=0
+         samples: ["BUT-36LB","Egg-12DZ","Egpl-1CT","Egpl-1CT","Egpl-1CT"]
+      F "OnHandQty": types=[number], filled=199, empty=0, formulas=0
+         samples: ["1","0","10","11","12"]
+      G "Notes": types=[string], filled=196, empty=3, formulas=0
+         samples: ["Quick +1","Quick +1","Quick -1:","Quick -1:","Quick -1:"]
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"CountID":1,"ItemID":"BUT-36LB","OnHandQty":1}
+      Row 2: {"CountID":2,"ItemID":"Egg-12DZ","OnHandQty":0}
+      Row 3: {"CountID":3,"ItemID":"Egpl-1CT","OnHandQty":10}
+      Row 4: {"CountID":"6368d3be","Timestamp":"2025-08-25T19:38:57.000Z","User":"mattnarewski@gmail.com","ItemID":"Egpl-1CT","OnHandQty":11,"Notes":"Quick +1"}
+      Row 5: {"CountID":"f52653ad","Timestamp":"2025-08-25T19:38:57.999Z","User":"mattnarewski@gmail.com","ItemID":"Egpl-1CT","OnHandQty":12,"Notes":"Quick +1"}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Settings"
+   Rows: 1000, Columns: 5
+   Range: A1:E1000
+
+   📋 COLUMN HEADERS:
+      A: "BusinessMode"
+      B: "ProjectedSales$"
+      C: "BaselineSales$"
+      D: "Notes"
+      E: "ParFactor (calc)"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "BusinessMode": types=[string], filled=1, empty=198, formulas=0
+         samples: ["Normal"]
+      B "ProjectedSales$": types=[], filled=0, empty=199, formulas=0
+      C "BaselineSales$": types=[], filled=0, empty=199, formulas=0
+      D "Notes": types=[string], filled=1, empty=198, formulas=0
+         samples: ["Set business mode or enter Projected/Bas..."]
+      E "ParFactor (calc)": types=[number], filled=1, empty=198, formulas=1
+         samples: ["1"]
+
+   ⚙️  FORMULAS FOUND: 1 total
+   📐 UNIQUE FORMULA PATTERNS: 1
+      [E2] SWITCH(A2, "Slow", 0.85, "Normal", 1, "Busy", 1.15, 1)
+  (used 1x)
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"BusinessMode":"Normal","Notes":"Set business mode or enter Projected/Baseline Sales","ParFactor (calc)":1}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "OnHand_View"
+   Rows: 1000, Columns: 2
+   Range: A1:B1000
+
+   📋 COLUMN HEADERS:
+      A: "ItemID"
+      B: "OnHand_Latest (calc)"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "ItemID": types=[string], filled=3, empty=196, formulas=0
+         samples: ["USBUT","LG_EGG","EGGPLNT"]
+      B "OnHand_Latest (calc)": types=[number], filled=3, empty=196, formulas=3
+         samples: ["1","0.99","7"]
+
+   ⚙️  FORMULAS FOUND: 3 total
+   📐 UNIQUE FORMULA PATTERNS: 1
+      [B2] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(
+  INDEX(
+    SORT(
+      FILTER({InventoryCounts!B:B, InventoryCounts!F:F}, InventoryCounts!E:E=A2),
+      1, FALSE
+    ),
+  1, 2),
+"""")"),1.0)  (used 3x)
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"ItemID":"USBUT","OnHand_Latest (calc)":1}
+      Row 2: {"ItemID":"LG_EGG","OnHand_Latest (calc)":0.99}
+      Row 3: {"ItemID":"EGGPLNT","OnHand_Latest (calc)":7}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Locations"
+   Rows: 1000, Columns: 3
+   Range: A1:C1000
+
+   📋 COLUMN HEADERS:
+      A: "LocationID"
+      B: "LocationName"
+      C: "SortOrder"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "LocationID": types=[], filled=0, empty=199, formulas=0
+      B "LocationName": types=[], filled=0, empty=199, formulas=0
+      C "SortOrder": types=[], filled=0, empty=199, formulas=0
+
+   📝 SAMPLE DATA (first 5 rows):
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Formulas_GS"
+   Rows: 1000, Columns: 3
+   Range: A1:C1000
+
+   📋 COLUMN HEADERS:
+      A: "Section"
+      B: "Cell/Column"
+      C: "Formula (Google Sheets)"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "Section": types=[string], filled=17, empty=182, formulas=0
+         samples: ["Settings","OnHand_View","Orders_Calc","Orders_Calc","Orders_Calc"]
+      B "Cell/Column": types=[string], filled=17, empty=182, formulas=0
+         samples: ["E2 (ParFactor)","B2 (OnHand_Latest)","B2 (ItemName)","C2 (Par_Base)","F2 (SafetyStock)"]
+      C "Formula (Google Sheets)": types=[number,string], filled=15, empty=184, formulas=17
+         samples: ["1","#NAME?","0","0","0"]
+
+   ⚙️  FORMULAS FOUND: 17 total
+   📐 UNIQUE FORMULA PATTERNS: 17
+      [C2] SWITCH(A2,"Slow",0.85,"Normal",1,"Busy",1.15,1)  (used 1x)
+      [C3] INDEX(_xlws.FILTER(InventoryCounts!F:F,InventoryCounts!E:E=A2,InventoryCounts!B:B=MAX(_xlws.FILTER(InventoryCounts!B:B,InventoryCounts!E:E=A2))),1)  (used 1x)
+      [C4] XLOOKUP(A2,Items!A:A,Items!B:B,"")  (used 1x)
+      [C5] XLOOKUP(A2,Items!A:A,Items!E:E,0)  (used 1x)
+      [C6] XLOOKUP(A2,Items!A:A,Items!H:H,0)  (used 1x)
+      [C7] XLOOKUP(A2,OnHand_View!A:A,OnHand_View!B:B,0)  (used 1x)
+      [C8] Settings!E2  (used 1x)
+      [C9] ROUNDUP(C2*D2,0)  (used 1x)
+      [C10] E2+F2  (used 1x)
+      [C11] MAX(0,H2-G2)  (used 1x)
+      [C12] IF(H2>0,G2/H2,)  (used 1x)
+      [C13] ARRAY_CONSTRAIN(ARRAYFORMULA(ARRAYFORMULA(SORTN(_xlws.SORT(PriceUploads!A:L,2,FALSE),999999,2,PriceUploads!F:F&"|"&PriceUploads!C:C,TRUE))  // Then select needed columns), 1, 1)  (used 1x)
+      [C14] INDEX(_xlws.SORT(_xlws.FILTER(Price_Current!B:I,Price_Current!A:A=A2),7,TRUE),1,1)  (used 1x)
+      [C15] INDEX(_xlws.SORT(_xlws.FILTER(Price_Current!B:I,Price_Current!A:A=A2),7,TRUE),1,{2,3,4,5,7})  (used 1x)
+      [C16] CEILING(C2/F2,1)  // if F2 is UnitsPerPack  (used 1x)
+      [C17] C2*H2   // UnitsToOrder * UnitPrice  (used 1x)
+      [C18] ARRAY_CONSTRAIN(ARRAYFORMULA(_xlws.FILTER(Orders_Priced!A:J,Orders_Priced!D:D=A1,Orders_Priced!I:I>0)  // put vendor key in A1), 1, 1)  (used 1x)
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"Section":"Settings","Cell/Column":"E2 (ParFactor)","Formula (Google Sheets)":1}
+      Row 2: {"Section":"OnHand_View","Cell/Column":"B2 (OnHand_Latest)","Formula (Google Sheets)":"#NAME?"}
+      Row 3: {"Section":"Orders_Calc","Cell/Column":"B2 (ItemName)"}
+      Row 4: {"Section":"Orders_Calc","Cell/Column":"C2 (Par_Base)","Formula (Google Sheets)":0}
+      Row 5: {"Section":"Orders_Calc","Cell/Column":"F2 (SafetyStock)","Formula (Google Sheets)":0}
+
+────────────────────────────────────────────────────────────────────────────────
+📊 SHEET: "Exports"
+   Rows: 1000, Columns: 13
+   Range: A1:M1000
+
+   📋 COLUMN HEADERS:
+      A: "ItemID"
+      B: "ItemName"
+      C: "Vendor"
+      D: "VendorSKU"
+      E: "PackSize"
+      F: "UnitsPerPack"
+      G: "UnitPrice"
+      H: "UnitsToOrder"
+      I: "PacksToOrder"
+      J: "Extend$"
+      M: "CheapestVendor (calc)"
+
+   🔍 DATA TYPE ANALYSIS (per column):
+      A "ItemID": types=[string], filled=1, empty=198, formulas=1
+         samples: ["No matching rows. Check vendor in C2 or ..."]
+      B "ItemName": types=[string], filled=1, empty=198, formulas=0
+         samples: ["Vendor to export"]
+      C "Vendor": types=[string], filled=1, empty=198, formulas=0
+         samples: ["US Foods"]
+      D "VendorSKU": types=[], filled=0, empty=199, formulas=0
+      E "PackSize": types=[], filled=0, empty=199, formulas=0
+      F "UnitsPerPack": types=[], filled=0, empty=199, formulas=0
+      G "UnitPrice": types=[], filled=0, empty=199, formulas=0
+      H "UnitsToOrder": types=[], filled=0, empty=199, formulas=0
+      I "PacksToOrder": types=[], filled=0, empty=199, formulas=0
+      J "Extend$": types=[], filled=0, empty=199, formulas=0
+      K "(Col K)": types=[], filled=0, empty=199, formulas=0
+      L "(Col L)": types=[], filled=0, empty=199, formulas=0
+      M "CheapestVendor (calc)": types=[string], filled=2, empty=197, formulas=0
+         samples: ["Capital","Teddy"]
+
+   ⚙️  FORMULAS FOUND: 2 total
+   📐 UNIQUE FORMULA PATTERNS: 2
+      [M1] UNIQUE(Best_Price!D:D)
+  (used 1x)
+      [A3] IFERROR(__xludf.DUMMYFUNCTION("IFERROR(
+  FILTER(
+    {Best_Price!A:A, Best_Price!B:B, Best_Price!D:D, Best_Price!E:E, Best_Price!F:F, Best_Price!G:G, Best_Price!H:H, Best_Price!C:C, Best_Price!I:I, Best_Price!K:K},
+    TRIM(Best_Price!D:D) = TRIM($C$2),
+    N(Best_Price!I:I) > 0
+  ),
+"&"  ""No matching rows. Check vendor in C2 or PacksToOrder.""
+)
+"),"No matching rows. Check vendor in C2 or PacksToOrder.")  (used 1x)
+
+   📝 SAMPLE DATA (first 5 rows):
+      Row 1: {"ItemName":"Vendor to export","Vendor":"US Foods","CheapestVendor (calc)":"Capital"}
+      Row 2: {"ItemID":"No matching rows. Check vendor in C2 or PacksToOrder.","CheapestVendor (calc)":"Teddy"}
+
+────────────────────────────────────────────────────────────────────────────────
+📛 NAMED RANGES / DEFINED NAMES:
