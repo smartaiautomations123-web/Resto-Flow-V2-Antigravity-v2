@@ -56,6 +56,12 @@ import SalesForecasting from "./pages/SalesForecasting";
 import AuthPage from "./pages/Auth";
 import BrandingSettings from "./pages/BrandingSettings";
 import ThemeStyles from "./components/ThemeStyles";
+import HelpCenter from "./pages/HelpCenter";
+import SetupGuide from "./pages/SetupGuide";
+
+import SalesOverview from "./pages/SalesOverview";
+import CustomersOverview from "./pages/CustomersOverview";
+import ReservationsOverview from "./pages/ReservationsOverview";
 
 function Router() {
   return (
@@ -66,71 +72,74 @@ function Router() {
       <Route path="/table/:tableId" component={TableOrdering} />
       <Route path="/order-status" component={OrderStatus} />
 
-      {/* ─── Dashboard ─────────────────────────────────────── */}
-      <Route path="/" component={() => <DashboardLayout><Dashboard /></DashboardLayout>} />
+      {/* Protected Routes inside DashboardLayout */}
+      <Route>
+        <DashboardLayout>
+          <Switch>
+            <Route path="/" component={Dashboard} />
+            
+            <Route path="/sales-overview" component={SalesOverview} />
+            <Route path="/pos" component={POS} />
+            <Route path="/kds" component={KDS} />
+            <Route path="/order-history" component={OrderHistory} />
+            <Route path="/void-refunds" component={VoidRefunds} />
+            <Route path="/void-reasons" component={VoidReasonAnalytics} />
+            <Route path="/payments" component={PaymentManagement} />
+            <Route path="/payment-disputes" component={PaymentDisputes} />
+            <Route path="/order-queue" component={OrderQueue} />
+            <Route path="/unified-order-queue" component={UnifiedOrderQueue} />
 
-      {/* ─── POS & Orders ──────────────────────────────────── */}
-      <Route path="/pos" component={() => <DashboardLayout><POS /></DashboardLayout>} />
-      <Route path="/kds" component={() => <DashboardLayout><KDS /></DashboardLayout>} />
-      <Route path="/order-history" component={() => <DashboardLayout><OrderHistory /></DashboardLayout>} />
-      <Route path="/void-refunds" component={() => <DashboardLayout><VoidRefunds /></DashboardLayout>} />
-      <Route path="/void-reasons" component={() => <DashboardLayout><VoidReasonAnalytics /></DashboardLayout>} />
-      <Route path="/payments" component={() => <DashboardLayout><PaymentManagement /></DashboardLayout>} />
-      <Route path="/payment-disputes" component={() => <DashboardLayout><PaymentDisputes /></DashboardLayout>} />
-      <Route path="/order-queue" component={() => <DashboardLayout><OrderQueue /></DashboardLayout>} />
-      <Route path="/unified-order-queue" component={() => <DashboardLayout><UnifiedOrderQueue /></DashboardLayout>} />
+            <Route path="/menu" component={MenuManagement} />
+            <Route path="/combos" component={ComboBuilder} />
+            <Route path="/dayparts" component={DaypartManagement} />
+            <Route path="/recipe-analysis" component={RecipeAnalysis} />
 
-      {/* ─── Menu & Recipes ────────────────────────────────── */}
-      <Route path="/menu" component={() => <DashboardLayout><MenuManagement /></DashboardLayout>} />
-      <Route path="/combos" component={() => <DashboardLayout><ComboBuilder /></DashboardLayout>} />
-      <Route path="/dayparts" component={() => <DashboardLayout><DaypartManagement /></DashboardLayout>} />
-      <Route path="/recipe-analysis" component={() => <DashboardLayout><RecipeAnalysis /></DashboardLayout>} />
+            <Route path="/inventory" component={Inventory} />
+            <Route path="/waste-tracking" component={WasteTracking} />
+            <Route path="/suppliers" component={Suppliers} />
+            <Route path="/supplier-tracking" component={SupplierTracking} />
+            <Route path="/price-uploads" component={PriceUploads} />
+            <Route path="/procurement" component={ProcurementDashboard} />
 
-      {/* ─── Inventory & Suppliers ─────────────────────────── */}
-      <Route path="/inventory" component={() => <DashboardLayout><Inventory /></DashboardLayout>} />
-      <Route path="/waste-tracking" component={() => <DashboardLayout><WasteTracking /></DashboardLayout>} />
-      <Route path="/suppliers" component={() => <DashboardLayout><Suppliers /></DashboardLayout>} />
-      <Route path="/supplier-tracking" component={() => <DashboardLayout><SupplierTracking /></DashboardLayout>} />
-      <Route path="/price-uploads" component={() => <DashboardLayout><PriceUploads /></DashboardLayout>} />
-      <Route path="/procurement" component={() => <DashboardLayout><ProcurementDashboard /></DashboardLayout>} />
+            <Route path="/staff" component={StaffManagement} />
+            <Route path="/labour" component={LabourManagement} />
 
-      {/* ─── Staff & Labour ────────────────────────────────── */}
-      <Route path="/staff" component={() => <DashboardLayout><StaffManagement /></DashboardLayout>} />
-      <Route path="/labour" component={() => <DashboardLayout><LabourManagement /></DashboardLayout>} />
+            <Route path="/customers-overview" component={CustomersOverview} />
+            <Route path="/customers" component={Customers} />
+            <Route path="/customers/:customerId" component={CustomerDetail} />
+            <Route path="/segments" component={CustomerSegments} />
+            <Route path="/sms-settings" component={SmsSettings} />
+            <Route path="/email-campaigns" component={EmailCampaigns} />
 
-      {/* ─── Customers & CRM ───────────────────────────────── */}
-      <Route path="/customers" component={() => <DashboardLayout><Customers /></DashboardLayout>} />
-      <Route path="/customers/:customerId" component={() => <DashboardLayout><CustomerDetail /></DashboardLayout>} />
-      <Route path="/segments" component={() => <DashboardLayout><CustomerSegments /></DashboardLayout>} />
-      <Route path="/sms-settings" component={() => <DashboardLayout><SmsSettings /></DashboardLayout>} />
-      <Route path="/email-campaigns" component={() => <DashboardLayout><EmailCampaigns /></DashboardLayout>} />
+            <Route path="/reservations-overview" component={ReservationsOverview} />
+            <Route path="/reservations" component={Reservations} />
+            <Route path="/waitlist" component={Waitlist} />
+            <Route path="/floor-plan" component={FloorPlan} />
+            <Route path="/qr-codes" component={QRCodeGenerator} />
 
-      {/* ─── Reservations & Floor ──────────────────────────── */}
-      <Route path="/reservations" component={() => <DashboardLayout><Reservations /></DashboardLayout>} />
-      <Route path="/waitlist" component={() => <DashboardLayout><Waitlist /></DashboardLayout>} />
-      <Route path="/floor-plan" component={() => <DashboardLayout><FloorPlan /></DashboardLayout>} />
-      <Route path="/qr-codes" component={() => <DashboardLayout><QRCodeGenerator /></DashboardLayout>} />
+            <Route path="/reports" component={Reports} />
+            <Route path="/profitability" component={Profitability} />
+            <Route path="/z-reports" component={ZReports} />
+            <Route path="/custom-reports" component={CustomReportBuilder} />
+            <Route path="/analytics" component={AnalyticsDashboard} />
+            <Route path="/sales-forecasting" component={SalesForecasting} />
 
-      {/* ─── Reports & Analytics ───────────────────────────── */}
-      <Route path="/reports" component={() => <DashboardLayout><Reports /></DashboardLayout>} />
-      <Route path="/profitability" component={() => <DashboardLayout><Profitability /></DashboardLayout>} />
-      <Route path="/z-reports" component={() => <DashboardLayout><ZReports /></DashboardLayout>} />
-      <Route path="/custom-reports" component={() => <DashboardLayout><CustomReportBuilder /></DashboardLayout>} />
-      <Route path="/analytics" component={() => <DashboardLayout><AnalyticsDashboard /></DashboardLayout>} />
-      <Route path="/sales-forecasting" component={() => <DashboardLayout><SalesForecasting /></DashboardLayout>} />
+            <Route path="/settings" component={Settings} />
+            <Route path="/settings/branding" component={BrandingSettings} />
+            <Route path="/integrations" component={Integrations} />
+            <Route path="/data-imports" component={DataImports} />
+            <Route path="/notifications" component={NotificationCenter} />
+            <Route path="/locations" component={LocationManagement} />
+            <Route path="/location-pricing" component={LocationPricing} />
 
-      {/* ─── Settings & Admin ─────────────────────── */}
-      <Route path="/settings" component={() => <DashboardLayout><Settings /></DashboardLayout>} />
-      <Route path="/settings/branding" component={() => <DashboardLayout><BrandingSettings /></DashboardLayout>} />
-      <Route path="/integrations" component={() => <DashboardLayout><Integrations /></DashboardLayout>} />
-      <Route path="/data-imports" component={() => <DashboardLayout><DataImports /></DashboardLayout>} />
-      <Route path="/notifications" component={() => <DashboardLayout><NotificationCenter /></DashboardLayout>} />
-      <Route path="/locations" component={() => <DashboardLayout><LocationManagement /></DashboardLayout>} />
-      <Route path="/location-pricing" component={() => <DashboardLayout><LocationPricing /></DashboardLayout>} />
+            <Route path="/help" component={HelpCenter} />
+            <Route path="/setup" component={SetupGuide} />
 
-      {/* ─── Fallback ──────────────────────────────────────── */}
-      <Route path="/404" component={NotFound} />
-      <Route component={NotFound} />
+            <Route path="/404" component={NotFound} />
+            <Route component={NotFound} />
+          </Switch>
+        </DashboardLayout>
+      </Route>
     </Switch>
   );
 }

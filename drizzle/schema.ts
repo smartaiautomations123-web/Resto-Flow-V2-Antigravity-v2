@@ -19,6 +19,7 @@ export type InsertUser = typeof users.$inferInsert;
 // ─── Staff ───────────────────────────────────────────────────────────
 export const staff = mysqlTable("staff", {
   id: int("id").autoincrement().primaryKey(),
+  locationId: int("locationId").default(1),
   name: varchar("name", { length: 255 }).notNull(),
   email: varchar("email", { length: 320 }),
   phone: varchar("phone", { length: 32 }),
@@ -1403,3 +1404,17 @@ export const inventoryCounts = mysqlTable("inventory_counts", {
 });
 export type InventoryCount = typeof inventoryCounts.$inferSelect;
 export type InsertInventoryCount = typeof inventoryCounts.$inferInsert;
+
+// ─── AI Action Log ──────────────────────────────────────────────────
+export const aiActionLog = mysqlTable("ai_action_log", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").references(() => users.id),
+  userQuery: text("userQuery").notNull(),
+  executedSql: text("executedSql").notNull(),
+  revertSql: text("revertSql"),
+  status: mysqlEnum("status", ["executed", "undone"]).default("executed").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type AiActionLog = typeof aiActionLog.$inferSelect;
+export type InsertAiActionLog = typeof aiActionLog.$inferInsert;

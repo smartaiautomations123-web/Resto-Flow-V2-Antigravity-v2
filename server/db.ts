@@ -38,7 +38,7 @@ import {
   auditLogSettings, backupSettings, localizationSettings, currencySettings,
   integrations, integrationLogs, customReports, reportExports,
   analyticsDashboard, kpiMetrics, forecastingData, dataImportJobs,
-  weatherData, localEvents, ingredientForecasts, stockPerformanceAlerts
+  weatherData, localEvents, ingredientForecasts, stockPerformanceAlerts, aiActionLog
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -5501,3 +5501,15 @@ export async function updateDataImportJob(id: number, data: any) {
   return await db.update(dataImportJobs).set({ ...data, updatedAt: new Date() }).where(eq(dataImportJobs.id, id));
 }
 
+// ─── AI Action Log ──────────────────────────────────────────────────
+export async function getAiActionLog() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(aiActionLog).orderBy(desc(aiActionLog.createdAt)).limit(50);
+}
+
+export async function updateAiActionLogStatus(id: number, status: 'executed' | 'undone') {
+  const db = await getDb();
+  if (!db) return null;
+  return db.update(aiActionLog).set({ status }).where(eq(aiActionLog.id, id)).execute();
+}

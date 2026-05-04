@@ -1240,7 +1240,7 @@ Write a 2-3 sentence smart prediction suggesting which ingredients the restauran
       .query(({ input }) => db.getGroupReservationManagement(input.groupReservationId)),
   }),
   settings: router({
-    getSystemSettings: protectedProcedure.query(() => db.getSystemSettings()),
+    getSystemSettings: publicProcedure.query(() => db.getSystemSettings()),
     updateSystemSettings: protectedProcedure.input(z.object({ 
       restaurantName: z.string().optional(), 
       restaurantLogo: z.string().optional(), 
@@ -1857,6 +1857,35 @@ Provide the response as a JSON object containing a "notifications" array. Each o
         console.error("AI Database Agent Error:", error);
         throw new Error(error.message || "Failed to query the database agent.");
       }
+    }),
+    undoAction: protectedProcedure.input(z.object({
+      revertSql: z.string(),
+      actionId: z.number().optional()
+    })).mutation(async ({ input }) => {
+      const { getDb, updateAiActionLogStatus } = await import("./db");
+      const db = await getDb();
+      if (!db) throw new Error("Database not available");
+      try {
+        // Execute the revert SQL
+        const statements = input.revertSql.split('\n').filter(s => s.trim());
+        for (const stmt of statements) {
+          await db.execute(sql.raw(stmt));
+        }
+
+        // Update status in log if actionId provided
+        if (input.actionId) {
+          await updateAiActionLogStatus(input.actionId, 'undone');
+        }
+
+        return { success: true };
+      } catch (error: any) {
+        console.error("AI Undo Error:", error);
+        throw new Error(error.message || "Failed to undo the action.");
+      }
+    }),
+    getActionLog: protectedProcedure.query(async () => {
+      const { getAiActionLog } = await import("./db");
+      return await getAiActionLog();
     }),
 
     getProactiveNudges: protectedProcedure.query(async () => {

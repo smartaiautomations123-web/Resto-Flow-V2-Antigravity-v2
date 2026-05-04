@@ -6,7 +6,7 @@ export const ENV = {
   get ownerOpenId() { return process.env.OWNER_OPEN_ID ?? ""; },
   get isProduction() { return process.env.NODE_ENV === "production"; },
   get forgeApiUrl() { return process.env.BUILT_IN_FORGE_API_URL ?? ""; },
-  get forgeApiKey() { return process.env.BUILT_IN_FORGE_API_KEY ?? ""; },
+  get forgeApiKey() { return process.env.BUILT_IN_FORGE_API_KEY || process.env.OPENAI_API_KEY || ""; },
   get supabaseUrl() { return process.env.VITE_SUPABASE_URL ?? ""; },
   get supabaseAnonKey() { return process.env.VITE_SUPABASE_ANON_KEY ?? ""; },
   get openaiApiKey() { return process.env.OPENAI_API_KEY ?? ""; },

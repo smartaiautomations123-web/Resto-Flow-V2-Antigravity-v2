@@ -7,3 +7,7 @@ build
 temp
 tmp
 *.log
+*-backup/
+*.xlsx
+.claude/
+test-results.json

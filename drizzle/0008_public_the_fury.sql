@@ -1,0 +1,1 @@
+ALTER TABLE `staff` ADD `locationId` int DEFAULT 1;

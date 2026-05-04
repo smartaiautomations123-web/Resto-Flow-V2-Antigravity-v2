@@ -11,9 +11,14 @@ import { cn } from "@/lib/utils";
 export function AiChatAgent() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: "Hi! I'm Dash, your AI Employee. I can help you analyze sales data, manage inventory, or update prices. What would you like to do?" }
+    { 
+      role: "assistant", 
+      content: "Hello! I'm **Dash**, your autonomous AI Operations Manager. I'm connected to your live restaurant data and ready to help you optimize performance.\n\nYou can ask me to analyze sales trends, identify low stock, or even execute complex database updates like bumping prices. How can I assist you today?" 
+    }
   ]);
   const [pendingSql, setPendingSql] = useState<string | null>(null);
+  const [lastRevertSql, setLastRevertSql] = useState<string | null>(null);
+  const [lastActionId, setLastActionId] = useState<number | null>(null);
   const [nudgesLoaded, setNudgesLoaded] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [chatInput, setChatInput] = useState("");
@@ -102,13 +107,34 @@ export function AiChatAgent() {
           { role: "assistant", content: response.answer },
         ]);
       }
+
+      if (response?.revertSql) {
+        setLastRevertSql(response.revertSql);
+        setLastActionId(response.actionId || null);
+      }
     },
     onError: (error) => {
       console.error("AI Database Agent Error:", error);
+      const errorMessage = error.message?.includes("OPENAI_API_KEY") 
+        ? "AI service is not configured. Please check your OPENAI_API_KEY in .env"
+        : "Sorry, I encountered a database access error. Please try again.";
+        
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "Sorry, I encountered a database access error. Please try again." }
+        { role: "assistant", content: errorMessage }
       ]);
+    }
+  });
+  
+  const undoMutation = trpc.aiAgent.undoAction.useMutation({
+    onSuccess: () => {
+      setMessages(prev => [...prev, { role: "assistant", content: "✅ **Action Undone**: The changes have been successfully reverted." }]);
+      setLastRevertSql(null);
+      setLastActionId(null);
+    },
+    onError: (error) => {
+      console.error("Undo Error:", error);
+      setMessages(prev => [...prev, { role: "assistant", content: "❌ **Undo Failed**: Sorry, I couldn't revert the changes. Please check your data manually." }]);
     }
   });
 
@@ -141,56 +167,74 @@ export function AiChatAgent() {
     setPendingSql(null);
   };
 
+  const handleUndo = () => {
+    if (!lastRevertSql) return;
+    undoMutation.mutate({ 
+      revertSql: lastRevertSql,
+      actionId: lastActionId || undefined
+    });
+  };
+
   const handleCancelSql = () => {
     setPendingSql(null);
     setMessages(prev => [...prev, { role: "assistant", content: "Action cancelled. What else can I help you with?" }]);
   };
 
   const CustomEmptyState = (
-    <div className="flex flex-col p-6 text-left gap-8 h-full overflow-y-auto hide-scrollbar">
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2 text-primary mb-1">
-          <Sparkles className="w-6 h-6" />
-          <h3 className="font-semibold text-lg text-foreground">Dash AI</h3>
+    <div className="flex flex-col p-6 text-left gap-8 h-full overflow-y-auto hide-scrollbar bg-gradient-to-b from-primary/5 to-transparent">
+      <div className="flex flex-col gap-3">
+        <div className="flex items-center gap-3 text-primary mb-1">
+          <div className="p-2 rounded-xl bg-primary/10 shadow-inner">
+            <Sparkles className="w-6 h-6 animate-pulse" />
+          </div>
+          <h3 className="font-bold text-xl tracking-tight text-foreground">Meet Dash</h3>
         </div>
         <p className="text-sm text-muted-foreground leading-relaxed">
-          I'm your autonomous AI Employee. I can dynamically analyze metrics, draft complex SQL queries, and execute system structural updates.
+          Your autonomous AI Employee. I dynamically analyze metrics, draft complex SQL queries, and execute system structural updates with precision.
         </p>
       </div>
 
-      <div className="w-full space-y-3">
-        <div className="flex font-semibold text-[11px] text-muted-foreground items-center gap-1.5 px-1 uppercase tracking-wider">
-          <Zap className="w-3.5 h-3.5" /> Quick Actions
+      <div className="w-full space-y-4">
+        <div className="flex font-bold text-[10px] text-primary/60 items-center gap-1.5 px-1 uppercase tracking-widest">
+          <Zap className="w-3 h-3" /> Quick Power Actions
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          <Button variant="outline" className="h-auto p-3.5 flex flex-col items-start gap-1 justify-start text-left border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors shadow-sm" onClick={() => handleSendMessage("Update all pizza prices by 10%")}>
-            <span className="text-sm font-semibold text-foreground">Bump Prices 10%</span>
-            <span className="text-xs text-muted-foreground whitespace-normal leading-tight">Apply markup to Pizzas</span>
+        <div className="grid grid-cols-2 gap-4">
+          <Button variant="outline" className="h-auto p-4 flex flex-col items-start gap-1.5 justify-start text-left border-primary/10 bg-card/50 hover:bg-primary/5 hover:border-primary/30 transition-all shadow-sm hover:shadow-md group" onClick={() => handleSendMessage("Update all pizza prices by 10%")}>
+            <span className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">Bump Prices 10%</span>
+            <span className="text-[11px] text-muted-foreground whitespace-normal leading-tight">Instant markup across the Pizza category</span>
           </Button>
-          <Button variant="outline" className="h-auto p-3.5 flex flex-col items-start gap-1 justify-start text-left border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors shadow-sm" onClick={() => handleSendMessage("Which items are low in stock?")}>
-            <span className="text-sm font-semibold text-foreground">Low Stock</span>
-            <span className="text-xs text-muted-foreground whitespace-normal leading-tight">Identify running out items</span>
+          <Button variant="outline" className="h-auto p-4 flex flex-col items-start gap-1.5 justify-start text-left border-primary/10 bg-card/50 hover:bg-primary/5 hover:border-primary/30 transition-all shadow-sm hover:shadow-md group" onClick={() => handleSendMessage("Which items are low in stock?")}>
+            <span className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">Low Stock</span>
+            <span className="text-[11px] text-muted-foreground whitespace-normal leading-tight">Audit inventory and find items to reorder</span>
           </Button>
         </div>
       </div>
 
-      <div className="w-full space-y-3">
-        <div className="flex font-semibold text-[11px] text-muted-foreground items-center gap-1.5 px-1 uppercase tracking-wider">
-          <Lightbulb className="w-3.5 h-3.5" /> Clever Ideas
+      <div className="w-full space-y-4">
+        <div className="flex font-bold text-[10px] text-primary/60 items-center gap-1.5 px-1 uppercase tracking-widest">
+          <Lightbulb className="w-3 h-3" /> Strategic Insights
         </div>
         <div className="flex flex-col gap-3">
-          <Button variant="outline" className="h-auto p-4 justify-start text-left whitespace-normal hover:border-primary/40 transition-all group shadow-sm" onClick={() => handleSendMessage("Are we on target for this year's sales goals? Calculate current growth vs last month.")}>
-            <TrendingUp className="w-5 h-5 mr-3 text-primary/70 group-hover:text-primary shrink-0 transition-colors" />
-            <span className="leading-snug text-sm text-foreground/90 font-medium">Are we on target for sales goals? Calculate growth vs last month.</span>
+          <Button variant="outline" className="h-auto p-4 justify-start text-left whitespace-normal hover:border-primary/30 hover:bg-primary/5 transition-all group shadow-sm hover:shadow-md" onClick={() => handleSendMessage("Are we on target for this year's sales goals? Calculate current growth vs last month.")}>
+            <TrendingUp className="w-5 h-5 mr-3 text-primary/40 group-hover:text-primary shrink-0 transition-all" />
+            <span className="leading-snug text-sm text-foreground/90 font-semibold group-hover:text-foreground transition-colors">Are we on target for sales goals? Compare growth vs last month.</span>
           </Button>
-          <Button variant="outline" className="h-auto p-4 justify-start text-left whitespace-normal hover:border-primary/40 transition-all group shadow-sm" onClick={() => handleSendMessage("Analyze our recent voided orders. What is the most common reason and which staff member processed the most voids?")}>
-            <MessageSquare className="w-5 h-5 mr-3 text-primary/70 group-hover:text-primary shrink-0 transition-colors" />
-            <span className="leading-snug text-sm text-foreground/90 font-medium">Analyze recent voided orders to find common operational patterns.</span>
+          <Button variant="outline" className="h-auto p-4 justify-start text-left whitespace-normal hover:border-primary/30 hover:bg-primary/5 transition-all group shadow-sm hover:shadow-md" onClick={() => handleSendMessage("Analyze our recent voided orders. What is the most common reason and which staff member processed the most voids?")}>
+            <AlertCircle className="w-5 h-5 mr-3 text-primary/40 group-hover:text-primary shrink-0 transition-all" />
+            <span className="leading-snug text-sm text-foreground/90 font-semibold group-hover:text-foreground transition-colors">Analyze recent voided orders to identify operational friction.</span>
           </Button>
         </div>
       </div>
     </div>
   );
+
+  const dashSuggestions = [
+    "📈 Sales Analysis",
+    "📦 Inventory Check",
+    "👥 Staff Status",
+    "💰 Bump Prices 10%",
+    "🚫 Void Report"
+  ];
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
@@ -234,6 +278,9 @@ export function AiChatAgent() {
                 className="border-0 rounded-none shadow-none"
                 inputValue={chatInput}
                 onInputChange={setChatInput}
+                suggestions={dashSuggestions}
+                onUndo={handleUndo}
+                canUndo={!!lastRevertSql}
                 leftActions={
                   SpeechRecognition && (
                     <div className="flex items-center gap-2">

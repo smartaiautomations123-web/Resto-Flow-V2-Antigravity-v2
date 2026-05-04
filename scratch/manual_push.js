@@ -5,7 +5,7 @@ import path from 'path';
 
 dotenv.config();
 
-const sqlFile = path.resolve('drizzle/0007_rainy_vulture.sql');
+const sqlFile = path.resolve('drizzle/0008_public_the_fury.sql');
 const sqlContent = fs.readFileSync(sqlFile, 'utf8');
 
 async function run() {

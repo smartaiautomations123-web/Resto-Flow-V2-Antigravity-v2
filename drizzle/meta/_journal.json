@@ -57,6 +57,13 @@
       "when": 1776875423475,
       "tag": "0007_rainy_vulture",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1777912350855,
+      "tag": "0008_public_the_fury",
+      "breakpoints": true
     }
   ]
 }

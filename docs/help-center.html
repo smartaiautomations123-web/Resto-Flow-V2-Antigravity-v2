@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resto-Flow Comprehensive Guide & Help Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #09090b;
+            --text-color: #fafafa;
+            --muted-text: #a1a1aa;
+            --primary: #e11d48;
+            --primary-glow: rgba(225, 29, 72, 0.5);
+            --card-bg: rgba(24, 24, 27, 0.6);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --accent-bg: rgba(225, 29, 72, 0.1);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(225, 29, 72, 0.05), transparent 30%),
+                radial-gradient(circle at 85% 30%, rgba(225, 29, 72, 0.05), transparent 30%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .container {
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            max-width: 1000px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .brand svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+            letter-spacing: -0.05em;
+            background: linear-gradient(to right, #fff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.15rem;
+            color: var(--muted-text);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 2.5rem auto 4rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.2rem 1.5rem 1.2rem 3.5rem;
+            font-size: 1.1rem;
+            border-radius: 99px;
+            border: 1px solid var(--card-border);
+            background: rgba(24, 24, 27, 0.8);
+            color: var(--text-color);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted-text);
+            width: 22px;
+            height: 22px;
+        }
+
+        .category-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            backdrop-filter: blur(20px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 1s ease-out backwards;
+        }
+
+        .category-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px -10px rgba(0,0,0,0.6), 0 0 25px -10px var(--primary-glow);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0 0 1.5rem 0;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .accordion-item {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .accordion-header {
+            width: 100%;
+            text-align: left;
+            padding: 1.2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s ease;
+            font-family: inherit;
+        }
+
+        .accordion-header:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.8rem;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+            color: var(--primary);
+        }
+
+        .accordion-item.active .accordion-header::after {
+            transform: rotate(45deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 2000px; /* Large enough to hold rich content */
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Rich Content Styling inside accordion */
+        .content-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .content-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-section h4 {
+            color: #fff;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .content-section h4::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .content-section p {
+            margin: 0 0 1rem 0;
+            color: var(--muted-text);
+            font-size: 1rem;
+        }
+
+        .content-section ul {
+            margin: 0 0 1rem 0;
+            padding-left: 1.5rem;
+            color: var(--muted-text);
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .content-section li strong {
+            color: #e4e4e7;
+        }
+
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(34, 197, 94, 0.1);
+            color: #4ade80;
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .category-card:nth-child(1) { animation-delay: 0.1s; }
+        .category-card:nth-child(2) { animation-delay: 0.2s; }
+        .category-card:nth-child(3) { animation-delay: 0.3s; }
+        .category-card:nth-child(4) { animation-delay: 0.4s; }
+        .category-card:nth-child(5) { animation-delay: 0.5s; }
+        .category-card:nth-child(6) { animation-delay: 0.6s; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="brand">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
+            </svg>
+            Resto-Flow
+        </div>
+        <h1>Comprehensive Platform Guide</h1>
+        <p class="subtitle">A deep dive into Resto-Flow's features. Learn exactly what each tool does, how it powers your restaurant, the benefits you gain, and why our enterprise-grade architecture keeps your data safe and operations smooth.</p>
+        
+        <div class="search-container">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search for features, modules, or operational guides...">
+        </div>
+    </header>
+
+    <main id="content">
+        <!-- Content gets generated by JS -->
+    </main>
+</div>
+
+<script>
+    const helpTopics = [
+        {
+            category: "Intelligent Analytics & Dashboard",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>`,
+            items: [
+                { 
+                    title: "Executive Dashboard & KPIs", 
+                    content: `
+                        <div class="trust-badge"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg> Real-Time Accuracy</div>
+                        <div class="content-section">
+                            <h4>What it does</h4>
+                            <p>The Dashboard acts as the central nervous system of your restaurant. It aggregates data from every module—sales, labour, inventory, and marketing—into a single, easy-to-read executive summary. It displays critical KPIs such as Net Sales, Total Orders, Average Ticket Size, and Customer Sentiment scores.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>How it works</h4>
+                            <p>Resto-Flow utilizes a reactive, event-driven architecture. Every time an order is rung up on the POS, a staff member clocks in, or an inventory item is depleted, the database triggers an instant update. The dashboard charts (powered by high-performance rendering libraries) recalculate instantly without requiring a page refresh.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>The Benefits</h4>
+                            <ul>
+                                <li><strong>Immediate Awareness:</strong> Spot trends or issues (like a sudden drop in sales or a spike in labour costs) the moment they happen, not at the end of the month.</li>
+                                <li><strong>Data-Driven Decisions:</strong> Compare today's metrics against historical averages to adjust staffing or promotions on the fly.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Why you can trust it</h4>
+                            <p>Data integrity is guaranteed through our robust PostgreSQL relational database combined with Drizzle ORM. We employ transactional safeguards, meaning a sale is never counted until the payment is securely confirmed. The metrics you see are mathematically precise and fully auditable via the Z-Reports.</p>
+                        </div>
+                    `
+                },
+                { 
+                    title: "Sales Forecasting (AI-Assisted)", 
+                    content: `
+                        <div class="trust-badge"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Predictive Reliability</div>
+                        <div class="content-section">
+                            <h4>What it does</h4>
+                            <p>Projects future sales volumes, expected foot traffic, and peak hours for upcoming days and weeks. It helps you anticipate busy periods before they happen.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>How it works</h4>
+                            <p>The system analyzes your historical sales data, identifying patterns based on the day of the week, seasonality, and time of day. It cross-references this with external factors (where integrated) to generate a statistically probable forecast graph for the next 7 to 30 days.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>The Benefits</h4>
+                            <ul>
+                                <li><strong>Optimized Labour:</strong> Schedule the exact number of staff needed. Avoid over-staffing (wasting money) or under-staffing (hurting customer experience).</li>
+                                <li><strong>Smarter Prep:</strong> Guide your kitchen on how much food to prep, drastically reducing food waste while ensuring you don't run out of popular items.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Why you can trust it</h4>
+                            <p>Our forecasting engine uses established time-series statistical models (like moving averages and exponential smoothing) applied to your exact, unadulterated historical data. It doesn't guess; it calculates probabilities based on your unique restaurant's history.</p>
+                        </div>
+                    `
+                }
+            ]
+        },
+        {
+            category: "Point of Sale (POS) & Kitchen Operations",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>`,
+            items: [
+                { 
+                    title: "The Unified Point of Sale (POS)", 
+                    content: `
+                        <div class="trust-badge"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg> Enterprise Grade Stability</div>
+                        <div class="content-section">
+                            <h4>What it does</h4>
+                            <p>The POS is the primary interface for your front-of-house staff. It allows them to navigate the menu, customize orders with modifiers (e.g., "No Onions", "Extra Cheese"), process splits checks, apply discounts, and tender payments via cash or integrated card terminals.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>How it works</h4>
+                            <p>Built as a lightning-fast Single Page Application (SPA), the POS caches the menu locally to ensure zero lag between taps. When an order is submitted, it securely transmits the payload to the server, instantly deducting inventory, updating the daily ledger, and firing the ticket to the Kitchen Display System.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>The Benefits</h4>
+                            <ul>
+                                <li><strong>Speed of Service:</strong> An intuitive, large-button layout minimizes staff training time and speeds up order entry during rushes.</li>
+                                <li><strong>Fewer Errors:</strong> Required modifiers ensure staff ask the right questions (e.g., meat temperature), leading to fewer kitchen mistakes.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Why you can trust it</h4>
+                            <p>The POS is built with robust state management. If the internet connection flickers, the system holds the state securely until it can sync. All payment processing integrations adhere to strict PCI-DSS compliance standards, ensuring cardholder data is never exposed to our servers.</p>
+                        </div>
+                    `
+                },
+                { 
+                    title: "Kitchen Display System (KDS) & Order Queue", 
+                    content: `
+                        <div class="trust-badge"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M2 12h20"/></svg> Synchronized Workflow</div>
+                        <div class="content-section">
+                            <h4>What it does</h4>
+                            <p>Replaces traditional paper ticket printers with digital screens in the kitchen. It organizes incoming orders from all channels (Dine-in, Takeout, UberEats, etc.) into a unified, color-coded queue. Chefs can bump (complete) items or entire tickets.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>How it works</h4>
+                            <p>The KDS listens for real-time WebSocket events from the server. The moment a server hits "Send" on the POS, the ticket materializes on the KDS in milliseconds. Color coding changes dynamically based on ticket age (e.g., turns red if waiting over 15 minutes).</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>The Benefits</h4>
+                            <ul>
+                                <li><strong>No Lost Tickets:</strong> Eliminates the chaos of dropped or unreadable paper tickets.</li>
+                                <li><strong>Measure Kitchen Performance:</strong> Tracks "ticket times" (order placed to order bumped), giving you concrete data on kitchen efficiency.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Why you can trust it</h4>
+                            <p>The WebSocket architecture guarantees delivery. If a KDS tablet temporarily loses connection, it automatically re-fetches the active ticket queue upon reconnection, ensuring the kitchen never misses an order.</p>
+                        </div>
+                    `
+                }
+            ]
+        },
+        {
+            category: "Menu Engineering & Recipe Analysis",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/><path d="M15 15 3.3 22.7a2 2 0 0 1-2.8-2.8L8.2 9"/><path d="m14.1 6.6 3.1 3.1"/><path d="m20 9-11 11"/></svg>`,
+            items: [
+                { 
+                    title: "Dynamic Menu & Combo Builder", 
+                    content: `
+                        <div class="trust-badge"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Centralized Control</div>
+                        <div class="content-section">
+                            <h4>What it does</h4>
+                            <p>A centralized hub to build your menu structure. You can create categories (Appetizers, Mains), add items, upload photos, and set prices. The Combo Builder allows you to bundle items together (e.g., "Burger Meal = Burger + Choice of Side + Choice of Drink") with complex rules and upcharges.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>How it works</h4>
+                            <p>Menu changes made here propagate instantly to the POS, KDS, and Online Ordering portals. Combos use a nested relational database structure, ensuring that when a customer selects a premium side, the upcharge is automatically calculated.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>The Benefits</h4>
+                            <ul>
+                                <li><strong>Upselling Made Easy:</strong> Guided combo flows force staff and customers to see upgrade options, increasing average ticket sizes.</li>
+                                <li><strong>Instant Updates:</strong> 86 (remove) an item here, and it instantly disappears from all ordering channels, preventing angry customers ordering sold-out food.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Why you can trust it</h4>
+                            <p>Changes are versioned and cached. The system ensures that if a price is changed while a transaction is mid-way on the POS, the transaction honors the original price to prevent checkout errors, protecting both customer trust and system integrity.</p>
+                        </div>
+                    `
+                },
+                { 
+                    title: "Recipe Analysis & Food Costing", 
+                    content: `
+                        <div class="trust-badge"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></svg> Profit Protection</div>
+                        <div class="content-section">
+                            <h4>What it does</h4>
+                            <p>Deconstructs every menu item into its raw ingredients. It calculates the exact cost to produce a dish and compares it against the selling price to determine your precise Food Cost Percentage and Gross Margin.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>How it works</h4>
+                            <p>You map a menu item (e.g., Cheeseburger) to inventory items (1x Bun, 0.25lb Beef, 1x Slice Cheese). When your supplier raises the price of beef, the system automatically recalculates the cost of the Cheeseburger and flashes a warning if the margin drops below your target threshold.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>The Benefits</h4>
+                            <ul>
+                                <li><strong>Protect Margins:</strong> Never accidentally sell food at a loss because of creeping vendor prices.</li>
+                                <li><strong>Menu Engineering:</strong> Visually see which items are "Stars" (high profit, high popularity) and which are "Dogs" (low profit, low popularity) so you know what to promote or cut.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Why you can trust it</h4>
+                            <p>The math is deterministic. It pulls real-time weighted average costs directly from your latest procurement invoices. The numbers aren't estimates; they are the financial reality of your kitchen.</p>
+                        </div>
+                    `
+                }
+            ]
+        },
+        {
+            category: "Inventory & Supply Chain",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>`,
+            items: [
+                { 
+                    title: "Automated Inventory Tracking", 
+                    content: `
+                        <div class="trust-badge"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/><path d="m9 11 3 3L22 4"/></svg> Perpetual Accuracy</div>
+                        <div class="content-section">
+                            <h4>What it does</h4>
+                            <p>Maintains a perpetual count of every ingredient in your restaurant. It tracks what you have, what it's worth, and alerts you when quantities drop below minimum par levels.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>How it works</h4>
+                            <p>It uses a "Theoretical vs. Actual" model. As the POS rings up sales, the system theoretically deducts the ingredients (based on recipes). During your weekly physical count, you input the actual numbers. The system highlights the variance (missing stock) and its dollar value.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>The Benefits</h4>
+                            <ul>
+                                <li><strong>Stop Theft and Over-portioning:</strong> By identifying exactly which ingredients have high variance, you can pinpoint issues in the kitchen.</li>
+                                <li><strong>Better Cash Flow:</strong> Prevent over-ordering. Keeping less cash tied up in the walk-in freezer means more money in the bank.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Why you can trust it</h4>
+                            <p>Every single inventory transaction—be it a sale deduction, a waste log, or a purchase order delivery—is logged in an immutable ledger. You can trace the lifecycle of a single tomato from delivery to plate.</p>
+                        </div>
+                    `
+                },
+                { 
+                    title: "Procurement & Supplier Management", 
+                    content: `
+                        <div class="trust-badge"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg> Supply Chain Optimization</div>
+                        <div class="content-section">
+                            <h4>What it does</h4>
+                            <p>Digitizes your relationship with vendors. You can track supplier catalogs, compare prices, and generate/send Purchase Orders (POs) directly from the platform.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>How it works</h4>
+                            <p>When inventory hits par levels, the system auto-generates a draft PO grouped by supplier. You review, click approve, and the system emails a formatted PDF to the vendor. Upon delivery, you receive the PO in the system, automatically updating your stock levels and recalculating ingredient costs based on the invoice price.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>The Benefits</h4>
+                            <ul>
+                                <li><strong>Save Hours Weekly:</strong> No more walking the freezer with a clipboard and texting reps. Automated POs take minutes.</li>
+                                <li><strong>Price Tracking:</strong> The system remembers what you paid last week and flags if a supplier quietly raised prices.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Why you can trust it</h4>
+                            <p>The system enforces a strict receiving workflow. Inventory is not updated until a manager explicitly confirms the delivery matches the invoice, preventing discrepancies from corrupting your data.</p>
+                        </div>
+                    `
+                }
+            ]
+        },
+        {
+            category: "Operations, Staff & Security",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+            items: [
+                { 
+                    title: "Labour Management & Timesheets", 
+                    content: `
+                        <div class="trust-badge"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Operational Efficiency</div>
+                        <div class="content-section">
+                            <h4>What it does</h4>
+                            <p>Provides an integrated time-clock for staff to punch in/out via secure PINs. It calculates hours worked, breaks taken, and estimated payroll costs in real-time, plotting them against revenue to show your Live Labour Percentage.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>How it works</h4>
+                            <p>Staff use the POS interface to clock in. The backend calculates their duration based on their assigned hourly wage. Overtime rules (if configured) are automatically applied. Managers can review, edit, and export these timesheets for payroll processors.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>The Benefits</h4>
+                            <ul>
+                                <li><strong>Control Labour Costs:</strong> If your live labour hits 40% on a slow Tuesday, managers are empowered to send staff home early before profits evaporate.</li>
+                                <li><strong>Streamlined Payroll:</strong> Eliminates manual math. Export a clean CSV ready for your accountant.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Why you can trust it</h4>
+                            <p>All timesheet edits by managers are permanently logged in the audit trail. This ensures transparency and protects you during labour compliance audits.</p>
+                        </div>
+                    `
+                },
+                { 
+                    title: "Roles, Permissions & Security", 
+                    content: `
+                        <div class="trust-badge"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Enterprise Security</div>
+                        <div class="content-section">
+                            <h4>What it does</h4>
+                            <p>Controls exactly what each employee can see and do within the application. It prevents unauthorized discounts, voids, and access to sensitive financial data.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>How it works</h4>
+                            <p>Resto-Flow employs Role-Based Access Control (RBAC). A 'Server' can ring in orders but requires a 'Manager' PIN to approve a void. An 'Admin' can access Settings and Reports, while kitchen staff only see the KDS.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>The Benefits</h4>
+                            <ul>
+                                <li><strong>Loss Prevention:</strong> Drastically reduces internal theft by locking down cash drawer access and forcing manager approvals for discounts.</li>
+                                <li><strong>Focused Interfaces:</strong> Staff only see what they need to do their jobs, making the software easier for them to learn.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Why you can trust it</h4>
+                            <p>Security is enforced server-side. Even if a tech-savvy employee tried to bypass the UI, the API backend verifies the authentication token and role permissions on every single request, rejecting unauthorized actions instantly.</p>
+                        </div>
+                    `
+                }
+            ]
+        },
+        {
+            category: "Customer Relationship Management (CRM) & Marketing",
+            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>`,
+            items: [
+                { 
+                    title: "Customer Database & Segmentation", 
+                    content: `
+                        <div class="trust-badge"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg> Revenue Growth</div>
+                        <div class="content-section">
+                            <h4>What it does</h4>
+                            <p>Automatically builds profiles for your guests based on reservations, online orders, and digital receipts. The segmentation tool allows you to group them (e.g., "VIPs," "Lunch Regulars," "Churning").</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>How it works</h4>
+                            <p>As orders flow through the system, emails or phone numbers are captured and tied to a unique customer ID. The CRM engine calculates their Lifetime Value (LTV), average spend, and days since last visit, automatically placing them into dynamic segments based on rules you define.</p>
+                        </div>
+                        <div class="content-section">
+                            <h4>The Benefits</h4>
+                            <ul>
+                                <li><strong>Hyper-Targeted Marketing:</strong> Don't spam everyone. Send a "We miss you" discount only to customers who haven't visited in 60 days.</li>
+                                <li><strong>Personalized Service:</strong> Hosts can see a guest's favorite wine or allergies before they even sit down.</li>
+                            </ul>
+                        </div>
+                        <div class="content-section">
+                            <h4>Why you can trust it</h4>
+                            <p>We respect data privacy. The system includes built-in opt-in/opt-out toggles for marketing communications, ensuring you remain compliant with spam regulations (like CAN-SPAM and GDPR principles).</p>
+                        </div>
+                    `
+                }
+            ]
+        }
+    ];
+
+    function renderTopics(query = "") {
+        const container = document.getElementById('content');
+        container.innerHTML = '';
+
+        const lowerQuery = query.toLowerCase();
+
+        const filtered = helpTopics.map(topic => {
+            return {
+                ...topic,
+                items: topic.items.filter(item => 
+                    item.title.toLowerCase().includes(lowerQuery) || 
+                    item.content.toLowerCase().includes(lowerQuery)
+                )
+            };
+        }).filter(topic => topic.items.length > 0);
+
+        if (filtered.length === 0) {
+            container.innerHTML = `<div style="text-align: center; color: var(--muted-text); padding: 4rem; font-size: 1.2rem;">No documentation found matching "${query}"</div>`;
+            return;
+        }
+
+        filtered.forEach(topic => {
+            const card = document.createElement('div');
+            card.className = 'category-card';
+
+            const header = document.createElement('h2');
+            header.className = 'category-title';
+            header.innerHTML = `${topic.icon} ${topic.category}`;
+            card.appendChild(header);
+
+            const accordion = document.createElement('div');
+            accordion.className = 'accordion';
+
+            topic.items.forEach(item => {
+                const accItem = document.createElement('div');
+                accItem.className = 'accordion-item';
+
+                const accHeader = document.createElement('button');
+                accHeader.className = 'accordion-header';
+                accHeader.textContent = item.title;
+
+                const accContent = document.createElement('div');
+                accContent.className = 'accordion-content';
+                accContent.innerHTML = item.content;
+
+                accHeader.addEventListener('click', () => {
+                    const isActive = accItem.classList.contains('active');
+                    Array.from(accordion.children).forEach(child => child.classList.remove('active'));
+                    if (!isActive) {
+                        accItem.classList.add('active');
+                    }
+                });
+
+                accItem.appendChild(accHeader);
+                accItem.appendChild(accContent);
+                accordion.appendChild(accItem);
+            });
+
+            card.appendChild(accordion);
+            container.appendChild(card);
+        });
+    }
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+        renderTopics(e.target.value);
+    });
+
+    renderTopics();
+</script>
+</body>
+</html>

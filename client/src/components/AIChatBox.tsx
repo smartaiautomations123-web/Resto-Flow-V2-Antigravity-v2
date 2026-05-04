@@ -3,7 +3,8 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Loader2, Send, User, Sparkles } from "lucide-react";
+import { Loader2, Send, User, Sparkles, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 import { Streamdown } from "streamdown";
@@ -79,6 +80,21 @@ export type AIChatBoxProps = {
    * Optional actions/buttons to render to the left of the input field
    */
   leftActions?: React.ReactNode;
+
+  /**
+   * Clickable suggestion chips to show above the input field
+   */
+  suggestions?: string[];
+
+  /**
+   * Callback when user clicks Undo.
+   */
+  onUndo?: () => void;
+
+  /**
+   * Whether the undo action is currently available
+   */
+  canUndo?: boolean;
 };
 
 /**
@@ -145,6 +161,9 @@ export function AIChatBox({
   inputValue,
   onInputChange,
   leftActions,
+  suggestions = [],
+  onUndo,
+  canUndo = false,
 }: AIChatBoxProps) {
   const [internalInput, setInternalInput] = useState("");
   
@@ -341,6 +360,53 @@ export function AIChatBox({
           </ScrollArea>
         )}
       </div>
+
+      {/* Suggestions Area */}
+      <AnimatePresence>
+        {suggestions.length > 0 && !isLoading && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="px-4 pb-2 flex flex-wrap gap-2"
+          >
+            {suggestions.map((suggestion, idx) => (
+              <Button
+                key={idx}
+                variant="outline"
+                size="sm"
+                className="h-8 text-[11px] rounded-full bg-background hover:bg-primary/5 hover:text-primary hover:border-primary/30 transition-all border-border/50 group"
+                onClick={() => onSendMessage(suggestion)}
+              >
+                {suggestion}
+                <ArrowRight className="w-3 h-3 ml-1.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+              </Button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Undo Area */}
+      <AnimatePresence>
+        {canUndo && !isLoading && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="px-4 pb-2"
+          >
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full h-9 rounded-xl bg-orange-500/10 text-orange-600 border-orange-200 hover:bg-orange-500/20 hover:border-orange-500 transition-all gap-2 font-semibold shadow-sm"
+              onClick={onUndo}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-rotate-ccw"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              Undo Last Action
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Input Area */}
       <form

@@ -1,6 +1,7 @@
 import { invokeLLM, Message, Tool, ToolCall } from "../_core/llm";
 import { getDb } from "../db";
 import { sql } from "drizzle-orm";
+import { aiActionLog } from "../../drizzle/schema";
 
 const MAX_ITERATIONS = 5;
 
@@ -71,6 +72,8 @@ export interface AiAgentResult {
     answer: string;
     pendingSql?: string;
     requiresConfirmation?: boolean;
+    revertSql?: string;
+    actionId?: number;
 }
 
 function isMutationQuery(query: string): boolean {
@@ -137,6 +140,8 @@ When asked a question:
 
     let iterations = 0;
     let currentConfirmedSql = confirmedSql;
+    let finalRevertSql: string | undefined;
+    let finalActionId: number | undefined;
 
     while (iterations < MAX_ITERATIONS) {
         iterations++;
@@ -173,7 +178,11 @@ When asked a question:
 
         // If no tool calls, the AI is done and we can return its final answer
         if (!toolCalls || toolCalls.length === 0) {
-            return { answer: contentToPush };
+            return { 
+                answer: contentToPush,
+                revertSql: finalRevertSql,
+                actionId: finalActionId
+            };
         }
 
         // Handle tool calls
@@ -186,12 +195,38 @@ When asked a question:
                     // Check if this specific query was just confirmed by the user
                     if (currentConfirmedSql && currentConfirmedSql.trim() === query.trim()) {
                         // User confirmed, proceed to execute
-                        const result = await handleToolCall(toolCall, currentConfirmedSql);
+                        const toolResult = await handleToolCall(toolCall, currentConfirmedSql);
+                        
+                        // Capture revertSql if present
+                        if (toolResult?.revertSql) {
+                            finalRevertSql = toolResult.revertSql;
+                            
+                            // Log the action to the database for historical tracking/undo from settings
+                            try {
+                                const db = await getDb();
+                                if (db) {
+                                    const insertResult: any = await db.insert(aiActionLog).values({
+                                        userQuery: userQuery,
+                                        executedSql: query,
+                                        revertSql: toolResult.revertSql,
+                                        status: 'executed'
+                                    });
+                                    // mysql2 returns [{ insertId: ... }, ...]
+                                    if (insertResult && insertResult[0] && insertResult[0].insertId) {
+                                        finalActionId = insertResult[0].insertId;
+                                    }
+                                }
+                            } catch (logError) {
+                                console.error("Failed to log AI action:", logError);
+                            }
+                        }
+                        const data = toolResult?.revertSql ? toolResult.data : toolResult;
+
                         messages.push({
                             role: "tool",
                             name: toolCall.function.name,
                             tool_call_id: toolCall.id,
-                            content: JSON.stringify(result)
+                            content: JSON.stringify(data)
                         });
                         // Clear it so it's only used once
                         currentConfirmedSql = undefined;
@@ -200,7 +235,8 @@ When asked a question:
                         return {
                             answer: contentToPush || "I need to execute a database update. Please review and confirm the SQL below:",
                             pendingSql: query,
-                            requiresConfirmation: true
+                            requiresConfirmation: true,
+                            revertSql: finalRevertSql
                         };
                     }
                 } else {
@@ -267,7 +303,17 @@ async function handleToolCall(toolCall: ToolCall, confirmedSql?: string): Promis
         } 
         else if (toolCall.function.name === "execute_sql") {
             const query = args.query;
+            let revertSql: string | undefined;
+
+            if (isMutationQuery(query)) {
+                revertSql = await prepareRevertSql(db, query);
+            }
+
             const result = await db.execute(sql.raw(query));
+            
+            if (revertSql) {
+                return { data: result[0], revertSql };
+            }
             return result[0]; // mysql2 returns [rows, fields]
         }
         else if (toolCall.function.name === "get_staff_on_shift") {
@@ -341,3 +387,47 @@ async function handleToolCall(toolCall: ToolCall, confirmedSql?: string): Promis
     }
 }
 
+async function prepareRevertSql(db: any, query: string): Promise<string | undefined> {
+    const upper = query.trim().toUpperCase();
+    
+    // Simplistic revert logic for UPDATE statements
+    if (upper.startsWith("UPDATE")) {
+        const tableMatch = query.match(/UPDATE\s+([^\s]+)/i);
+        const whereMatch = query.match(/WHERE\s+(.+)$/i);
+        
+        if (tableMatch) {
+            const table = tableMatch[1].replace(/`/g, '');
+            const whereClause = whereMatch ? whereMatch[1] : "1=1";
+            
+            // Get columns being updated
+            const setMatch = query.match(/SET\s+(.+?)(\s+WHERE|$)/i);
+            if (setMatch) {
+                const setClause = setMatch[1];
+                const columnNames = setClause.split(",").map(c => c.split("=")[0].trim().replace(/`/g, ''));
+                
+                try {
+                    // Fetch current values before update
+                    const snapshotQuery = `SELECT id, ${columnNames.map(c => `\`${c}\``).join(", ")} FROM \`${table}\` WHERE ${whereClause}`;
+                    const [rows] = await db.execute(sql.raw(snapshotQuery));
+                    
+                    const data = rows as any[];
+                    if (data && data.length > 0 && data.length <= 100) {
+                        const revertStatements = data.map((row: any) => {
+                            const assignments = columnNames.map(col => {
+                                const val = row[col];
+                                const escapedVal = typeof val === 'string' ? `'${val.replace(/'/g, "''")}'` : (val === null ? 'NULL' : val);
+                                return `\`${col}\` = ${escapedVal}`;
+                            }).join(", ");
+                            return `UPDATE \`${table}\` SET ${assignments} WHERE id = ${row.id};`;
+                        });
+                        return revertStatements.join("\n");
+                    }
+                } catch (e) {
+                    console.error("Failed to prepare revert SQL:", e);
+                }
+            }
+        }
+    }
+    
+    return undefined;
+}

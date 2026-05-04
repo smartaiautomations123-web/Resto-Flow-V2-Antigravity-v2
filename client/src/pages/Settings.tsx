@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
-import { Save, Key, Trash2, Plus, RefreshCw, Shield, Mail, CreditCard, Truck, Receipt, Settings2, Database, Activity, Palette } from 'lucide-react';
+import { Save, Key, Trash2, Plus, RefreshCw, Shield, Mail, CreditCard, Truck, Receipt, Settings2, Database, Activity, Palette, Sparkles, RotateCcw, Info, CheckCircle2 } from 'lucide-react';
 
 // ─── Helper: controlled settings form state ───────────────────────────────────
 function useSettingsForm<T extends Record<string, any>>(initial: T | null | undefined) {
@@ -48,6 +48,7 @@ export default function Settings() {
   const { data: apiKeysData, isLoading: loadingApiKeys } = trpc.settings.listApiKeys.useQuery({ userId });
   const { data: auditData, isLoading: loadingAudit } = trpc.settings.getAuditLogSettings.useQuery();
   const { data: backupData, isLoading: loadingBackup } = trpc.settings.getBackupSettings.useQuery();
+  const { data: dashLog, isLoading: loadingDashLog } = trpc.aiAgent.getActionLog.useQuery();
 
   // ─── Form state ─────────────────────────────────────────────────────────────
   const system = useSettingsForm(systemData);
@@ -116,6 +117,14 @@ export default function Settings() {
     onError: () => toast.error('Failed to trigger backup'),
   });
 
+  const undoDashAction = trpc.aiAgent.undoAction.useMutation({
+    onSuccess: () => {
+      toast.success('Action reverted successfully');
+      utils.aiAgent.getActionLog.invalidate();
+    },
+    onError: (err) => toast.error(`Undo failed: ${err.message}`),
+  });
+
   const handleCreateApiKey = () => {
     if (!newApiKeyName.trim()) { toast.error('Enter a name for the API key'); return; }
     const keyHash = `rflow_${Array.from(crypto.getRandomValues(new Uint8Array(24))).map(b => b.toString(16).padStart(2, '0')).join('')}`;
@@ -131,6 +140,7 @@ export default function Settings() {
     { value: 'receipt', label: 'Receipt', icon: Receipt },
     { value: 'security', label: 'Security', icon: Shield },
     { value: 'api', label: 'API Keys', icon: Key },
+    { value: 'dash', label: 'Dash Activity', icon: Sparkles },
     { value: 'audit', label: 'Audit', icon: Activity },
     { value: 'backup', label: 'Backup', icon: Database },
   ];
@@ -324,6 +334,26 @@ export default function Settings() {
                       </Select>
                     </div>
                   </div>
+                  
+                  <div className="pt-4 border-t space-y-4">
+                    <h3 className="text-lg font-medium">Onboarding & Setup</h3>
+                    <div className="flex items-center justify-between p-4 border rounded-lg bg-muted/20">
+                      <div>
+                        <p className="font-medium">Reset Setup Guide Progress</p>
+                        <p className="text-sm text-muted-foreground">Clear all completed and skipped steps in the Setup Guide.</p>
+                      </div>
+                      <Button variant="outline" onClick={() => {
+                        if (confirm('Are you sure you want to reset your setup progress?')) {
+                          localStorage.removeItem('resto-flow-onboarding-progress');
+                          localStorage.removeItem('resto-flow-onboarding-progress-skipped');
+                          toast.success('Setup Guide progress has been reset');
+                        }
+                      }}>
+                        Reset Progress
+                      </Button>
+                    </div>
+                  </div>
+
                   <Button onClick={() => savePrefs.mutate({ userId, ...cleanPayload(prefs.form) })} disabled={savePrefs.isPending}>
                     <Save className="w-4 h-4 mr-2" />{savePrefs.isPending ? 'Saving…' : 'Save Preferences'}
                   </Button>
@@ -683,6 +713,90 @@ export default function Settings() {
                     ))}
                   </div>
                 </>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* ── Dash Activity ────────────────────────────────────────────── */}
+        <TabsContent value="dash" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle>Dash AI Action History</CardTitle>
+                  <CardDescription>Track and revert database changes made by Dash</CardDescription>
+                </div>
+                <Badge variant="outline" className="text-[10px] uppercase tracking-widest font-bold">
+                  <Sparkles className="w-3 h-3 mr-1 text-primary" /> AI Management
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {loadingDashLog ? <div className="text-muted-foreground text-sm flex items-center gap-2"><RefreshCw className="w-4 h-4 animate-spin" /> Loading logs…</div> : (
+                <div className="space-y-4">
+                  {(!dashLog || dashLog.length === 0) ? (
+                    <div className="text-center py-12 border-2 border-dashed rounded-xl bg-muted/30">
+                      <Sparkles className="w-8 h-8 text-muted-foreground/30 mx-auto mb-3" />
+                      <p className="text-sm text-muted-foreground">No AI actions logged yet.</p>
+                      <p className="text-xs text-muted-foreground/60 mt-1">Actions performed by Dash will appear here.</p>
+                    </div>
+                  ) : (
+                    <div className="rounded-md border">
+                      <div className="grid grid-cols-[1fr_auto] gap-4 p-4 border-b bg-muted/50 font-medium text-xs uppercase tracking-wider text-muted-foreground">
+                        <div>Action Details</div>
+                        <div className="text-right">Manage</div>
+                      </div>
+                      <div className="divide-y max-h-[600px] overflow-y-auto">
+                        {dashLog.map((log: any) => (
+                          <div key={log.id} className="p-4 flex items-start justify-between gap-4 hover:bg-muted/30 transition-colors">
+                            <div className="space-y-1.5 flex-1 min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="font-bold text-sm text-foreground">"{log.userQuery}"</span>
+                                <Badge variant={log.status === 'undone' ? 'secondary' : 'default'} className="text-[10px] h-5">
+                                  {log.status === 'undone' ? (
+                                    <span className="flex items-center gap-1"><RotateCcw className="w-2.5 h-2.5" /> Reverted</span>
+                                  ) : (
+                                    <span className="flex items-center gap-1"><CheckCircle2 className="w-2.5 h-2.5 text-green-400" /> Executed</span>
+                                  )}
+                                </Badge>
+                                <span className="text-[10px] text-muted-foreground">{new Date(log.createdAt).toLocaleString()}</span>
+                              </div>
+                              
+                              <div className="bg-muted/50 rounded p-2 text-[10px] font-mono text-muted-foreground truncate group relative cursor-help">
+                                <span className="flex items-center gap-1.5"><Database className="w-3 h-3 shrink-0" /> SQL: {log.executedSql}</span>
+                                <div className="hidden group-hover:block absolute left-0 top-full z-20 w-full max-w-lg bg-popover text-popover-foreground p-3 rounded-md border shadow-xl whitespace-pre-wrap break-all font-mono text-[11px] mt-1">
+                                  <div className="font-bold text-primary mb-1 uppercase tracking-tighter flex items-center gap-1">
+                                    <Info className="w-3 h-3" /> Executed Statement
+                                  </div>
+                                  {log.executedSql}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="shrink-0 flex items-center gap-2">
+                              {log.status === 'executed' && log.revertSql ? (
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  className="h-8 text-xs gap-1.5 border-orange-200 bg-orange-50/50 hover:bg-orange-100 hover:border-orange-300 text-orange-700 dark:bg-orange-950/20 dark:border-orange-900/50 dark:text-orange-400"
+                                  onClick={() => undoDashAction.mutate({ revertSql: log.revertSql, actionId: log.id })}
+                                  disabled={undoDashAction.isPending}
+                                >
+                                  <RotateCcw className="w-3 h-3" /> Undo
+                                </Button>
+                              ) : (
+                                <Button variant="ghost" size="sm" disabled className="h-8 text-xs opacity-40">
+                                  <CheckCircle2 className="w-3 h-3" /> Reverted
+                                </Button>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               )}
             </CardContent>
           </Card>
