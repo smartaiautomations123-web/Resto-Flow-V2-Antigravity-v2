@@ -64,6 +64,13 @@
       "when": 1777912350855,
       "tag": "0008_public_the_fury",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1777988494529,
+      "tag": "0009_solid_dragon_man",
+      "breakpoints": true
     }
   ]
 }
