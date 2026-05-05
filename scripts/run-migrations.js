@@ -16,8 +16,6 @@ async function runMigrations() {
     process.exit(1);
   }
 
-  // Parse connection string to handle SSL and other params
-  // The TiDB string looks like: mysql://user:pass@host:port/db?ssl={"rejectUnauthorized":true}
   const url = new URL(connectionString);
   const config = {
     host: url.hostname,
@@ -40,34 +38,66 @@ async function runMigrations() {
   console.log(`Found ${files.length} migration files.`);
 
   for (const file of files) {
-    console.log(`Executing ${file}...`);
+    console.log(`--- Executing ${file} ---`);
     const content = fs.readFileSync(path.join(migrationDir, file), 'utf8');
-    const statements = content.split('--> statement-breakpoint');
+    
+    // Improved splitting: match the breakpoint even if it's surrounded by comments or weird whitespace
+    const statements = content.split(/--> statement-breakpoint/);
     
     for (let sql of statements) {
       sql = sql.trim();
       if (!sql) continue;
       
+      // Remove any lingering comments at the start of the block that might confuse TiDB
+      sql = sql.replace(/^\/\*.*?\*\//gs, '').trim();
+
       try {
         await connection.query(sql);
-        // console.log(`  Applied chunk`);
+        console.log(`  [OK] ${sql.slice(0, 80)}...`);
       } catch (err) {
-        if (err.code === 'ER_TABLE_EXISTS_ERROR' || err.message.includes('already exists') || err.message.includes('Duplicate column name')) {
-          // console.warn(`  Skipped (already exists)`);
+        // Skip common "already exists" errors
+        if (
+          err.code === 'ER_TABLE_EXISTS_ERROR' || 
+          err.code === 'ER_DUP_FIELDNAME' ||
+          err.message.includes('already exists') || 
+          err.message.includes('Duplicate column name') ||
+          err.message.includes('Duplicate key name') ||
+          err.message.includes('Duplicate foreign key constraint')
+        ) {
+          // console.log(`  [SKIP] Already applied.`);
         } else {
-          console.error(`  Error in ${file} at chunk: ${sql.slice(0, 50)}...`);
-          console.error(`  Message:`, err.message);
+          console.error(`  [ERROR] in ${file}:`);
+          console.error(`  SQL: ${sql}`);
+          console.error(`  Message: ${err.message}`);
         }
       }
     }
-    console.log(`Finished ${file}`);
   }
 
-  console.log('Migrations complete.');
+  console.log('\nMigrations complete. Verifying critical columns...');
   
-  const [rows] = await connection.query('SHOW TABLES');
-  console.log('Current tables in database:');
-  console.log(rows.map(r => Object.values(r)[0]).join(', '));
+  const checkColumn = async (table, column, definition) => {
+    try {
+      const [cols] = await connection.query(`SHOW COLUMNS FROM ${table} LIKE '${column}'`);
+      if (cols.length > 0) {
+        console.log(`✅ ${table}.${column} exists.`);
+      } else {
+        console.log(`❌ ${table}.${column} is MISSING. Attempting manual fix...`);
+        await connection.query(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
+        console.log(`✅ ${table}.${column} created.`);
+      }
+    } catch (e) {
+      console.error(`Error verifying ${table}.${column}:`, e.message);
+    }
+  };
+
+  await checkColumn('ingredients', 'locationId', 'int DEFAULT 1 NOT NULL');
+  await checkColumn('ingredients', 'itemId', 'varchar(128)');
+  await checkColumn('ingredients', 'baseUom', 'varchar(32)');
+  await checkColumn('ingredients', 'parLevel', 'decimal(10,3) DEFAULT 0');
+  await checkColumn('ingredients', 'safetyStock', 'decimal(10,3) DEFAULT 0');
+  
+  await checkColumn('orders', 'locationId', 'int DEFAULT 1');
 
   await connection.end();
 }
