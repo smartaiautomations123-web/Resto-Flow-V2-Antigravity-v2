@@ -22,7 +22,7 @@ export default function TableOrdering() {
   const addItem = trpc.orders.addItem.useMutation();
   const updateOrder = trpc.orders.update.useMutation();
 
-  const table = tablesList?.find(t => t.id === tableId);
+  const table = tablesList?.find((t: any) => t.id === tableId);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCat, setSelectedCat] = useState<number | null>(null);
   const [showCheckout, setShowCheckout] = useState(false);
@@ -32,7 +32,7 @@ export default function TableOrdering() {
 
   const filteredItems = useMemo(() => {
     if (!menuItems) return [];
-    return selectedCat ? menuItems.filter(i => i.categoryId === selectedCat && i.isAvailable) : menuItems.filter(i => i.isAvailable);
+    return selectedCat ? menuItems.filter((i: any) => i.categoryId === selectedCat && i.isAvailable) : menuItems.filter((i: any) => i.isAvailable);
   }, [menuItems, selectedCat]);
 
   const subtotal = cart.reduce((s, i) => s + i.unitPrice * i.quantity, 0);
@@ -42,8 +42,8 @@ export default function TableOrdering() {
 
   const addToCart = (item: NonNullable<typeof menuItems>[0]) => {
     setCart(prev => {
-      const existing = prev.find(c => c.menuItemId === item.id);
-      if (existing) return prev.map(c => c === existing ? { ...c, quantity: c.quantity + 1 } : c);
+      const existing = prev.find((c: any) => c.menuItemId === item.id);
+      if (existing) return prev.map((c: any) => c === existing ? { ...c, quantity: c.quantity + 1 } : c);
       return [...prev, { menuItemId: item.id, name: item.name, quantity: 1, unitPrice: Number(item.price) }];
     });
   };
@@ -128,7 +128,7 @@ export default function TableOrdering() {
         {/* Categories */}
         <div className="flex gap-2 overflow-x-auto pb-3">
           <Button variant={selectedCat === null ? "default" : "outline"} size="sm" onClick={() => setSelectedCat(null)}>All</Button>
-          {categories?.filter(c => c.isActive).map(cat => (
+          {categories?.filter((c: any) => c.isActive).map((cat: any) => (
             <Button key={cat.id} variant={selectedCat === cat.id ? "default" : "outline"} size="sm" onClick={() => setSelectedCat(cat.id)}>
               {cat.name}
             </Button>
@@ -140,8 +140,8 @@ export default function TableOrdering() {
           <div className="text-center py-8 text-muted-foreground bg-card rounded-xl border border-border">No items available.</div>
         ) : (
           <div className="space-y-3">
-            {filteredItems.map(item => {
-              const inCart = cart.find(c => c.menuItemId === item.id);
+            {filteredItems.map((item: any) => {
+              const inCart = cart.find((c: any) => c.menuItemId === item.id);
               return (
                 <div key={item.id} className="flex items-center justify-between p-3 rounded-xl bg-card border border-border">
                   <div className="flex-1 min-w-0">

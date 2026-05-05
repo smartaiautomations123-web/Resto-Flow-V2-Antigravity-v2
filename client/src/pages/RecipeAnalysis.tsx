@@ -49,8 +49,8 @@ export default function RecipeAnalysis() {
     onError: err => toast.error(err.message),
   });
 
-  const categoryMap = new Map(categories?.map(c => [c.id, c.name]) ?? []);
-  const selectedItem = menuItems?.find(i => i.id === menuItemId);
+  const categoryMap = new Map(categories?.map((c: any) => [c.id, c.name]) ?? []);
+  const selectedItem = menuItems?.find((i: any) => i.id === menuItemId);
 
   const sellingPrice = Number(selectedItem?.price ?? 0);
   const theoreticalCost = Number((costAnalysis as any)?.totalCost ?? (costHistory as any[])?.[0]?.totalCost ?? 0);
@@ -91,7 +91,7 @@ export default function RecipeAnalysis() {
                   <SelectValue placeholder="Select a menu item to analyse…" />
                 </SelectTrigger>
                 <SelectContent>
-                  {menuItems?.map(item => (
+                  {menuItems?.map((item: any) => (
                     <SelectItem key={item.id} value={String(item.id)}>
                       {categoryMap.get(item.categoryId) ? `[${categoryMap.get(item.categoryId)}] ` : ""}
                       {item.name} — ${Number(item.price).toFixed(2)}

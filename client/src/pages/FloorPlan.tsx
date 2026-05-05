@@ -111,7 +111,7 @@ export default function FloorPlan() {
     }
 
     // Draw tables
-    tables.forEach((table) => {
+    tables.forEach((table: any) => {
       const x = table.positionX || 0;
       const y = table.positionY || 0;
       const isSelected = selectedTable?.id === table.id;
@@ -218,7 +218,7 @@ export default function FloorPlan() {
 
   const handleDeleteSection = (sectionName: string) => {
     if (confirm(`Delete section "${sectionName}"?`)) {
-      deleteSection.mutate({ id: sections?.find((s) => s.name === sectionName)?.id || 0 });
+      deleteSection.mutate({ id: sections?.find((s: any) => s.name === sectionName)?.id || 0 });
     }
   };
 
@@ -241,7 +241,7 @@ export default function FloorPlan() {
           <CardContent className="pt-6">
             <Tabs value={activeSection || ""} onValueChange={setActiveSection}>
               <TabsList className="grid w-full" style={{ gridTemplateColumns: `repeat(${Math.min(sections.length, 6)}, 1fr)` }}>
-                {sections.map((section) => (
+                {sections.map((section: any) => (
                   <TabsTrigger key={section.id} value={section.name} className="text-xs">
                     {section.name}
                   </TabsTrigger>
@@ -360,7 +360,7 @@ export default function FloorPlan() {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              {sections.map((section) => (
+              {sections.map((section: any) => (
                 <div key={section.id} className="flex items-center justify-between p-3 border border-border rounded-lg">
                   <div>
                     <p className="font-medium">{section.name}</p>

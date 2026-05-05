@@ -144,7 +144,7 @@ export default function CustomerDetail() {
             </Card>
           ) : (
             <div className="space-y-3">
-              {orderHistory.map((order) => (
+              {orderHistory.map((order: any) => (
                 <Card key={order.id} className="p-4 hover:bg-accent transition-colors cursor-pointer">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -217,7 +217,7 @@ export default function CustomerDetail() {
               <div className="border-t pt-4">
                 <h4 className="font-semibold mb-3">Items</h4>
                 <div className="space-y-2">
-                  {orderDetails.items.map((item) => (
+                  {orderDetails.items.map((item: any) => (
                     <div key={item.id} className="flex justify-between text-sm border-b pb-2">
                       <div>
                         <div className="font-medium">{item.itemName}</div>

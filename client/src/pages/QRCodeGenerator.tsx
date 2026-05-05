@@ -92,7 +92,7 @@ export default function QRCodeGenerator() {
     );
   }
 
-  const qrMap = new Map(allQRCodes?.map(qr => [qr.tableId, qr]) || []);
+  const qrMap = new Map(allQRCodes?.map((qr: any) => [qr.tableId, qr]) || []);
 
   return (
     <div className="space-y-6">
@@ -176,7 +176,7 @@ export default function QRCodeGenerator() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {allTables?.map((table) => {
+                {allTables?.map((table: any) => {
                   const qr = qrMap.get(table.id);
                   return (
                     <Card key={table.id} className="text-center p-4">
@@ -218,7 +218,7 @@ export default function QRCodeGenerator() {
             <CardContent>
               <div id="qr-grid" className="print:p-0 p-4 bg-white">
                 <div className="grid grid-cols-8 gap-2 print:gap-1">
-                  {allTables?.map((table) => {
+                  {allTables?.map((table: any) => {
                     const qr = qrMap.get(table.id);
                     return (
                       <div key={table.id} className="flex flex-col items-center justify-center p-2 print:p-1 border print:border-gray-300">
@@ -259,7 +259,7 @@ export default function QRCodeGenerator() {
             <div className="flex flex-col items-center space-y-4">
               <div ref={qrRef} className="bg-white p-4 rounded" />
               <p className="text-sm text-muted-foreground">
-                Table: {allTables?.find(t => t.id === selectedTable)?.name}
+                Table: {allTables?.find((t: any) => t.id === selectedTable)?.name}
               </p>
               <Button
                 onClick={() => {

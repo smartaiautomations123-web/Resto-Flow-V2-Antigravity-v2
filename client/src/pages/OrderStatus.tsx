@@ -133,7 +133,7 @@ export default function OrderStatus() {
               <Card className="bg-slate-800 border-slate-700 p-6">
                 <h3 className="text-lg font-semibold text-white mb-6">Order Progress</h3>
                 <div className="space-y-4">
-                  {timelineQuery.data.statuses.map((status, index) => (
+                  {timelineQuery.data.statuses.map((status: any, index: number) => (
                     <div key={status.name} className="flex items-center gap-4">
                       <div className="flex-shrink-0">
                         <div
@@ -209,7 +209,7 @@ export default function OrderStatus() {
               <Card className="bg-slate-800 border-slate-700 p-6">
                 <h3 className="text-lg font-semibold text-white mb-4">Order Items</h3>
                 <div className="space-y-3">
-                  {orderQuery.data.items.map((item) => (
+                  {orderQuery.data.items.map((item: any) => (
                     <div key={item.id} className="flex justify-between items-start p-3 bg-slate-700 rounded-lg">
                       <div className="flex-1">
                         <p className="text-white font-medium">{item.itemName}</p>

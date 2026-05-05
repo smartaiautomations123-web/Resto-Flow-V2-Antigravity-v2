@@ -4,6 +4,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, adminProcedure, router } from "./_core/trpc";
 import { z } from "zod";
+import { sql } from "drizzle-orm";
 import * as db from "./db";
 import { nanoid } from "nanoid";
 import { invokeLLM } from "./_core/llm";
@@ -22,24 +23,24 @@ export const appRouter = router({
 
   // ─── Staff ───────────────────────────────────────────────────────
   staff: router({
-    list: protectedProcedure.input(z.object({ locationId: z.number({ required_error: "Location ID is required" }) })).query(({ input }) => db.listStaff(input.locationId)),
-    get: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), locationId: z.number({ required_error: "Location ID is required" }) })).query(({ input }) => db.getStaffById(input.id, input.locationId)),
+    list: protectedProcedure.input(z.object({ locationId: z.number({ message: "Location ID is required" }) })).query(({ input }) => db.listStaff(input.locationId)),
+    get: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), locationId: z.number({ message: "Location ID is required" }) })).query(({ input }) => db.getStaffById(input.id, input.locationId)),
     create: protectedProcedure.input(z.object({
-      locationId: z.number({ required_error: "Location ID is required" }),
-      name: z.string({ required_error: "Name is required" }), email: z.string().optional(), phone: z.string().optional(),
+      locationId: z.number({ message: "Location ID is required" }),
+      name: z.string({ message: "Name is required" }), email: z.string().optional(), phone: z.string().optional(),
       pin: z.string().optional(), role: z.enum(["owner", "manager", "server", "bartender", "kitchen"]),
       hourlyRate: z.string().optional(),
     })).mutation(({ input }) => { const { locationId, ...data } = input; return db.createStaff(data, locationId); }),
     update: protectedProcedure.input(z.object({
-      locationId: z.number({ required_error: "Location ID is required" }),
-      id: z.number({ required_error: "ID is required" }), name: z.string({ required_error: "Name is required" }).optional(), email: z.string().optional(),
+      locationId: z.number({ message: "Location ID is required" }),
+      id: z.number({ message: "ID is required" }), name: z.string({ message: "Name is required" }).optional(), email: z.string().optional(),
       phone: z.string().optional(), pin: z.string().optional(),
       role: z.enum(["owner", "manager", "server", "bartender", "kitchen"]).optional(),
       hourlyRate: z.string().optional(), isActive: z.boolean().optional(),
     })).mutation(({ input }) => { const { id, locationId, ...data } = input; return db.updateStaff(id, data, locationId); }),
-    delete: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), locationId: z.number({ required_error: "Location ID is required" }) })).mutation(({ input }) => db.deleteStaff(input.id, input.locationId)),
+    delete: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), locationId: z.number({ message: "Location ID is required" }) })).mutation(({ input }) => db.deleteStaff(input.id, input.locationId)),
     clockIn: protectedProcedure.input(z.object({
-      staffId: z.number({ required_error: "Staff ID is required" }),
+      staffId: z.number({ message: "Staff ID is required" }),
       latitude: z.number(),
       longitude: z.number()
     })).mutation(async ({ input }) => {
@@ -68,10 +69,10 @@ export const appRouter = router({
 
       return db.clockIn(input.staffId, status);
     }),
-    clockOut: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).mutation(({ input }) => db.clockOut(input.id)),
-    getActiveClock: protectedProcedure.input(z.object({ staffId: z.number({ required_error: "Staff ID is required" }) })).query(({ input }) => db.getActiveClockEntry(input.staffId)),
+    clockOut: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).mutation(({ input }) => db.clockOut(input.id)),
+    getActiveClock: protectedProcedure.input(z.object({ staffId: z.number({ message: "Staff ID is required" }) })).query(({ input }) => db.getActiveClockEntry(input.staffId)),
     timeEntries: protectedProcedure.input(z.object({
-      staffId: z.number({ required_error: "Staff ID is required" }).optional(), dateFrom: z.string().optional(), dateTo: z.string().optional(),
+      staffId: z.number({ message: "Staff ID is required" }).optional(), dateFrom: z.string().optional(), dateTo: z.string().optional(),
     })).query(({ input }) => db.listTimeEntries(input.staffId, input.dateFrom, input.dateTo)),
   }),
 
@@ -99,40 +100,35 @@ export const appRouter = router({
 
   // ─── Shifts ──────────────────────────────────────────────────────
   shifts: router({
-    list: protectedProcedure.input(z.object({
-      dateFrom: z.string().optional(), dateTo: z.string().optional(),
-    })).query(({ input }) => db.getTimesheetData(input.dateFrom ? new Date(input.dateFrom) : new Date(), input.dateTo ? new Date(input.dateTo) : new Date())),
-    create: protectedProcedure.input(z.object({
-      staffId: z.number({ required_error: "Staff ID is required" }), date: z.string({ required_error: "Date is required" }), startTime: z.string(), endTime: z.string(),
-      role: z.string().optional(), notes: z.string().optional(),
-    })).mutation(({ input }) => db.createShift(input)),
+    list: protectedProcedure.input(z.object({ locationId: z.number(), dateFrom: z.string().optional(), dateTo: z.string().optional(), })).query(({ input }) => db.getTimesheetData(input.locationId, input.dateFrom ? new Date(input.dateFrom) : new Date(), input.dateTo ? new Date(input.dateTo) : new Date())),
+    create: protectedProcedure.input(z.object({ locationId: z.number().optional(), staffId: z.number({ message: "Staff ID is required" }), date: z.string({ message: "Date is required" }), startTime: z.string(), endTime: z.string(), role: z.string().optional(), notes: z.string().optional(), })).mutation(({ input }) => { const { locationId, ...data } = input; return db.createShift(data); }),
     update: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }), staffId: z.number({ required_error: "Staff ID is required" }).optional(), date: z.string({ required_error: "Date is required" }).optional(),
+      id: z.number({ message: "ID is required" }), staffId: z.number({ message: "Staff ID is required" }).optional(), date: z.string({ message: "Date is required" }).optional(),
       startTime: z.string().optional(), endTime: z.string().optional(),
       role: z.string().optional(), notes: z.string().optional(),
     })).mutation(({ input }) => { const { id, ...data } = input; return db.updateShift(id, data); }),
-    delete: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).mutation(({ input }) => db.deleteShift(input.id)),
+    delete: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).mutation(({ input }) => db.deleteShift(input.id)),
   }),
 
   // ─── Menu Categories ─────────────────────────────────────────────
   categories: router({
     list: publicProcedure.query(() => db.listMenuCategories()),
     create: protectedProcedure.input(z.object({
-      name: z.string({ required_error: "Name is required" }), description: z.string().optional(), sortOrder: z.number().optional(),
+      name: z.string({ message: "Name is required" }), description: z.string().optional(), sortOrder: z.number().optional(),
     })).mutation(({ input }) => db.createMenuCategory(input)),
     update: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }), name: z.string({ required_error: "Name is required" }).optional(), description: z.string().optional(),
+      id: z.number({ message: "ID is required" }), name: z.string({ message: "Name is required" }).optional(), description: z.string().optional(),
       sortOrder: z.number().optional(), isActive: z.boolean().optional(),
     })).mutation(({ input }) => { const { id, ...data } = input; return db.updateMenuCategory(id, data); }),
-    delete: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).mutation(({ input }) => db.deleteMenuCategory(input.id)),
+    delete: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).mutation(({ input }) => db.deleteMenuCategory(input.id)),
   }),
 
   // ─── Menu Items ──────────────────────────────────────────────────
   menu: router({
     list: publicProcedure.input(z.object({ categoryId: z.number().optional() }).optional()).query(() => db.listMenuItems()),
-    get: publicProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).query(({ input }) => db.getMenuItemById(input.id)),
+    get: publicProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).query(({ input }) => db.getMenuItemById(input.id)),
     create: protectedProcedure.input(z.object({
-      categoryId: z.number(), name: z.string({ required_error: "Name is required" }), description: z.string().optional(),
+      categoryId: z.number(), name: z.string({ message: "Name is required" }), description: z.string().optional(),
       price: z.string(), cost: z.string().optional(), taxRate: z.string().optional(),
       imageUrl: z.string().optional(), isAvailable: z.boolean().optional(),
       isPopular: z.boolean().optional(), prepTime: z.number().optional(),
@@ -140,7 +136,7 @@ export const appRouter = router({
       sortOrder: z.number().optional(),
     })).mutation(({ input }) => db.createMenuItem(input)),
     update: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }), categoryId: z.number().optional(), name: z.string({ required_error: "Name is required" }).optional(),
+      id: z.number({ message: "ID is required" }), categoryId: z.number().optional(), name: z.string({ message: "Name is required" }).optional(),
       description: z.string().optional(), price: z.string().optional(),
       cost: z.string().optional(), taxRate: z.string().optional(),
       imageUrl: z.string().optional(), isAvailable: z.boolean().optional(),
@@ -148,27 +144,27 @@ export const appRouter = router({
       station: z.enum(["grill", "fryer", "salad", "dessert", "bar", "general"]).optional(),
       sortOrder: z.number().optional(),
     })).mutation(({ input }) => { const { id, ...data } = input; return db.updateMenuItem(id, data); }),
-    delete: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).mutation(({ input }) => db.deleteMenuItem(input.id)),
-    calculateCost: protectedProcedure.input(z.object({ menuItemId: z.number({ required_error: "Menu Item ID is required" }) })).query(({ input }) => db.calculateMenuItemCost(input.menuItemId)),
-    updateCost: protectedProcedure.input(z.object({ menuItemId: z.number({ required_error: "Menu Item ID is required" }) })).mutation(({ input }) => db.updateMenuItemCost(input.menuItemId)),
+    delete: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).mutation(({ input }) => db.deleteMenuItem(input.id)),
+    calculateCost: protectedProcedure.input(z.object({ menuItemId: z.number({ message: "Menu Item ID is required" }) })).query(({ input }) => db.calculateMenuItemCost(input.menuItemId)),
+    updateCost: protectedProcedure.input(z.object({ menuItemId: z.number({ message: "Menu Item ID is required" }) })).mutation(({ input }) => db.updateMenuItemCost(input.menuItemId)),
     updateAllCosts: adminProcedure.mutation(() => db.updateAllMenuItemCosts()),
-    getCostAnalysis: protectedProcedure.input(z.object({ menuItemId: z.number({ required_error: "Menu Item ID is required" }) })).query(({ input }) => db.getMenuItemCostAnalysis(input.menuItemId)),
+    getCostAnalysis: protectedProcedure.input(z.object({ menuItemId: z.number({ message: "Menu Item ID is required" }) })).query(({ input }) => db.getMenuItemCostAnalysis(input.menuItemId)),
   }),
 
   // ─── Modifiers ───────────────────────────────────────────────────
   modifiers: router({
     list: publicProcedure.query(() => db.listMenuModifiers()),
     create: protectedProcedure.input(z.object({
-      name: z.string({ required_error: "Name is required" }), price: z.string().optional(), groupName: z.string().optional(),
+      name: z.string({ message: "Name is required" }), price: z.string().optional(), groupName: z.string().optional(),
     })).mutation(({ input }) => db.createMenuModifier(input)),
     update: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }), name: z.string({ required_error: "Name is required" }).optional(), price: z.string().optional(),
+      id: z.number({ message: "ID is required" }), name: z.string({ message: "Name is required" }).optional(), price: z.string().optional(),
       groupName: z.string().optional(), isActive: z.boolean().optional(),
     })).mutation(({ input }) => { const { id, ...data } = input; return db.updateMenuModifier(id, data); }),
-    delete: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).mutation(({ input }) => db.deleteMenuModifier(input.id)),
-    getForItem: protectedProcedure.input(z.object({ menuItemId: z.number({ required_error: "Menu Item ID is required" }) })).query(({ input }) => db.getItemModifiers(input.menuItemId)),
+    delete: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).mutation(({ input }) => db.deleteMenuModifier(input.id)),
+    getForItem: protectedProcedure.input(z.object({ menuItemId: z.number({ message: "Menu Item ID is required" }) })).query(({ input }) => db.getItemModifiers(input.menuItemId)),
     setForItem: protectedProcedure.input(z.object({
-      menuItemId: z.number({ required_error: "Menu Item ID is required" }), modifierIds: z.array(z.number()),
+      menuItemId: z.number({ message: "Menu Item ID is required" }), modifierIds: z.array(z.number()),
     })).mutation(async ({ input }) => {
       // Add each modifier individually
       for (const modId of input.modifierIds) {
@@ -182,35 +178,35 @@ export const appRouter = router({
   tables: router({
     list: publicProcedure.query(() => db.listTables()),
     create: protectedProcedure.input(z.object({
-      name: z.string({ required_error: "Name is required" }), seats: z.number().optional(), section: z.string().optional(),
+      name: z.string({ message: "Name is required" }), seats: z.number().optional(), section: z.string().optional(),
       positionX: z.number().optional(), positionY: z.number().optional(),
     })).mutation(({ input }) => db.createTable(input)),
     update: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }), name: z.string({ required_error: "Name is required" }).optional(), seats: z.number().optional(),
+      id: z.number({ message: "ID is required" }), name: z.string({ message: "Name is required" }).optional(), seats: z.number().optional(),
       status: z.enum(["free", "occupied", "reserved", "cleaning"]).optional(),
       section: z.string().optional(), positionX: z.number().optional(), positionY: z.number().optional(),
     })).mutation(({ input }) => { const { id, ...data } = input; return db.updateTable(id, data); }),
-    delete: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).mutation(({ input }) => db.deleteTable(input.id)),
+    delete: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).mutation(({ input }) => db.deleteTable(input.id)),
   }),
 
   // ─── Orders ──────────────────────────────────────────────────────
   orders: router({
     list: protectedProcedure.input(z.object({
-      locationId: z.number({ required_error: "Location ID is required" }),
+      locationId: z.number({ message: "Location ID is required" }),
       status: z.string().optional(), type: z.string().optional(),
       dateFrom: z.string().optional(), dateTo: z.string().optional(),
     })).query(({ input }) => db.getOrderHistory(input as any)),
-    get: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), locationId: z.number({ required_error: "Location ID is required" }) })).query(({ input }) => db.getOrderById(input.id, input.locationId)),
+    get: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), locationId: z.number({ message: "Location ID is required" }) })).query(({ input }) => db.getOrderById(input.id, input.locationId)),
     create: protectedProcedure.input(z.object({
       type: z.enum(["dine_in", "takeaway", "delivery", "collection", "online"]),
-      tableId: z.number().optional(), staffId: z.number({ required_error: "Staff ID is required" }).optional(),
-      customerId: z.number({ required_error: "Customer ID is required" }).optional(), customerName: z.string().optional(), notes: z.string().optional(),
+      tableId: z.number().optional(), staffId: z.number({ message: "Staff ID is required" }).optional(),
+      customerId: z.number({ message: "Customer ID is required" }).optional(), customerName: z.string().optional(), notes: z.string().optional(),
     })).mutation(async ({ input }) => {
       const orderNumber = `ORD-${nanoid(8).toUpperCase()}`;
       return db.createOrder({ ...input, orderNumber });
     }),
     update: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }), status: z.enum(["pending", "preparing", "ready", "served", "completed", "cancelled"]).optional(),
+      id: z.number({ message: "ID is required" }), status: z.enum(["pending", "preparing", "ready", "served", "completed", "cancelled"]).optional(),
       paymentMethod: z.enum(["card", "cash", "split", "online", "unpaid"]).optional(),
       paymentStatus: z.enum(["unpaid", "paid", "refunded", "partial"]).optional(),
       subtotal: z.string().optional(), taxAmount: z.string().optional(),
@@ -227,12 +223,12 @@ export const appRouter = router({
     }),
     items: protectedProcedure.input(z.object({ orderId: z.number() })).query(({ input }) => db.getOrderItems(input.orderId)),
     addItem: protectedProcedure.input(z.object({
-      orderId: z.number(), menuItemId: z.number({ required_error: "Menu Item ID is required" }), name: z.string({ required_error: "Name is required" }),
+      orderId: z.number(), menuItemId: z.number({ message: "Menu Item ID is required" }), name: z.string({ message: "Name is required" }),
       quantity: z.number(), unitPrice: z.string(), totalPrice: z.string(),
       modifiers: z.any().optional(), station: z.string().optional(), notes: z.string().optional(),
     })).mutation(({ input }) => db.addOrderItem(input)),
     updateItem: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }), status: z.enum(["pending", "preparing", "ready", "served", "voided"]).optional(),
+      id: z.number({ message: "ID is required" }), status: z.enum(["pending", "preparing", "ready", "served", "voided"]).optional(),
       quantity: z.number().optional(), notes: z.string().optional(),
       sentToKitchenAt: z.date().optional(), readyAt: z.date().optional(),
     })).mutation(({ input }) => { const { id, ...data } = input; return db.updateOrderItem(id, data); }),
@@ -242,7 +238,7 @@ export const appRouter = router({
   kds: router({
     items: protectedProcedure.query(() => db.getOrdersByStatus('pending')),
     updateStatus: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }), status: z.enum(["pending", "preparing", "ready", "served", "voided"]),
+      id: z.number({ message: "ID is required" }), status: z.enum(["pending", "preparing", "ready", "served", "voided"]),
     })).mutation(async ({ input }) => {
       const data: any = { status: input.status };
       if (input.status === "preparing") data.sentToKitchenAt = new Date();
@@ -253,23 +249,23 @@ export const appRouter = router({
 
   // ─── Ingredients ─────────────────────────────────────────────────
   ingredients: router({
-    list: protectedProcedure.input(z.object({ locationId: z.number({ required_error: "Location ID is required" }) })).query(({ input }) => db.listIngredients(input.locationId)),
-    get: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), locationId: z.number({ required_error: "Location ID is required" }) })).query(({ input }) => db.getIngredientById(input.id, input.locationId)),
+    list: protectedProcedure.input(z.object({ locationId: z.number({ message: "Location ID is required" }) })).query(({ input }) => db.listIngredients(input.locationId)),
+    get: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), locationId: z.number({ message: "Location ID is required" }) })).query(({ input }) => db.getIngredientById(input.id, input.locationId)),
     create: protectedProcedure.input(z.object({
-      name: z.string({ required_error: "Name is required" }), unit: z.string(), currentStock: z.string().optional(),
+      name: z.string({ message: "Name is required" }), unit: z.string(), currentStock: z.string().optional(),
       minStock: z.string().optional(), costPerUnit: z.string().optional(),
-      supplierId: z.number({ required_error: "Supplier ID is required" }).optional(),
+      supplierId: z.number({ message: "Supplier ID is required" }).optional(),
     })).mutation(({ input }) => db.createIngredient(input)),
     update: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }), name: z.string({ required_error: "Name is required" }).optional(), unit: z.string().optional(),
+      id: z.number({ message: "ID is required" }), name: z.string({ message: "Name is required" }).optional(), unit: z.string().optional(),
       currentStock: z.string().optional(), minStock: z.string().optional(),
-      costPerUnit: z.string().optional(), supplierId: z.number({ required_error: "Supplier ID is required" }).optional(),
+      costPerUnit: z.string().optional(), supplierId: z.number({ message: "Supplier ID is required" }).optional(),
       isActive: z.boolean().optional(),
     })).mutation(({ input }) => { const { id, ...data } = input; return db.updateIngredient(id, data); }),
-    delete: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).mutation(({ input }) => db.deleteIngredient(input.id)),
-    lowStock: protectedProcedure.query(() => db.getLowStockIngredients()),
+    delete: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).mutation(({ input }) => db.deleteIngredient(input.id)),
+    lowStock: protectedProcedure.input(z.object({ locationId: z.number() })).query(({ input }) => db.getLowStockIngredients(input.locationId)),
     adjustStock: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }),
+      id: z.number({ message: "ID is required" }),
       delta: z.number(),
       reason: z.string().optional(),
     })).mutation(({ input }) => db.adjustIngredientStock(input.id, input.delta, input.reason || "manual adjustment")),
@@ -277,9 +273,9 @@ export const appRouter = router({
 
   // ─── Recipes ─────────────────────────────────────────────────────
   recipes: router({
-    getForItem: protectedProcedure.input(z.object({ menuItemId: z.number({ required_error: "Menu Item ID is required" }) })).query(({ input }) => db.getRecipesByMenuItem(input.menuItemId)),
+    getForItem: protectedProcedure.input(z.object({ menuItemId: z.number({ message: "Menu Item ID is required" }) })).query(({ input }) => db.getRecipesByMenuItem(input.menuItemId)),
     setForItem: protectedProcedure.input(z.object({
-      menuItemId: z.number({ required_error: "Menu Item ID is required" }),
+      menuItemId: z.number({ message: "Menu Item ID is required" }),
       items: z.array(z.object({ ingredientId: z.number(), quantity: z.string() })),
     })).mutation(async ({ input }) => {
       for (const item of input.items) {
@@ -292,25 +288,25 @@ export const appRouter = router({
   // ─── Suppliers ───────────────────────────────────────────────────
   suppliers: router({
     list: protectedProcedure.query(() => db.listSuppliers()),
-    get: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).query(({ input }) => db.getSupplierById(input.id)),
+    get: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).query(({ input }) => db.getSupplierById(input.id)),
     create: protectedProcedure.input(z.object({
-      name: z.string({ required_error: "Name is required" }), contactName: z.string().optional(), email: z.string().optional(),
+      name: z.string({ message: "Name is required" }), contactName: z.string().optional(), email: z.string().optional(),
       phone: z.string().optional(), address: z.string().optional(), notes: z.string().optional(),
     })).mutation(({ input }) => db.createSupplier(input)),
     update: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }), name: z.string({ required_error: "Name is required" }).optional(), contactName: z.string().optional(),
+      id: z.number({ message: "ID is required" }), name: z.string({ message: "Name is required" }).optional(), contactName: z.string().optional(),
       email: z.string().optional(), phone: z.string().optional(),
       address: z.string().optional(), notes: z.string().optional(), isActive: z.boolean().optional(),
     })).mutation(({ input }) => { const { id, ...data } = input; return db.updateSupplier(id, data); }),
-    delete: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).mutation(({ input }) => db.deleteSupplier(input.id)),
-    getPerformance: protectedProcedure.input(z.object({ supplierId: z.number({ required_error: "Supplier ID is required" }) })).query(({ input }) => db.getSupplierPerformance(input.supplierId)),
-    generateScorecard: protectedProcedure.input(z.object({ supplierId: z.number({ required_error: "Supplier ID is required" }) })).query(({ input }) => db.generateSupplierScorecard(input.supplierId)),
+    delete: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).mutation(({ input }) => db.deleteSupplier(input.id)),
+    getPerformance: protectedProcedure.input(z.object({ supplierId: z.number({ message: "Supplier ID is required" }) })).query(({ input }) => db.getSupplierPerformance(input.supplierId)),
+    generateScorecard: protectedProcedure.input(z.object({ supplierId: z.number({ message: "Supplier ID is required" }) })).query(({ input }) => db.generateSupplierScorecard(input.supplierId)),
   }),
 
   // ─── Supplier Performance (dedicated router) ──────────────────────
   supplierPerformance: router({
     recordPerformance: protectedProcedure.input(z.object({
-      supplierId: z.number({ required_error: "Supplier ID is required" }),
+      supplierId: z.number({ message: "Supplier ID is required" }),
       month: z.number(),
       year: z.number(),
       totalOrders: z.number(),
@@ -321,18 +317,18 @@ export const appRouter = router({
       input.supplierId, input.month, input.year,
       input.totalOrders, input.onTimeDeliveries, input.lateDeliveries, input.qualityRating
     )),
-    getPerformance: protectedProcedure.input(z.object({ supplierId: z.number({ required_error: "Supplier ID is required" }) })).query(({ input }) => db.getSupplierPerformance(input.supplierId)),
-    getScorecard: protectedProcedure.input(z.object({ supplierId: z.number({ required_error: "Supplier ID is required" }) })).query(({ input }) => db.generateSupplierScorecard(input.supplierId)),
-    recordPrice: protectedProcedure.input(z.object({ supplierId: z.number({ required_error: "Supplier ID is required" }), ingredientId: z.number(), price: z.string(), unit: z.string() })).mutation(({ input }) => db.recordSupplierPrice(input.supplierId, input.ingredientId, input.price, input.unit)),
-    getPriceHistory: protectedProcedure.input(z.object({ supplierId: z.number({ required_error: "Supplier ID is required" }), ingredientId: z.number() })).query(({ input }) => db.getSupplierPriceHistory(input.supplierId, input.ingredientId)),
+    getPerformance: protectedProcedure.input(z.object({ supplierId: z.number({ message: "Supplier ID is required" }) })).query(({ input }) => db.getSupplierPerformance(input.supplierId)),
+    getScorecard: protectedProcedure.input(z.object({ supplierId: z.number({ message: "Supplier ID is required" }) })).query(({ input }) => db.generateSupplierScorecard(input.supplierId)),
+    recordPrice: protectedProcedure.input(z.object({ supplierId: z.number({ message: "Supplier ID is required" }), ingredientId: z.number(), price: z.string(), unit: z.string() })).mutation(({ input }) => db.recordSupplierPrice(input.supplierId, input.ingredientId, input.price, input.unit)),
+    getPriceHistory: protectedProcedure.input(z.object({ supplierId: z.number({ message: "Supplier ID is required" }), ingredientId: z.number() })).query(({ input }) => db.getSupplierPriceHistory(input.supplierId, input.ingredientId)),
   }),
 
   // ─── Purchase Orders ─────────────────────────────────────────────
   purchaseOrders: router({
-    list: protectedProcedure.input(z.object({ supplierId: z.number({ required_error: "Supplier ID is required" }).optional() }).optional())
+    list: protectedProcedure.input(z.object({ supplierId: z.number({ message: "Supplier ID is required" }).optional() }).optional())
       .query(() => db.listPurchaseOrders()),
     create: protectedProcedure.input(z.object({
-      supplierId: z.number({ required_error: "Supplier ID is required" }), notes: z.string().optional(),
+      supplierId: z.number({ message: "Supplier ID is required" }), notes: z.string().optional(),
       items: z.array(z.object({
         ingredientId: z.number(), quantity: z.string(), unitCost: z.string(), totalCost: z.string(),
       })),
@@ -346,7 +342,7 @@ export const appRouter = router({
       return po;
     }),
     update: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }), status: z.enum(["draft", "sent", "received", "cancelled"]).optional(),
+      id: z.number({ message: "ID is required" }), status: z.enum(["draft", "sent", "received", "cancelled"]).optional(),
       notes: z.string().optional(),
     })).mutation(async ({ input }) => {
       const { id, ...data } = input;
@@ -356,7 +352,7 @@ export const appRouter = router({
     }),
     items: protectedProcedure.input(z.object({ purchaseOrderId: z.number() }))
       .query(({ input }) => db.getPurchaseOrderItems(input.purchaseOrderId)),
-    receiveAndUpdateStock: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) }))
+    receiveAndUpdateStock: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) }))
       .mutation(async ({ input, ctx }) => {
         const po = await db.getPurchaseOrderById(input.id);
         if (!po) throw new Error("Purchase order not found");
@@ -403,43 +399,43 @@ export const appRouter = router({
 
         return { success: true, itemsUpdated: items.length };
       }),
-    cancel: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) }))
+    cancel: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) }))
       .mutation(({ input }) => db.updatePurchaseOrder(input.id, { status: "cancelled" })),
   }),
 
   // ─── Customers ───────────────────────────────────────────────────
   customers: router({
-    list: protectedProcedure.input(z.object({ search: z.string().optional(), locationId: z.number({ required_error: "Location ID is required" }) }))
+    list: protectedProcedure.input(z.object({ search: z.string().optional(), locationId: z.number({ message: "Location ID is required" }) }))
       .query(({ input }) => db.listCustomers(input.locationId)),
-    get: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), locationId: z.number({ required_error: "Location ID is required" }) })).query(({ input }) => db.getCustomerById(input.id, input.locationId)),
+    get: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), locationId: z.number({ message: "Location ID is required" }) })).query(({ input }) => db.getCustomerById(input.id, input.locationId)),
     create: protectedProcedure.input(z.object({
-      locationId: z.number({ required_error: "Location ID is required" }),
-      name: z.string({ required_error: "Name is required" }), email: z.string().optional(), phone: z.string().optional(),
+      locationId: z.number({ message: "Location ID is required" }),
+      name: z.string({ message: "Name is required" }), email: z.string().optional(), phone: z.string().optional(),
       notes: z.string().optional(), birthday: z.string().optional(),
     })).mutation(({ input }) => { const { locationId, ...data } = input; return db.createCustomer(data, locationId); }),
     update: protectedProcedure.input(z.object({
-      locationId: z.number({ required_error: "Location ID is required" }),
-      id: z.number({ required_error: "ID is required" }), name: z.string({ required_error: "Name is required" }).optional(), email: z.string().optional(),
+      locationId: z.number({ message: "Location ID is required" }),
+      id: z.number({ message: "ID is required" }), name: z.string({ message: "Name is required" }).optional(), email: z.string().optional(),
       phone: z.string().optional(), notes: z.string().optional(), birthday: z.string().optional(),
     })).mutation(({ input }) => { const { id, locationId, ...data } = input; return db.updateCustomer(id, data, locationId); }),
-    addPoints: protectedProcedure.input(z.object({ customerId: z.number({ required_error: "Customer ID is required" }), points: z.number() }))
+    addPoints: protectedProcedure.input(z.object({ customerId: z.number({ message: "Customer ID is required" }), points: z.number() }))
       .mutation(({ input }) => db.addLoyaltyPoints(input.customerId, input.points)),
   }),
 
   // ─── Customer Segmentation ───────────────────────────────────────
   segments: router({
     list: protectedProcedure.query(() => db.getSegments()),
-    get: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).query(({ input }) => db.getSegmentById(input.id)),
+    get: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).query(({ input }) => db.getSegmentById(input.id)),
     create: protectedProcedure.input(z.object({
-      name: z.string({ required_error: "Name is required" }), description: z.string().optional(), color: z.string().optional(),
+      name: z.string({ message: "Name is required" }), description: z.string().optional(), color: z.string().optional(),
     })).mutation(({ input }) => db.createSegment(input.name, input.description || '', input.color || '')),
     update: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }), name: z.string({ required_error: "Name is required" }).optional(), description: z.string().optional(), color: z.string().optional(),
+      id: z.number({ message: "ID is required" }), name: z.string({ message: "Name is required" }).optional(), description: z.string().optional(), color: z.string().optional(),
     })).mutation(({ input }) => db.updateSegment(input.id, input.name || '', input.description || '', input.color || '')),
-    delete: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).mutation(({ input }) => db.deleteSegment(input.id)),
-    addCustomer: protectedProcedure.input(z.object({ customerId: z.number({ required_error: "Customer ID is required" }), segmentId: z.number() }))
+    delete: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).mutation(({ input }) => db.deleteSegment(input.id)),
+    addCustomer: protectedProcedure.input(z.object({ customerId: z.number({ message: "Customer ID is required" }), segmentId: z.number() }))
       .mutation(({ input }) => db.addCustomerToSegment(input.customerId, input.segmentId)),
-    removeCustomer: protectedProcedure.input(z.object({ customerId: z.number({ required_error: "Customer ID is required" }), segmentId: z.number() }))
+    removeCustomer: protectedProcedure.input(z.object({ customerId: z.number({ message: "Customer ID is required" }), segmentId: z.number() }))
       .mutation(({ input }) => db.removeCustomerFromSegment(input.customerId, input.segmentId)),
     members: protectedProcedure.input(z.object({ segmentId: z.number() }))
       .query(({ input }) => db.exportSegmentCustomers(input.segmentId)),
@@ -447,20 +443,20 @@ export const appRouter = router({
       .query(({ input }) => db.getSegmentMemberCount(input.segmentId)),
     export: protectedProcedure.input(z.object({ segmentId: z.number() }))
       .query(({ input }) => db.exportSegmentCustomers(input.segmentId)),
-    customerSegments: protectedProcedure.input(z.object({ customerId: z.number({ required_error: "Customer ID is required" }) }))
+    customerSegments: protectedProcedure.input(z.object({ customerId: z.number({ message: "Customer ID is required" }) }))
       .query(() => db.getSegments()),
   }),
 
   // ─── Campaigns ───────────────────────────────────────────────────
   campaigns: router({
     list: protectedProcedure.query(() => db.getCampaigns()),
-    get: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).query(({ input }) => db.getCampaignById(input.id)),
+    get: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).query(({ input }) => db.getCampaignById(input.id)),
     create: protectedProcedure.input(z.object({
-      name: z.string({ required_error: "Name is required" }), type: z.enum(["email", "sms", "push"]), content: z.string(),
+      name: z.string({ message: "Name is required" }), type: z.enum(["email", "sms", "push"]), content: z.string(),
       segmentId: z.number().optional(), subject: z.string().optional(),
     })).mutation(({ input }) => db.createCampaign(input.name, input.type, input.content, input.segmentId, input.subject)),
     updateStatus: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }), status: z.enum(["draft", "scheduled", "sent", "cancelled"]),
+      id: z.number({ message: "ID is required" }), status: z.enum(["draft", "scheduled", "sent", "cancelled"]),
     })).mutation(({ input }) => db.updateEmailCampaignStatus(input.id, input.status)),
     addRecipients: protectedProcedure.input(z.object({
       campaignId: z.number(), customerIds: z.array(z.number()),
@@ -472,68 +468,62 @@ export const appRouter = router({
     updateRecipientStatus: protectedProcedure.input(z.object({
       recipientId: z.number(), status: z.enum(["pending", "sent", "failed", "opened", "clicked"]),
     })).mutation(({ input }) => db.updateEmailRecipientStatus(input.recipientId, input.status)),
-    delete: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).mutation(({ input }) => db.deleteCampaign(input.id)),
+    delete: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).mutation(({ input }) => db.deleteCampaign(input.id)),
   }),
 
   // ─── Reservations ────────────────────────────────────────────────
   reservations: router({
-    list: protectedProcedure.input(z.object({ date: z.string({ required_error: "Date is required" }).optional(), locationId: z.number({ required_error: "Location ID is required" }) }))
+    list: protectedProcedure.input(z.object({ date: z.string({ message: "Date is required" }).optional(), locationId: z.number({ message: "Location ID is required" }) }))
       .query(({ input }) => db.listReservations(input.locationId)),
     create: protectedProcedure.input(z.object({
-      locationId: z.number({ required_error: "Location ID is required" }),
-      customerId: z.number({ required_error: "Customer ID is required" }).optional(), guestName: z.string(), guestPhone: z.string().optional(),
+      locationId: z.number({ message: "Location ID is required" }),
+      customerId: z.number({ message: "Customer ID is required" }).optional(), guestName: z.string(), guestPhone: z.string().optional(),
       guestEmail: z.string().optional(), tableId: z.number().optional(),
-      partySize: z.number(), date: z.string({ required_error: "Date is required" }), time: z.string(), notes: z.string().optional(),
+      partySize: z.number(), date: z.string({ message: "Date is required" }), time: z.string(), notes: z.string().optional(),
     })).mutation(({ input }) => { const { locationId, ...data } = input; return db.createReservation(data, locationId); }),
     update: protectedProcedure.input(z.object({
-      locationId: z.number({ required_error: "Location ID is required" }),
-      id: z.number({ required_error: "ID is required" }), status: z.enum(["confirmed", "seated", "completed", "cancelled", "no_show"]).optional(),
+      locationId: z.number({ message: "Location ID is required" }),
+      id: z.number({ message: "ID is required" }), status: z.enum(["confirmed", "seated", "completed", "cancelled", "no_show"]).optional(),
       tableId: z.number().optional(), notes: z.string().optional(),
     })).mutation(({ input }) => { const { id, locationId, ...data } = input; return db.updateReservation(id, data, locationId); }),
   }),
 
   // ─── Waitlist ────────────────────────────────────────────────────
   waitlist: router({
-    queue: protectedProcedure.input(z.object({ locationId: z.number({ required_error: "Location ID is required" }) })).query(({ input }) => db.getWaitlistQueue(input.locationId)),
+    queue: protectedProcedure.input(z.object({ locationId: z.number({ message: "Location ID is required" }) })).query(({ input }) => db.getWaitlistQueue(input.locationId)),
     add: protectedProcedure.input(z.object({
-      locationId: z.number({ required_error: "Location ID is required" }),
+      locationId: z.number({ message: "Location ID is required" }),
       guestName: z.string(),
       guestPhone: z.string().optional(),
       guestEmail: z.string().optional(),
       partySize: z.number(),
-      customerId: z.number({ required_error: "Customer ID is required" }).optional(),
+      customerId: z.number({ message: "Customer ID is required" }).optional(),
       notes: z.string().optional(),
     })).mutation(({ input }) => { const { locationId, ...data } = input; return db.addToWaitlist(data, locationId); }),
-    get: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), locationId: z.number({ required_error: "Location ID is required" }) })).query(({ input }) => db.getWaitlistQueue(input.locationId)),
+    get: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), locationId: z.number({ message: "Location ID is required" }) })).query(({ input }) => db.getWaitlistQueue(input.locationId)),
     updateStatus: protectedProcedure.input(z.object({
-      locationId: z.number({ required_error: "Location ID is required" }),
-      id: z.number({ required_error: "ID is required" }),
+      locationId: z.number({ message: "Location ID is required" }),
+      id: z.number({ message: "ID is required" }),
       status: z.enum(["waiting", "called", "seated", "cancelled"]),
     })).mutation(({ input }) => db.updateWaitlistStatus(input.id, input.status, input.locationId)),
-    remove: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), locationId: z.number({ required_error: "Location ID is required" }) })).mutation(({ input }) => db.removeFromWaitlist(input.id, input.locationId)),
-    promote: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), locationId: z.number({ required_error: "Location ID is required" }) })).mutation(({ input }) => db.promoteFromWaitlist(input.id, input.locationId)),
-    stats: protectedProcedure.input(z.object({ locationId: z.number({ required_error: "Location ID is required" }) })).query(({ input }) => db.getWaitlistStats(input.locationId)),
+    remove: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), locationId: z.number({ message: "Location ID is required" }) })).mutation(({ input }) => db.removeFromWaitlist(input.id, input.locationId)),
+    promote: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), locationId: z.number({ message: "Location ID is required" }) })).mutation(({ input }) => db.promoteFromWaitlist(input.id, input.locationId)),
+    stats: protectedProcedure.input(z.object({ locationId: z.number({ message: "Location ID is required" }) })).query(({ input }) => db.getWaitlistStats(input.locationId)),
     estimatedWaitTime: publicProcedure.query(() => db.calculateEstimatedTime(0)),
   }),
 
   // ─── Reporting ───────────────────────────────────────────────────
   reports: router({
-    salesStats: protectedProcedure.input(z.object({ dateFrom: z.string(), dateTo: z.string() }))
-      .query(({ input }) => db.getProfitabilitySummary(input.dateFrom, input.dateTo)),
-    salesByCategory: protectedProcedure.input(z.object({ dateFrom: z.string(), dateTo: z.string() }))
-      .query(({ input }) => db.getProfitabilityByCategory(input.dateFrom, input.dateTo)),
-    topItems: protectedProcedure.input(z.object({ dateFrom: z.string(), dateTo: z.string(), limit: z.number().optional() }))
-      .query(({ input }) => db.getTopProfitableItems(input.limit || 10, input.dateFrom, input.dateTo)),
-    dailySales: protectedProcedure.input(z.object({ dateFrom: z.string(), dateTo: z.string() }))
-      .query(({ input }) => db.getDailyProfitTrend(input.dateFrom, input.dateTo)),
-    labourCosts: protectedProcedure.input(z.object({ dateFrom: z.string(), dateTo: z.string() }))
-      .query(({ input }) => db.calculateTimesheetSummary(new Date(input.dateFrom), new Date(input.dateTo))),
-    ordersByType: protectedProcedure.input(z.object({ dateFrom: z.string(), dateTo: z.string() }))
-      .query(({ input }) => db.getOrdersByTypeAndDateRange(input.dateFrom, input.dateTo)),
-    getSmartReportingInsights: protectedProcedure.input(z.object({ dateFrom: z.string(), dateTo: z.string() })).query(async ({ input }) => {
-      const summary = await db.getProfitabilitySummary(input.dateFrom, input.dateTo);
-      const topItems = await db.getTopProfitableItems(3, input.dateFrom, input.dateTo);
-      const prompt = `Analyze: Revenue $${summary.totalRevenue}, Profit $${summary.grossProfit}, Top: ${topItems.map(i => i.itemName).join(", ")}. Write 2 concise restaurant analyst sentences. No markdown.`;
+    salesStats: protectedProcedure.input(z.object({ locationId: z.number(), dateFrom: z.string(), dateTo: z.string() })).query(({ input }) => db.getProfitabilitySummary(input.locationId, input.dateFrom, input.dateTo)),
+    salesByCategory: protectedProcedure.input(z.object({ locationId: z.number(), dateFrom: z.string(), dateTo: z.string() })).query(({ input }) => db.getProfitabilityByCategory(input.locationId, input.dateFrom, input.dateTo)),
+    topItems: protectedProcedure.input(z.object({ locationId: z.number(), dateFrom: z.string(), dateTo: z.string(), limit: z.number().optional() })).query(({ input }) => db.getTopProfitableItems(input.locationId, input.limit || 10, input.dateFrom, input.dateTo)),
+    dailySales: protectedProcedure.input(z.object({ locationId: z.number(), dateFrom: z.string(), dateTo: z.string() })).query(({ input }) => db.getDailyProfitTrend(input.locationId, input.dateFrom, input.dateTo)),
+    labourCosts: protectedProcedure.input(z.object({ locationId: z.number(), dateFrom: z.string(), dateTo: z.string() })).query(({ input }) => db.calculateTimesheetSummary(input.locationId, new Date(input.dateFrom), new Date(input.dateTo))),
+    ordersByType: protectedProcedure.input(z.object({ locationId: z.number(), dateFrom: z.string(), dateTo: z.string() })).query(({ input }) => db.getOrdersByTypeAndDateRange(input.locationId, input.dateFrom, input.dateTo)),
+    getSmartReportingInsights: protectedProcedure.input(z.object({ locationId: z.number(), dateFrom: z.string(), dateTo: z.string() })).query(async ({ input }) => {
+      const summary = await db.getProfitabilitySummary(input.locationId, input.dateFrom, input.dateTo);
+      const topItems = await db.getTopProfitableItems(input.locationId, 3, input.dateFrom, input.dateTo);
+      const prompt = `Analyze: Revenue $${summary.totalRevenue}, Profit $${summary.grossProfit}, Top: ${topItems.map((i: any) => i.itemName).join(", ")}. Write 2 concise restaurant analyst sentences. No markdown.`;
       try {
         const llmResult = await invokeLLM({ messages: [{ role: "user", content: prompt }] });
         const content = llmResult.choices[0]?.message?.content;
@@ -546,18 +536,17 @@ export const appRouter = router({
   profitability: router({
     byItem: protectedProcedure.input(z.object({ dateFrom: z.string(), dateTo: z.string() }))
       .query(({ input }) => db.getProfitabilityByItem(input.dateFrom, input.dateTo)),
-    byCategory: protectedProcedure.input(z.object({ dateFrom: z.string(), dateTo: z.string() }))
-      .query(({ input }) => db.getProfitabilityByCategory(input.dateFrom, input.dateTo)),
+    byCategory: protectedProcedure.input(z.object({ locationId: z.number().optional(), dateFrom: z.string(), dateTo: z.string() }))
+      .query(({ input }) => db.getProfitabilityByCategory(input.locationId || 1, input.dateFrom, input.dateTo)),
     byShift: protectedProcedure.input(z.object({ dateFrom: z.string(), dateTo: z.string() }))
       .query(({ input }) => db.getProfitabilityByShift(input.dateFrom, input.dateTo)),
-    topItems: protectedProcedure.input(z.object({ dateFrom: z.string(), dateTo: z.string(), limit: z.number().optional() }))
-      .query(({ input }) => db.getTopProfitableItems(input.limit || 10, input.dateFrom, input.dateTo)),
+    topItems: protectedProcedure.input(z.object({ locationId: z.number(), dateFrom: z.string(), dateTo: z.string(), limit: z.number().optional() })).query(({ input }) => db.getTopProfitableItems(input.locationId, input.limit || 10, input.dateFrom, input.dateTo)),
     bottomItems: protectedProcedure.input(z.object({ dateFrom: z.string(), dateTo: z.string(), limit: z.number().optional() }))
       .query(({ input }) => db.getBottomProfitableItems(input.limit || 10, input.dateFrom, input.dateTo)),
-    trends: protectedProcedure.input(z.object({ dateFrom: z.string(), dateTo: z.string() }))
-      .query(({ input }) => db.getDailyProfitTrend(input.dateFrom, input.dateTo)),
-    summary: protectedProcedure.input(z.object({ dateFrom: z.string(), dateTo: z.string() }))
-      .query(({ input }) => db.getProfitabilitySummary(input.dateFrom, input.dateTo)),
+    trends: protectedProcedure.input(z.object({ locationId: z.number().optional(), dateFrom: z.string(), dateTo: z.string() }))
+      .query(({ input }) => db.getDailyProfitTrend(input.locationId || 1, input.dateFrom, input.dateTo)),
+    summary: protectedProcedure.input(z.object({ locationId: z.number().optional(), dateFrom: z.string(), dateTo: z.string() }))
+      .query(({ input }) => db.getProfitabilitySummary(input.locationId || 1, input.dateFrom, input.dateTo)),
   }),
 
   // ─── Online ordering (public) ────────────────────────────────────
@@ -565,16 +554,16 @@ export const appRouter = router({
     menu: publicProcedure.query(async () => {
       const cats = await db.listMenuCategories();
       const items = await db.listMenuItems();
-      return cats.filter(c => c.isActive).map(c => ({
+      return cats.filter((c: any) => c.isActive).map((c: any) => ({
         ...c,
-        items: items.filter(i => i.categoryId === c.id && i.isAvailable),
+        items: items.filter((i: any) => i.categoryId === c.id && i.isAvailable),
       }));
     }),
     placeOrder: publicProcedure.input(z.object({
       customerName: z.string(), customerPhone: z.string().optional(),
       type: z.enum(["takeaway", "delivery", "collection", "online"]),
       items: z.array(z.object({
-        menuItemId: z.number({ required_error: "Menu Item ID is required" }), name: z.string({ required_error: "Name is required" }), quantity: z.number(),
+        menuItemId: z.number({ message: "Menu Item ID is required" }), name: z.string({ message: "Name is required" }), quantity: z.number(),
         unitPrice: z.string(), totalPrice: z.string(), modifiers: z.any().optional(), notes: z.string().optional(),
       })),
       notes: z.string().optional(),
@@ -604,37 +593,37 @@ export const appRouter = router({
 
   // ─── Vendor Products & Price Uploads ─────────────────────────────
   vendorProducts: router({
-    list: protectedProcedure.input(z.object({ supplierId: z.number({ required_error: "Supplier ID is required" }).optional() }).optional())
+    list: protectedProcedure.input(z.object({ supplierId: z.number({ message: "Supplier ID is required" }).optional() }).optional())
       .query(() => db.listVendorProducts()),
-    get: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) }))
+    get: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) }))
       .query(({ input }) => db.getVendorProductById(input.id)),
     update: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }), packSize: z.string().optional(), packUnit: z.string().optional(),
+      id: z.number({ message: "ID is required" }), packSize: z.string().optional(), packUnit: z.string().optional(),
       packQty: z.string().optional(), unitPricePer: z.string().optional(),
     })).mutation(({ input }) => { const { id, ...data } = input; return db.updateVendorProduct(id, data); }),
   }),
 
   vendorMappings: router({
-    list: protectedProcedure.input(z.object({ supplierId: z.number({ required_error: "Supplier ID is required" }).optional() }).optional())
+    list: protectedProcedure.input(z.object({ supplierId: z.number({ message: "Supplier ID is required" }).optional() }).optional())
       .query(({ input }) => db.getVendorProductMappings(input?.supplierId as any)),
     create: protectedProcedure.input(z.object({
       vendorProductId: z.number(), ingredientId: z.number(),
     })).mutation(({ input }) => db.createVendorProductMapping(input)),
-    delete: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) }))
+    delete: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) }))
       .mutation(({ input }) => db.deleteVendorProductMapping(input.id)),
   }),
 
   priceUploads: router({
-    list: protectedProcedure.input(z.object({ supplierId: z.number({ required_error: "Supplier ID is required" }).optional() }).optional())
+    list: protectedProcedure.input(z.object({ supplierId: z.number({ message: "Supplier ID is required" }).optional() }).optional())
       .query(() => db.listPriceUploads()),
-    get: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) }))
+    get: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) }))
       .query(({ input }) => db.getPriceUploadById(input.id)),
     items: protectedProcedure.input(z.object({ uploadId: z.number() }))
       .query(({ input }) => db.getPriceUploadItems(input.uploadId)),
 
     // Upload a PDF order guide and parse it with LLM
     upload: protectedProcedure.input(z.object({
-      supplierId: z.number({ required_error: "Supplier ID is required" }),
+      supplierId: z.number({ message: "Supplier ID is required" }),
       fileName: z.string(),
       fileBase64: z.string(), // base64 encoded PDF
     })).mutation(async ({ input }) => {
@@ -796,38 +785,38 @@ IMPORTANT: Extract EVERY product line. Do not skip any. Return valid JSON only.`
 
   sections: router({
     list: protectedProcedure.query(() => db.getSections()),
-    create: protectedProcedure.input(z.object({ name: z.string({ required_error: "Name is required" }), description: z.string().optional(), sortOrder: z.number().optional() }))
+    create: protectedProcedure.input(z.object({ name: z.string({ message: "Name is required" }), description: z.string().optional(), sortOrder: z.number().optional() }))
       .mutation(({ input }) => db.createSection(input)),
-    update: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), name: z.string({ required_error: "Name is required" }).optional(), description: z.string().optional(), sortOrder: z.number().optional(), isActive: z.boolean().optional() }))
+    update: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), name: z.string({ message: "Name is required" }).optional(), description: z.string().optional(), sortOrder: z.number().optional(), isActive: z.boolean().optional() }))
       .mutation(({ input }) => { const { id, ...data } = input; return db.updateSection(id, data); }),
-    delete: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) }))
+    delete: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) }))
       .mutation(({ input }) => db.deleteSection(input.id)),
   }),
 
   floorPlan: router({
     tablesBySection: protectedProcedure.input(z.object({ section: z.string().optional() }))
       .query(({ input }) => db.getTablesBySection(input.section)),
-    updateTablePosition: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), positionX: z.number(), positionY: z.number(), section: z.string().optional() }))
+    updateTablePosition: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), positionX: z.number(), positionY: z.number(), section: z.string().optional() }))
       .mutation(({ input }) => { const { id, ...data } = input; return db.updateTablePosition(id, data); }),
-    updateTableStatus: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), status: z.enum(["free", "occupied", "reserved", "cleaning"]) }))
+    updateTableStatus: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), status: z.enum(["free", "occupied", "reserved", "cleaning"]) }))
       .mutation(({ input }) => db.updateTableStatus(input.id, input.status)),
-    getTableDetails: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) }))
+    getTableDetails: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) }))
       .query(({ input }) => db.getTableWithOrders(input.id)),
   }),
 
   zReports: router({
     generate: adminProcedure.input(z.object({ 
-      date: z.string({ required_error: "Date is required" }), 
-      locationId: z.number({ required_error: "Location ID is required" }).optional() 
+      date: z.string({ message: "Date is required" }), 
+      locationId: z.number({ message: "Location ID is required" }).optional() 
     })).mutation(({ input, ctx }) => db.generateZReport(input.date, ctx.user.id, input.locationId)),
     
     getByDate: protectedProcedure.input(z.object({ 
-      date: z.string({ required_error: "Date is required" }), 
-      locationId: z.number({ required_error: "Location ID is required" }).optional() 
+      date: z.string({ message: "Date is required" }), 
+      locationId: z.number({ message: "Location ID is required" }).optional() 
     })).query(({ input }) => db.getZReportByDate(input.date, input.locationId)),
     
     getByLocation: protectedProcedure.input(z.object({ 
-      locationId: z.number({ required_error: "Location ID is required" }), 
+      locationId: z.number({ message: "Location ID is required" }), 
       limit: z.number().optional() 
     })).query(({ input }) => db.getZReportByLocation(input.locationId, input.limit)),
     
@@ -841,7 +830,7 @@ IMPORTANT: Extract EVERY product line. Do not skip any. Return valid JSON only.`
       reportId: z.number(),
       shiftNumber: z.number(),
       actualCash: z.string(),
-      staffId: z.number({ required_error: "Staff ID is required" }).optional(),
+      staffId: z.number({ message: "Staff ID is required" }).optional(),
     })).mutation(({ input, ctx }) => db.reconcileShiftCash(
       input.reportId, 
       input.shiftNumber, 
@@ -891,7 +880,7 @@ IMPORTANT: Extract EVERY product line. Do not skip any. Return valid JSON only.`
     search: protectedProcedure.input(z.object({
       dateFrom: z.string().optional(),
       dateTo: z.string().optional(),
-      customerId: z.number({ required_error: "Customer ID is required" }).optional(),
+      customerId: z.number({ message: "Customer ID is required" }).optional(),
       status: z.string().optional(),
       searchTerm: z.string().optional(),
     })).query(({ input }) => db.getOrderHistory(input)),
@@ -899,17 +888,17 @@ IMPORTANT: Extract EVERY product line. Do not skip any. Return valid JSON only.`
       .query(({ input }) => db.getOrderDetailsForReceipt(input.orderId)),
     searchOrders: protectedProcedure.input(z.object({ searchTerm: z.string(), limit: z.number().optional() }))
       .query(({ input }) => db.searchOrders(input.searchTerm, input.limit)),
-    getByCustomer: protectedProcedure.input(z.object({ customerId: z.number({ required_error: "Customer ID is required" }) }))
+    getByCustomer: protectedProcedure.input(z.object({ customerId: z.number({ message: "Customer ID is required" }) }))
       .query(({ input }) => db.getOrdersByCustomer(input.customerId)),
     getByDateRange: protectedProcedure.input(z.object({ dateFrom: z.string(), dateTo: z.string() }))
       .query(({ input }) => db.getOrdersByDateRange(input.dateFrom, input.dateTo)),
   }),
   customerDetail: router({
-    getWithOrderHistory: protectedProcedure.input(z.object({ customerId: z.number({ required_error: "Customer ID is required" }) })).query(({ input }) => db.getCustomerWithOrderHistory(input.customerId)),
+    getWithOrderHistory: protectedProcedure.input(z.object({ customerId: z.number({ message: "Customer ID is required" }) })).query(({ input }) => db.getCustomerWithOrderHistory(input.customerId)),
     getOrderWithItems: protectedProcedure.input(z.object({ orderId: z.number() })).query(({ input }) => db.getOrderWithItems(input.orderId)),
-    getLoyaltyHistory: protectedProcedure.input(z.object({ customerId: z.number({ required_error: "Customer ID is required" }) })).query(({ input }) => db.getLoyaltyPointsHistory(input.customerId)),
+    getLoyaltyHistory: protectedProcedure.input(z.object({ customerId: z.number({ message: "Customer ID is required" }) })).query(({ input }) => db.getLoyaltyPointsHistory(input.customerId)),
     repeatOrder: protectedProcedure.input(z.object({
-      customerId: z.number({ required_error: "Customer ID is required" }),
+      customerId: z.number({ message: "Customer ID is required" }),
       sourceOrderId: z.number(),
       newTableId: z.number().optional(),
     })).mutation(({ input }) => db.createOrderFromCustomerOrder(input.customerId, input.sourceOrderId, input.newTableId)),
@@ -935,61 +924,64 @@ IMPORTANT: Extract EVERY product line. Do not skip any. Return valid JSON only.`
   }),
   dayparts: router({
     list: publicProcedure.query(() => db.getDayparts()),
-    create: protectedProcedure.input(z.object({ name: z.string({ required_error: "Name is required" }), startTime: z.string(), endTime: z.string() })).mutation(({ input }) => db.createDaypart(input)),
-    update: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), name: z.string({ required_error: "Name is required" }).optional(), startTime: z.string().optional(), endTime: z.string().optional(), isActive: z.boolean().optional() })).mutation(({ input }) => db.updateDaypart(input.id, input)),
+    create: protectedProcedure.input(z.object({ name: z.string({ message: "Name is required" }), startTime: z.string(), endTime: z.string() })).mutation(({ input }) => db.createDaypart(input)),
+    update: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), name: z.string({ message: "Name is required" }).optional(), startTime: z.string().optional(), endTime: z.string().optional(), isActive: z.boolean().optional() })).mutation(({ input }) => db.updateDaypart(input.id, input)),
     getCurrent: publicProcedure.query(() => db.getCurrentDaypart()),
-    getMenuItemPrices: publicProcedure.input(z.object({ menuItemId: z.number({ required_error: "Menu Item ID is required" }) })).query(({ input }) => db.getMenuItemAllDaypartPrices(input.menuItemId)),
-    setMenuItemPrice: protectedProcedure.input(z.object({ menuItemId: z.number({ required_error: "Menu Item ID is required" }), daypartId: z.number(), price: z.string() })).mutation(({ input }) => db.setMenuItemDaypartPrice(input.menuItemId, input.daypartId, input.price)),
+    getMenuItemPrices: publicProcedure.input(z.object({ menuItemId: z.number({ message: "Menu Item ID is required" }) })).query(({ input }) => db.getMenuItemAllDaypartPrices(input.menuItemId)),
+    setMenuItemPrice: protectedProcedure.input(z.object({ menuItemId: z.number({ message: "Menu Item ID is required" }), daypartId: z.number(), price: z.string() })).mutation(({ input }) => db.setMenuItemDaypartPrice(input.menuItemId, input.daypartId, input.price)),
   }),
   voidReasons: router({
     recordOrderVoid: protectedProcedure.input(z.object({ orderId: z.number(), reason: z.string(), notes: z.string().nullable(), voidedBy: z.number() })).mutation(({ input }) => db.recordOrderVoid(input.orderId, input.reason, input.notes, input.voidedBy)),
     recordItemVoid: protectedProcedure.input(z.object({ orderItemId: z.number(), reason: z.string(), notes: z.string().nullable(), voidedBy: z.number() })).mutation(({ input }) => db.recordOrderItemVoid(input.orderItemId, input.reason, input.notes, input.voidedBy)),
     getReport: protectedProcedure.input(z.object({ startDate: z.date(), endDate: z.date() })).query(({ input }) => db.getVoidReasonReport(input.startDate, input.endDate)),
     getStats: protectedProcedure.input(z.object({ startDate: z.date(), endDate: z.date() })).query(({ input }) => db.getVoidReasonStats(input.startDate, input.endDate)),
-    getByStaff: protectedProcedure.input(z.object({ staffId: z.number({ required_error: "Staff ID is required" }), startDate: z.date(), endDate: z.date() })).query(({ input }) => db.getVoidReasonsByStaff(input.staffId, input.startDate, input.endDate)),
+    getByStaff: protectedProcedure.input(z.object({ staffId: z.number({ message: "Staff ID is required" }), startDate: z.date(), endDate: z.date() })).query(({ input }) => db.getVoidReasonsByStaff(input.staffId, input.startDate, input.endDate)),
   }),
 
   timesheet: router({
     getTimesheetData: protectedProcedure
       .input(
         z.object({
+          locationId: z.number().optional(),
           startDate: z.date(),
           endDate: z.date(),
-          staffId: z.number({ required_error: "Staff ID is required" }).optional(),
+          staffId: z.number({ message: "Staff ID is required" }).optional(),
           role: z.string().optional(),
         })
       )
       .query(({ input }) =>
-        db.getTimesheetData(input.startDate, input.endDate, input.staffId, input.role)
+        db.getTimesheetData(input.locationId || 1, input.startDate, input.endDate, input.staffId, input.role)
       ),
     getTimesheetSummary: protectedProcedure
       .input(
         z.object({
+          locationId: z.number().optional(),
           startDate: z.date(),
           endDate: z.date(),
-          staffId: z.number({ required_error: "Staff ID is required" }).optional(),
+          staffId: z.number({ message: "Staff ID is required" }).optional(),
           role: z.string().optional(),
         })
       )
       .query(({ input }) =>
-        db.calculateTimesheetSummary(input.startDate, input.endDate, input.staffId, input.role)
+        db.calculateTimesheetSummary(input.locationId || 1, input.startDate, input.endDate, input.staffId, input.role)
       ),
     exportCSV: protectedProcedure
       .input(
         z.object({
+          locationId: z.number().optional(),
           startDate: z.date(),
           endDate: z.date(),
-          staffId: z.number({ required_error: "Staff ID is required" }).optional(),
+          staffId: z.number({ message: "Staff ID is required" }).optional(),
           role: z.string().optional(),
         })
       )
       .query(({ input }) =>
-        db.generateTimesheetCSV(input.startDate, input.endDate, input.staffId, input.role)
+        db.generateTimesheetCSV(input.locationId || 1, input.startDate, input.endDate, input.staffId, input.role)
       ),
     getStaffStats: protectedProcedure
       .input(
         z.object({
-          staffId: z.number({ required_error: "Staff ID is required" }),
+          staffId: z.number({ message: "Staff ID is required" }),
           startDate: z.date(),
           endDate: z.date(),
         })
@@ -1002,19 +994,19 @@ IMPORTANT: Extract EVERY product line. Do not skip any. Return valid JSON only.`
   sms: router({
     getSettings: protectedProcedure.query(() => db.getSmsSettings()),
     updateSettings: protectedProcedure.input(z.object({ twilioAccountSid: z.string().optional(), twilioAuthToken: z.string().optional(), twilioPhoneNumber: z.string().optional(), isEnabled: z.boolean().optional() })).mutation(({ input }) => db.updateSmsSettings(input)),
-    sendMessage: protectedProcedure.input(z.object({ customerId: z.number({ required_error: "Customer ID is required" }).nullable(), phoneNumber: z.string(), message: z.string(), type: z.string() })).mutation(({ input }) => db.sendSmsMessage(input.customerId, input.phoneNumber, input.message, input.type)),
-    getPreferences: protectedProcedure.input(z.object({ customerId: z.number({ required_error: "Customer ID is required" }) })).query(({ input }) => db.getSmsPreferences(input.customerId)),
-    updatePreferences: protectedProcedure.input(z.object({ customerId: z.number({ required_error: "Customer ID is required" }), optInReservations: z.boolean().optional(), optInWaitlist: z.boolean().optional(), optInOrderUpdates: z.boolean().optional(), optInPromotions: z.boolean().optional() })).mutation(({ input }) => db.updateSmsPreferences(input.customerId, input)),
-    getHistory: protectedProcedure.input(z.object({ customerId: z.number({ required_error: "Customer ID is required" }) })).query(({ input }) => db.getSmsMessageHistory(input.customerId)),
+    sendMessage: protectedProcedure.input(z.object({ customerId: z.number({ message: "Customer ID is required" }).nullable(), phoneNumber: z.string(), message: z.string(), type: z.string() })).mutation(({ input }) => db.sendSmsMessage(input.customerId, input.phoneNumber, input.message, input.type)),
+    getPreferences: protectedProcedure.input(z.object({ customerId: z.number({ message: "Customer ID is required" }) })).query(({ input }) => db.getSmsPreferences(input.customerId)),
+    updatePreferences: protectedProcedure.input(z.object({ customerId: z.number({ message: "Customer ID is required" }), optInReservations: z.boolean().optional(), optInWaitlist: z.boolean().optional(), optInOrderUpdates: z.boolean().optional(), optInPromotions: z.boolean().optional() })).mutation(({ input }) => db.updateSmsPreferences(input.customerId, input)),
+    getHistory: protectedProcedure.input(z.object({ customerId: z.number({ message: "Customer ID is required" }) })).query(({ input }) => db.getSmsMessageHistory(input.customerId)),
   }),
 
   emailCampaigns: router({
-    createTemplate: protectedProcedure.input(z.object({ name: z.string({ required_error: "Name is required" }), subject: z.string(), htmlContent: z.string() })).mutation(({ input }) => db.createEmailTemplate(input.name, input.subject, input.htmlContent)),
+    createTemplate: protectedProcedure.input(z.object({ name: z.string({ message: "Name is required" }), subject: z.string(), htmlContent: z.string() })).mutation(({ input }) => db.createEmailTemplate(input.name, input.subject, input.htmlContent)),
     getTemplates: protectedProcedure.query(() => db.getEmailTemplates()),
-    createCampaign: protectedProcedure.input(z.object({ name: z.string({ required_error: "Name is required" }), templateId: z.number(), segmentId: z.number().optional() })).mutation(({ input }) => db.createEmailCampaign(input.name, input.templateId, input.segmentId)),
+    createCampaign: protectedProcedure.input(z.object({ name: z.string({ message: "Name is required" }), templateId: z.number(), segmentId: z.number().optional() })).mutation(({ input }) => db.createEmailCampaign(input.name, input.templateId, input.segmentId)),
     getCampaigns: protectedProcedure.query(() => db.getEmailCampaigns()),
     updateStatus: protectedProcedure.input(z.object({ campaignId: z.number(), status: z.string(), sentAt: z.date().optional() })).mutation(({ input }) => db.updateEmailCampaignStatus(input.campaignId, input.status, input.sentAt)),
-    addRecipient: protectedProcedure.input(z.object({ campaignId: z.number(), customerId: z.number({ required_error: "Customer ID is required" }), email: z.string() })).mutation(({ input }) => db.addEmailCampaignRecipient(input.campaignId, input.customerId, input.email)),
+    addRecipient: protectedProcedure.input(z.object({ campaignId: z.number(), customerId: z.number({ message: "Customer ID is required" }), email: z.string() })).mutation(({ input }) => db.addEmailCampaignRecipient(input.campaignId, input.customerId, input.email)),
     getStats: protectedProcedure.input(z.object({ campaignId: z.number() })).query(({ input }) => db.getEmailCampaignStats(input.campaignId)),
   }),
 
@@ -1028,14 +1020,14 @@ IMPORTANT: Extract EVERY product line. Do not skip any. Return valid JSON only.`
   payments: router({
     create: protectedProcedure.input(z.object({ orderId: z.number(), amount: z.string(), paymentMethod: z.string(), provider: z.string(), transactionId: z.string() })).mutation(({ input }) => db.createPaymentTransaction(input.orderId, input.amount, input.paymentMethod, input.provider, input.transactionId)),
     getByOrder: protectedProcedure.input(z.object({ orderId: z.number() })).query(({ input }) => db.getPaymentsByOrder(input.orderId)),
-    updateStatus: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), status: z.string() })).mutation(({ input }) => db.updatePaymentStatus(input.id, input.status)),
-    createRefund: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), refundAmount: z.string(), refundStatus: z.string() })).mutation(({ input }) => db.createRefund(input.id, input.refundAmount, input.refundStatus)),
+    updateStatus: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), status: z.string() })).mutation(({ input }) => db.updatePaymentStatus(input.id, input.status)),
+    createRefund: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), refundAmount: z.string(), refundStatus: z.string() })).mutation(({ input }) => db.createRefund(input.id, input.refundAmount, input.refundStatus)),
   }),
   notifications: router({
     create: protectedProcedure.input(z.object({ userId: z.number(), title: z.string(), message: z.string(), type: z.string(), relatedId: z.number().optional() })).mutation(({ input }) => db.createNotification(input.userId, input.title, input.message, input.type, input.relatedId)),
     getByUser: protectedProcedure.input(z.object({ userId: z.number() })).query(({ input }) => db.getUserNotifications(input.userId)),
-    markAsRead: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).mutation(({ input }) => db.markNotificationAsRead(input.id)),
-    archive: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) })).mutation(({ input }) => db.archiveNotification(input.id)),
+    markAsRead: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).mutation(({ input }) => db.markNotificationAsRead(input.id)),
+    archive: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) })).mutation(({ input }) => db.archiveNotification(input.id)),
     getPreferences: protectedProcedure.input(z.object({ userId: z.number() })).query(({ input }) => db.getNotificationPreferences(input.userId)),
     updatePreferences: protectedProcedure.input(z.object({ userId: z.number(), prefs: z.any() })).mutation(({ input }) => db.updateNotificationPreferences(input.userId, input.prefs)),
   }),
@@ -1043,8 +1035,8 @@ IMPORTANT: Extract EVERY product line. Do not skip any. Return valid JSON only.`
   recipeCostAnalysis: router({
     recordCostHistory: protectedProcedure.input(z.object({ recipeId: z.number(), totalCost: z.string(), ingredientCount: z.number() })).mutation(({ input }) => db.recordRecipeCostHistory(input.recipeId, input.totalCost, input.ingredientCount)),
     getCostHistory: protectedProcedure.input(z.object({ recipeId: z.number() })).query(({ input }) => db.getRecipeCostHistory(input.recipeId)),
-    compareCostVsPrice: protectedProcedure.input(z.object({ recipeId: z.number(), menuItemId: z.number({ required_error: "Menu Item ID is required" }) })).query(({ input }) => db.compareCostVsPrice(input.recipeId, input.menuItemId)),
-    getSmartMenuInsights: protectedProcedure.input(z.object({ menuItemId: z.number({ required_error: "Menu Item ID is required" }).optional() })).query(async ({ input }) => {
+    compareCostVsPrice: protectedProcedure.input(z.object({ recipeId: z.number(), menuItemId: z.number({ message: "Menu Item ID is required" }) })).query(({ input }) => db.compareCostVsPrice(input.recipeId, input.menuItemId)),
+    getSmartMenuInsights: protectedProcedure.input(z.object({ menuItemId: z.number({ message: "Menu Item ID is required" }).optional() })).query(async ({ input }) => {
       const prompt = `You are a Restaurant Menu Engineer AI. The user is looking at their recipe costs. Write a 2-3 sentence insight on how to optimize food costs relative to selling price. Suggest either a high-margin ingredient substitution, a portion adjustment, or a psychological pricing optimization. Provide actionable advice. Do NOT use markdown.`;
 
       try {
@@ -1063,8 +1055,8 @@ IMPORTANT: Extract EVERY product line. Do not skip any. Return valid JSON only.`
     }),
   }),
   salesAnalytics: router({
-    hourlySalesTrend: protectedProcedure.input(z.object({ date: z.string({ required_error: "Date is required" }).optional() }).optional()).query(({ input }) => db.getHourlySalesTrend(input?.date)),
-    staffPerformance: protectedProcedure.input(z.object({ startDate: z.string().optional(), endDate: z.string().optional() }).optional()).query(({ input }) => db.getStaffSalesPerformance(input?.startDate, input?.endDate)),
+    hourlySalesTrend: protectedProcedure.input(z.object({ locationId: z.number(), date: z.string().optional() }).optional()).query(({ input }) => db.getHourlySalesTrend(input?.locationId || 1, input?.date)),
+    staffPerformance: protectedProcedure.input(z.object({ locationId: z.number(), startDate: z.string().optional(), endDate: z.string().optional() }).optional()).query(({ input }) => db.getStaffSalesPerformance(input?.locationId || 1, input?.startDate, input?.endDate)),
     unifiedQueue: protectedProcedure.query(() => db.getUnifiedOrderQueue()),
     getSalesMetrics: protectedProcedure.input(z.object({ startDate: z.string(), endDate: z.string() }))
       .query(({ input }) => db.getKPIDashboardMetrics(input.startDate, input.endDate)),
@@ -1092,7 +1084,7 @@ IMPORTANT: Extract EVERY product line. Do not skip any. Return valid JSON only.`
 
   invoices: router({
     create: protectedProcedure.input(z.object({
-      supplierId: z.number({ required_error: "Supplier ID is required" }),
+      supplierId: z.number({ message: "Supplier ID is required" }),
       invoiceNumber: z.string(),
       invoiceDate: z.string(),
       dueDate: z.string(),
@@ -1120,7 +1112,7 @@ IMPORTANT: Extract EVERY product line. Do not skip any. Return valid JSON only.`
 
   // ─── Module 5.2: Inventory Management - Missing Features ───────────────────
   inventoryManagement: router({
-    supplierLeadTimes: protectedProcedure.input(z.object({ supplierId: z.number({ required_error: "Supplier ID is required" }) }))
+    supplierLeadTimes: protectedProcedure.input(z.object({ supplierId: z.number({ message: "Supplier ID is required" }) }))
       .query(({ input }) => db.getSupplierLeadTimes(input.supplierId)),
     minimumOrderAlerts: protectedProcedure.query(() => db.getMinimumOrderQuantityAlerts()),
     reorderPointRecommendations: protectedProcedure.query(() => db.getReorderPointRecommendations()),
@@ -1131,7 +1123,7 @@ IMPORTANT: Extract EVERY product line. Do not skip any. Return valid JSON only.`
       .query(({ input }) => db.getIngredientSubstitutionSuggestions(input.ingredientId)),
     forecastedDemand: protectedProcedure.input(z.object({ ingredientId: z.number(), daysAhead: z.number().optional() }))
       .query(({ input }) => db.getForecastedDemand(input.ingredientId, input.daysAhead)),
-    portionSizeVariants: protectedProcedure.input(z.object({ menuItemId: z.number({ required_error: "Menu Item ID is required" }) }))
+    portionSizeVariants: protectedProcedure.input(z.object({ menuItemId: z.number({ message: "Menu Item ID is required" }) }))
       .query(({ input }) => db.getPortionSizeVariants(input.menuItemId)),
     productionTemplates: protectedProcedure.query(() => db.getProductionQuantityTemplates()),
     batchLotTracking: protectedProcedure.input(z.object({ ingredientId: z.number() }))
@@ -1140,19 +1132,19 @@ IMPORTANT: Extract EVERY product line. Do not skip any. Return valid JSON only.`
       .query(({ input }) => db.get3WayMatchingStatus(input.purchaseOrderId)),
     autoReceiveQR: protectedProcedure.input(z.object({ qrCode: z.string() }))
       .mutation(({ input }) => db.autoReceiveDeliveryQR(input.qrCode)),
-    ediIntegrationStatus: protectedProcedure.input(z.object({ supplierId: z.number({ required_error: "Supplier ID is required" }) }))
+    ediIntegrationStatus: protectedProcedure.input(z.object({ supplierId: z.number({ message: "Supplier ID is required" }) }))
       .query(({ input }) => db.getEDIIntegrationStatus(input.supplierId)),
-    supplierContracts: protectedProcedure.input(z.object({ supplierId: z.number({ required_error: "Supplier ID is required" }) }))
+    supplierContracts: protectedProcedure.input(z.object({ supplierId: z.number({ message: "Supplier ID is required" }) }))
       .query(({ input }) => db.getSupplierContracts(input.supplierId)),
-    getSmartOrderingInsights: protectedProcedure.query(async () => {
+    getSmartOrderingInsights: protectedProcedure.input(z.object({ locationId: z.number() })).query(async ({ input }) => {
       // Fetch current low stock items to give to the LLM
-      const lowStock = await db.getLowStockIngredients();
-      const topSelling = await db.getTopProfitableItems(5, new Date(Date.now() - 7 * 86400000).toISOString().split('T')[0], new Date().toISOString().split('T')[0]);
+      const lowStock = await db.getLowStockIngredients(input.locationId);
+      const topSelling = await db.getTopProfitableItems(input.locationId, 5, new Date(Date.now() - 7 * 86400000).toISOString().split('T')[0], new Date().toISOString().split('T')[0]);
 
       const prompt = `You are a Smart Inventory Engine for a restaurant. 
 Data:
-- Low Stock Items: ${JSON.stringify(lowStock.map(i => i.name))}
-- Top Selling Items (last 7 days): ${JSON.stringify(topSelling.map(i => i.itemName))}
+- Low Stock Items: ${JSON.stringify(lowStock.map((i: any) => i.name))}
+- Top Selling Items (last 7 days): ${JSON.stringify(topSelling.map((i: any) => i.itemName))}
 
 Write a 2-3 sentence smart prediction suggesting which ingredients the restaurant needs to urgently bulk order to support the top-selling items safely before the weekend. Focus on actionability and supply-chain foresight. Do NOT use markdown.`;
 
@@ -1183,36 +1175,36 @@ Write a 2-3 sentence smart prediction suggesting which ingredients the restauran
         return { insight: "AI models suggest reviewing upcoming scheduled overtime and offering shifts to part-time staff who are under their maximum weekly hours to reduce labour costs." };
       }
     }),
-    biometricTracking: protectedProcedure.input(z.object({ staffId: z.number({ required_error: "Staff ID is required" }), startDate: z.string(), endDate: z.string() }))
+    biometricTracking: protectedProcedure.input(z.object({ staffId: z.number({ message: "Staff ID is required" }), startDate: z.string(), endDate: z.string() }))
       .query(({ input }) => db.getBiometricTimeTracking(input.staffId, new Date(input.startDate), new Date(input.endDate))),
-    gpsVerification: protectedProcedure.input(z.object({ staffId: z.number({ required_error: "Staff ID is required" }) }))
+    gpsVerification: protectedProcedure.input(z.object({ staffId: z.number({ message: "Staff ID is required" }) }))
       .query(({ input }) => db.getGPSClockInVerification(input.staffId)),
-    geofencing: protectedProcedure.input(z.object({ staffId: z.number({ required_error: "Staff ID is required" }) }))
+    geofencing: protectedProcedure.input(z.object({ staffId: z.number({ message: "Staff ID is required" }) }))
       .query(({ input }) => db.getGeofencingStatus(input.staffId)),
-    advancedPTO: protectedProcedure.input(z.object({ staffId: z.number({ required_error: "Staff ID is required" }) }))
+    advancedPTO: protectedProcedure.input(z.object({ staffId: z.number({ message: "Staff ID is required" }) }))
       .query(({ input }) => db.getAdvancedPTOManagement(input.staffId)),
-    sickLeave: protectedProcedure.input(z.object({ staffId: z.number({ required_error: "Staff ID is required" }), year: z.number() }))
+    sickLeave: protectedProcedure.input(z.object({ staffId: z.number({ message: "Staff ID is required" }), year: z.number() }))
       .query(({ input }) => db.getSickLeaveTracking(input.staffId, input.year)),
-    recordBonus: protectedProcedure.input(z.object({ staffId: z.number({ required_error: "Staff ID is required" }), amount: z.string(), reason: z.string(), month: z.number(), year: z.number() }))
+    recordBonus: protectedProcedure.input(z.object({ staffId: z.number({ message: "Staff ID is required" }), amount: z.string(), reason: z.string(), month: z.number(), year: z.number() }))
       .mutation(({ input }) => db.recordBonus(input.staffId, input.amount, input.reason, input.month, input.year)),
-    calculateCommission: protectedProcedure.input(z.object({ staffId: z.number({ required_error: "Staff ID is required" }), startDate: z.string(), endDate: z.string() }))
+    calculateCommission: protectedProcedure.input(z.object({ staffId: z.number({ message: "Staff ID is required" }), startDate: z.string(), endDate: z.string() }))
       .query(({ input }) => db.calculateCommission(input.staffId, new Date(input.startDate), new Date(input.endDate))),
-    disputeResolution: protectedProcedure.input(z.object({ staffId: z.number({ required_error: "Staff ID is required" }) }))
+    disputeResolution: protectedProcedure.input(z.object({ staffId: z.number({ message: "Staff ID is required" }) }))
       .query(({ input }) => db.getLabourDisputeResolution(input.staffId)),
-    trainingTracking: protectedProcedure.input(z.object({ staffId: z.number({ required_error: "Staff ID is required" }) }))
+    trainingTracking: protectedProcedure.input(z.object({ staffId: z.number({ message: "Staff ID is required" }) }))
       .query(({ input }) => db.getStaffTrainingTracking(input.staffId)),
-    certifications: protectedProcedure.input(z.object({ staffId: z.number({ required_error: "Staff ID is required" }) }))
+    certifications: protectedProcedure.input(z.object({ staffId: z.number({ message: "Staff ID is required" }) }))
       .query(({ input }) => db.getStaffCertifications(input.staffId)),
     certificationAlerts: protectedProcedure.input(z.object({ daysUntilExpiry: z.number().optional() }))
       .query(({ input }) => db.getCertificationExpiryAlerts(input.daysUntilExpiry)),
-    performanceReviews: protectedProcedure.input(z.object({ staffId: z.number({ required_error: "Staff ID is required" }) }))
+    performanceReviews: protectedProcedure.input(z.object({ staffId: z.number({ message: "Staff ID is required" }) }))
       .query(({ input }) => db.getPerformanceReviews(input.staffId)),
-    staffFeedback: protectedProcedure.input(z.object({ staffId: z.number({ required_error: "Staff ID is required" }) }))
+    staffFeedback: protectedProcedure.input(z.object({ staffId: z.number({ message: "Staff ID is required" }) }))
       .query(({ input }) => db.getStaffFeedback(input.staffId)),
     complianceReports: protectedProcedure.input(z.object({ startDate: z.string(), endDate: z.string() }))
       .query(({ input }) => db.getAdvancedLabourComplianceReports(new Date(input.startDate), new Date(input.endDate))),
     wageTheftPrevention: protectedProcedure.query(() => db.getWageTheftPreventionData()),
-    tipPooling: protectedProcedure.input(z.object({ locationId: z.number({ required_error: "Location ID is required" }).optional() }))
+    tipPooling: protectedProcedure.input(z.object({ locationId: z.number({ message: "Location ID is required" }).optional() }))
       .query(({ input }) => db.getTipPoolingManagement(input.locationId)),
   }),
 
@@ -1226,9 +1218,9 @@ Write a 2-3 sentence smart prediction suggesting which ingredients the restauran
 
   // ─── Module 5.5: Customer Management - Missing Features ───────────────────
   customerAnalytics: router({
-    churnPrediction: protectedProcedure.input(z.object({ customerId: z.number({ required_error: "Customer ID is required" }) }))
+    churnPrediction: protectedProcedure.input(z.object({ customerId: z.number({ message: "Customer ID is required" }) }))
       .query(({ input }) => db.getAdvancedChurnPrediction(input.customerId)),
-    predictiveLifetimeValue: protectedProcedure.input(z.object({ customerId: z.number({ required_error: "Customer ID is required" }) }))
+    predictiveLifetimeValue: protectedProcedure.input(z.object({ customerId: z.number({ message: "Customer ID is required" }) }))
       .query(({ input }) => db.getPredictiveCustomerLifetimeValue(input.customerId)),
   }),
 
@@ -1296,7 +1288,7 @@ Write a 2-3 sentence smart prediction suggesting which ingredients the restauran
     })).mutation(({ input }) => db.updateReceiptSettings(input)),
     getSecuritySettings: protectedProcedure.query(() => db.getSecuritySettings()),
     updateSecuritySettings: protectedProcedure.input(z.object({ twoFactorAuthEnabled: z.boolean().optional(), ssoEnabled: z.boolean().optional(), ssoProvider: z.string().optional(), sessionTimeout: z.number().optional(), passwordMinLength: z.number().optional(), passwordRequireUppercase: z.boolean().optional(), passwordRequireNumbers: z.boolean().optional(), passwordRequireSpecialChars: z.boolean().optional(), passwordExpiryDays: z.number().optional(), ipWhitelistEnabled: z.boolean().optional() })).mutation(({ input }) => db.updateSecuritySettings(input)),
-    createApiKey: protectedProcedure.input(z.object({ userId: z.number(), name: z.string({ required_error: "Name is required" }), keyHash: z.string() })).mutation(({ input }) => db.createApiKey(input.userId, input.name, input.keyHash)),
+    createApiKey: protectedProcedure.input(z.object({ userId: z.number(), name: z.string({ message: "Name is required" }), keyHash: z.string() })).mutation(({ input }) => db.createApiKey(input.userId, input.name, input.keyHash)),
     listApiKeys: protectedProcedure.input(z.object({ userId: z.number() })).query(({ input }) => db.listApiKeys(input.userId)),
     revokeApiKey: protectedProcedure.input(z.object({ keyId: z.number() })).mutation(({ input }) => db.revokeApiKey(input.keyId)),
     getApiKeyById: protectedProcedure.input(z.object({ keyId: z.number() })).query(({ input }) => db.getApiKeyById(input.keyId)),
@@ -1324,7 +1316,7 @@ Write a 2-3 sentence smart prediction suggesting which ingredients the restauran
       db.getCustomReports(ctx.user.id)
     ),
     createCustomReport: protectedProcedure.input(z.object({
-      name: z.string({ required_error: "Name is required" }),
+      name: z.string({ message: "Name is required" }),
       description: z.string().optional(),
       type: z.string(),
       dateFrom: z.string().optional(),
@@ -1341,14 +1333,14 @@ Write a 2-3 sentence smart prediction suggesting which ingredients the restauran
       isPublic: input.isPublic,
       createdBy: ctx.user.id,
     })),
-    deleteCustomReport: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) }))
+    deleteCustomReport: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) }))
       .mutation(({ input }) => db.deleteCustomReport(input.id)),
     exportCustomReport: protectedProcedure.input(z.object({
-      id: z.number({ required_error: "ID is required" }),
+      id: z.number({ message: "ID is required" }),
       format: z.enum(['csv', 'json', 'pdf']).optional(),
     })).mutation(async ({ input, ctx }) => {
       const reports = await db.getCustomReportById(input.id);
-      const report = reports[0];
+      const report = (reports as any)?.[0];
       if (!report) throw new Error('Report not found');
       return { success: true, reportId: input.id, format: input.format || 'csv', name: report.name };
     }),
@@ -1362,7 +1354,7 @@ Write a 2-3 sentence smart prediction suggesting which ingredients the restauran
     // ─── Integration & Webhook endpoints (used by Integrations.tsx) ─────
     getIntegrations: protectedProcedure.query(async () => {
       const list = await db.getIntegrations();
-      const byType = (type: string) => list.find((i: any) => i.type === type && i.isEnabled);
+      const byType = (type: string) => (list || []).find((i: any) => i.type === type && i.isEnabled);
       return {
         slack: byType('slack') ? { active: true, ...byType('slack') } : { active: false },
         teams: byType('teams') ? { active: true, ...byType('teams') } : { active: false },
@@ -1398,7 +1390,7 @@ Write a 2-3 sentence smart prediction suggesting which ingredients the restauran
       .input(z.object({ url: z.string().url(), event: z.string(), active: z.boolean().optional() }))
       .mutation(({ input }) => db.createWebhookIntegration(input.url, input.event)),
     testIntegration: protectedProcedure
-      .input(z.object({ type: z.string(), id: z.number({ required_error: "ID is required" }).optional() }))
+      .input(z.object({ type: z.string(), id: z.number({ message: "ID is required" }).optional() }))
       .mutation(async ({ input }) => {
           // Trigger a dummy event to test the connection
           if (input.type === 'slack' || input.type === 'teams') {
@@ -1418,7 +1410,7 @@ Write a 2-3 sentence smart prediction suggesting which ingredients the restauran
       .input(z.object({ accessToken: z.string(), locationId: z.string() }))
       .mutation(({ input }) => db.createIntegration({ type: 'square', name: 'Square POS', apiKey: input.accessToken, config: JSON.stringify({ locationId: input.locationId }) })),
     deleteIntegration: protectedProcedure
-      .input(z.object({ id: z.number({ required_error: "ID is required" }) }))
+      .input(z.object({ id: z.number({ message: "ID is required" }) }))
       .mutation(({ input }) => db.deleteIntegration(input.id)),
   }),
 
@@ -1439,13 +1431,9 @@ Write a 2-3 sentence smart prediction suggesting which ingredients the restauran
       }
     }),
 
-    getDashboardInsights: protectedProcedure.input(z.object({
-      dateFrom: z.string(),
-      dateTo: z.string()
-    })).query(async ({ input }) => {
-      // Fetch KPI metrics for the LLM
-      const kpis = await db.getProfitabilitySummary(input.dateFrom, input.dateTo);
-      const lowStock = await db.getLowStockIngredients();
+    getDashboardInsights: protectedProcedure.input(z.object({ locationId: z.number(), dateFrom: z.string(), dateTo: z.string() })).query(async ({ input }) => {
+      const kpis = await db.getProfitabilitySummary(input.locationId, input.dateFrom, input.dateTo);
+      const lowStock = await db.getLowStockIngredients(input.locationId);
 
       const prompt = `You are an expert restaurant financial advisor AI.
 Here is the restaurant's recent performance summary:
@@ -1474,12 +1462,12 @@ Write a 2-3 sentence personalized insight on this business performance, highligh
 
     generateSmartNotifications: protectedProcedure.mutation(async ({ ctx }) => {
       // Get recent data to find recommendations
-      const lowStock = await db.getLowStockIngredients();
-      const topItems = await db.getTopProfitableItems(3, new Date(Date.now() - 7 * 86400000).toISOString().split('T')[0], new Date().toISOString().split('T')[0]);
+      const lowStock = await db.getLowStockIngredients(1);
+      const topItems = await db.getTopProfitableItems(1, 3, new Date(Date.now() - 7 * 86400000).toISOString().split('T')[0], new Date().toISOString().split('T')[0]);
 
       const dataStr = JSON.stringify({
-        lowStockItems: lowStock.map(i => ({ name: i.name, current: i.currentStock, min: i.minStock })),
-        topSellers: topItems.map(i => ({ name: i.itemName, margin: i.revenue > 0 ? (i.grossProfit / i.revenue) * 100 : 0 }))
+        lowStockItems: lowStock.map((i: any) => ({ name: i.name, current: i.currentStock, min: i.minStock })),
+        topSellers: topItems.map((i: any) => ({ name: i.itemName, margin: i.revenue > 0 ? (i.grossProfit / i.revenue) * 100 : 0 }))
       });
 
       const prompt = `You are an AI restaurant operations assistant. Analyze the following data and generate 2-3 actionable notifications for the manager.
@@ -1578,22 +1566,22 @@ Provide the response as a JSON object containing a "notifications" array. Each o
   locations: router({
     list: protectedProcedure.query(() => db.getLocations()),
     getAll: protectedProcedure.query(() => db.getLocations()),
-    create: protectedProcedure.input(z.object({ name: z.string({ required_error: "Name is required" }), address: z.string(), phone: z.string().optional(), email: z.string().optional(), timezone: z.string().optional() }))
+    create: protectedProcedure.input(z.object({ name: z.string({ message: "Name is required" }), address: z.string(), phone: z.string().optional(), email: z.string().optional(), timezone: z.string().optional() }))
       .mutation(({ input }) => db.createLocation(input.name, input.address, input.phone, input.email, input.timezone)),
-    update: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), name: z.string({ required_error: "Name is required" }).optional(), address: z.string().optional(), phone: z.string().optional(), email: z.string().optional(), timezone: z.string().optional() }))
+    update: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), name: z.string({ message: "Name is required" }).optional(), address: z.string().optional(), phone: z.string().optional(), email: z.string().optional(), timezone: z.string().optional() }))
       .mutation(({ input }) => { const { id, ...data } = input; return db.updateLocation(id, data); }),
-    delete: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) }))
+    delete: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) }))
       .mutation(({ input }) => db.updateLocation(input.id, { isActive: false })),
     settings: router({
       update: protectedProcedure.input(z.any()).mutation(() => ({ success: true })),
     }),
   }),
   locationPrices: router({
-    getByLocation: protectedProcedure.input(z.object({ locationId: z.number({ required_error: "Location ID is required" }) }))
+    getByLocation: protectedProcedure.input(z.object({ locationId: z.number({ message: "Location ID is required" }) }))
       .query(({ input }) => db.getLocationMenuPrices(input.locationId)),
-    set: protectedProcedure.input(z.object({ locationId: z.number({ required_error: "Location ID is required" }), menuItemId: z.number({ required_error: "Menu Item ID is required" }), price: z.string() }))
+    set: protectedProcedure.input(z.object({ locationId: z.number({ message: "Location ID is required" }), menuItemId: z.number({ message: "Menu Item ID is required" }), price: z.string() }))
       .mutation(({ input }) => db.setLocationMenuPrice(input.locationId, input.menuItemId, input.price)),
-    delete: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) }))
+    delete: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) }))
       .mutation(({ input }) => db.deleteLocationMenuPrice(input.id)),
   }),
   paymentDisputes: router({
@@ -1601,9 +1589,9 @@ Provide the response as a JSON object containing a "notifications" array. Each o
       .query(({ input }) => db.listPaymentDisputes(input?.status)),
     create: protectedProcedure.input(z.object({ orderId: z.number(), transactionId: z.number().optional(), disputeType: z.string(), amount: z.string(), reason: z.string().optional() }))
       .mutation(({ input }) => db.createPaymentDispute(input)),
-    update: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), status: z.string().optional(), evidence: z.string().optional() }))
+    update: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), status: z.string().optional(), evidence: z.string().optional() }))
       .mutation(({ input, ctx }) => db.updatePaymentDispute(input.id, { ...input, resolvedBy: ctx.user.id })),
-    respond: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }), evidence: z.string() }))
+    respond: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }), evidence: z.string() }))
       .mutation(({ input, ctx }) => db.updatePaymentDispute(input.id, { evidence: input.evidence, status: "responded", resolvedBy: ctx.user.id })),
     metrics: protectedProcedure.query(() => ({ totalDisputes: 0, pendingReview: 0 })),
   }),
@@ -1616,13 +1604,13 @@ Provide the response as a JSON object containing a "notifications" array. Each o
   }),
   discountsManager: router({
     list: protectedProcedure.query(() => db.listDiscounts(true)),
-    create: protectedProcedure.input(z.object({ name: z.string({ required_error: "Name is required" }), type: z.string(), value: z.string(), minOrderAmount: z.string().optional(), maxDiscountAmount: z.string().optional() }))
+    create: protectedProcedure.input(z.object({ name: z.string({ message: "Name is required" }), type: z.string(), value: z.string(), minOrderAmount: z.string().optional(), maxDiscountAmount: z.string().optional() }))
       .mutation(({ input }) => db.createDiscount(input)),
-    delete: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) }))
+    delete: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) }))
       .mutation(() => ({ success: true })),
     applyToOrder: protectedProcedure.input(z.object({ orderId: z.number(), discountName: z.string(), discountType: z.string(), discountValue: z.string(), discountAmount: z.string(), discountId: z.number().optional() }))
       .mutation(({ input, ctx }) => db.applyDiscountToOrder(input.orderId, input.discountName, input.discountType, input.discountValue, input.discountAmount, input.discountId, ctx.user.id)),
-    revoke: protectedProcedure.input(z.object({ id: z.number({ required_error: "ID is required" }) }))
+    revoke: protectedProcedure.input(z.object({ id: z.number({ message: "ID is required" }) }))
       .mutation(() => ({ success: true })),
   }),
   splitBills: router({
@@ -1636,9 +1624,9 @@ Provide the response as a JSON object containing a "notifications" array. Each o
       .mutation(({ input }) => db.paySplitBillPart(input.partId, input.paymentMethod, input.tipAmount)),
   }),
   tips: router({
-    dailySummary: protectedProcedure.input(z.object({ locationId: z.number({ required_error: "Location ID is required" }).optional() }))
+    dailySummary: protectedProcedure.input(z.object({ locationId: z.number({ message: "Location ID is required" }).optional() }))
       .query(({ input }) => db.getTipPoolingManagement(input.locationId || 0)),
-    calculatePool: protectedProcedure.input(z.object({ locationId: z.number({ required_error: "Location ID is required" }).optional() }))
+    calculatePool: protectedProcedure.input(z.object({ locationId: z.number({ message: "Location ID is required" }).optional() }))
       .mutation(({ input }) => db.getTipPoolingManagement(input.locationId || 0)),
     addToOrder: protectedProcedure.input(z.object({ orderId: z.number(), tipAmount: z.string() }))
       .mutation(({ input }) => db.addTipToOrder(input.orderId, input.tipAmount)),
@@ -1676,7 +1664,7 @@ Provide the response as a JSON object containing a "notifications" array. Each o
       return { success: true, jobId };
     }),
     getJobStatus: protectedProcedure.input(z.object({ jobId: z.number() }))
-      .query(({ input }) => db.getDataImportJobById(input.jobId).then(rows => rows[0])),
+      .query(({ input }) => db.getDataImportJobById(input.jobId).then((rows: any) => rows?.[0])),
     listJobs: protectedProcedure.query(() => db.getDataImportJobs()),
   }),
 
@@ -1686,7 +1674,7 @@ Provide the response as a JSON object containing a "notifications" array. Each o
       const { generateAdvancedForecast } = await import("./services/ai");
 
       // Get historical sales for the last 14 days to feed the AI
-      const last14Days = await db.getProfitabilitySummary(
+      const last14Days = await db.getProfitabilitySummary(1,
         new Date(Date.now() - 14 * 86400000).toISOString().split('T')[0],
         new Date().toISOString().split('T')[0]
       );
@@ -1752,7 +1740,7 @@ Provide the response as a JSON object containing a "notifications" array. Each o
       const pastDateStr = pastDate.toISOString().split('T')[0];
       const todayStr = new Date().toISOString().split('T')[0];
       
-      const pastOrders = await db.getOrdersByTypeAndDateRange(pastDateStr, todayStr) || [];
+      const pastOrders = await db.getOrdersByTypeAndDateRange(1, pastDateStr, todayStr) || [];
       const dayStats = Array(7).fill(null).map(() => ({ revenue: 0, covers: 0 }));
 
       for (const order of pastOrders) {
@@ -1797,11 +1785,11 @@ Provide the response as a JSON object containing a "notifications" array. Each o
       const { analyzeStockPerformance } = await import("./services/ai");
 
       // Grab inventory data
-      const lowStock = await db.getLowStockIngredients();
+      const lowStock = await db.getLowStockIngredients(1);
 
       // Pass dummy data as realistic history for AI
       const inventoryDataStr = JSON.stringify({
-        currentLowStock: lowStock.map(i => ({ id: i.id, name: i.name, current: i.currentStock, min: i.minStock })),
+        currentLowStock: lowStock.map((i: any) => ({ id: i.id, name: i.name, current: i.currentStock, min: i.minStock })),
         dummyVelocityData: "Ice cream sales traditionally double in June. Tomato usage drops 20% in winter."
       });
 
@@ -1898,9 +1886,9 @@ Provide the response as a JSON object containing a "notifications" array. Each o
 
       try {
         // 1. Labour Check
-        const actualLabour = await db.calculateTimesheetSummary(today, tomorrow);
+        const actualLabour = await db.calculateTimesheetSummary(1, today, tomorrow);
         const forecasts = await db.getForecastingData(todayStr, todayStr);
-        const projectedCost = forecasts[0]?.projectedLabourCost || 0;
+        const projectedCost = (forecasts as any)?.[0]?.projectedLabourCost || 0;
 
         if (actualLabour.totalLabourCost > Number(projectedCost) * 1.1 && Number(projectedCost) > 0) {
           nudges.push({
@@ -1911,7 +1899,7 @@ Provide the response as a JSON object containing a "notifications" array. Each o
         }
 
         // 2. Stock Check
-        const lowStock = await db.getLowStockIngredients();
+        const lowStock = await db.getLowStockIngredients(1);
         if (lowStock.length > 0) {
           nudges.push({
             title: "Low Stock Alert",

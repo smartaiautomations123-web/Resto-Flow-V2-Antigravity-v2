@@ -12,10 +12,11 @@ import { Plus, Pencil, Trash2, AlertTriangle, ArrowUpDown, TrendingUp, Package, 
 
 export default function Inventory() {
   const utils = trpc.useUtils();
-  const { data: ingredients } = trpc.ingredients.list.useQuery();
-  const { data: lowStock } = trpc.ingredients.lowStock.useQuery();
+  const locationId = 1;
+  const { data: ingredients } = trpc.ingredients.list.useQuery({ locationId });
+  const { data: lowStock } = trpc.ingredients.lowStock.useQuery({ locationId });
   const { data: suppliers } = trpc.suppliers.list.useQuery();
-  const { data: aiInsights, isLoading: loadingAi } = trpc.inventoryManagement.getSmartOrderingInsights.useQuery(undefined, {
+  const { data: aiInsights, isLoading: loadingAi } = trpc.inventoryManagement.getSmartOrderingInsights.useQuery({ locationId: 1 }, {
     staleTime: 5 * 60 * 1000,
     retry: false
   });
@@ -76,16 +77,16 @@ export default function Inventory() {
     setShowAdjustDialog(false);
   };
 
-  const lowStockIds = new Set(lowStock?.map(i => i.id) || []);
+  const lowStockIds = new Set(lowStock?.map((i: any) => i.id) || []);
 
   const filtered = useMemo(() => {
     if (!ingredients) return [];
     const q = search.toLowerCase();
-    return ingredients.filter(i => !q || i.name.toLowerCase().includes(q));
+    return ingredients.filter((i: any) => !q || i.name.toLowerCase().includes(q));
   }, [ingredients, search]);
 
   const totalValue = useMemo(() =>
-    (ingredients || []).reduce((sum, i) => sum + Number(i.currentStock) * Number(i.costPerUnit), 0), [ingredients]);
+    (ingredients || []).reduce((sum: any, i: any) => sum + Number(i.currentStock) * Number(i.costPerUnit), 0), [ingredients]);
 
   return (
     <div className="space-y-6">
@@ -145,7 +146,7 @@ export default function Inventory() {
             <TrendingUp className="h-8 w-8 text-primary/70 shrink-0" />
             <div>
               <p className="text-xs text-muted-foreground">Suppliers Linked</p>
-              <p className="text-2xl font-bold">{new Set((ingredients || []).map(i => i.supplierId).filter(Boolean)).size}</p>
+              <p className="text-2xl font-bold">{new Set((ingredients || []).map((i: any) => i.supplierId).filter(Boolean)).size}</p>
             </div>
           </CardContent>
         </Card>
@@ -169,7 +170,7 @@ export default function Inventory() {
               <span className="font-semibold text-destructive">{lowStock.length} items below minimum stock</span>
             </div>
             <div className="flex flex-wrap gap-2">
-              {lowStock.map(item => (
+              {lowStock.map((item: any) => (
                 <Badge key={item.id} variant="outline" className="badge-danger">{item.name}: {Number(item.currentStock).toFixed(1)} {item.unit}</Badge>
               ))}
             </div>
@@ -207,8 +208,8 @@ export default function Inventory() {
                 </tr>
               </thead>
               <tbody>
-                {filtered.map(item => {
-                  const supplier = suppliers?.find(s => s.id === item.supplierId);
+                {filtered.map((item: any) => {
+                  const supplier = suppliers?.find((s: any) => s.id === item.supplierId);
                   const isLow = lowStockIds.has(item.id);
                   const stockValue = Number(item.currentStock) * Number(item.costPerUnit);
                   return (
@@ -260,7 +261,7 @@ export default function Inventory() {
                 <Select value={form.unit} onValueChange={v => setForm(p => ({ ...p, unit: v }))}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    {["kg", "g", "L", "mL", "pcs", "oz", "lb", "bunch", "can", "bottle"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
+                    {["kg", "g", "L", "mL", "pcs", "oz", "lb", "bunch", "can", "bottle"].map((u: any) => <SelectItem key={u} value={u}>{u}</SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
@@ -276,7 +277,7 @@ export default function Inventory() {
                 <SelectTrigger><SelectValue placeholder="Select supplier" /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="none">None</SelectItem>
-                  {suppliers?.map(s => <SelectItem key={s.id} value={String(s.id)}>{s.name}</SelectItem>)}
+                  {suppliers?.map((s: any) => <SelectItem key={s.id} value={String(s.id)}>{s.name}</SelectItem>)}
                 </SelectContent>
               </Select>
             </div>

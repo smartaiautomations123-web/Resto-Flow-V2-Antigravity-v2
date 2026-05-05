@@ -13,9 +13,10 @@ import { Plus, CalendarDays, Clock, Users, CheckCircle2, X, AlertCircle } from "
 
 export default function Reservations() {
   const utils = trpc.useUtils();
+  const locationId = 1;
   const today = useMemo(() => new Date().toISOString().split("T")[0], []);
   const [dateFilter, setDateFilter] = useState(today);
-  const { data: reservationsList } = trpc.reservations.list.useQuery({ date: dateFilter });
+  const { data: reservationsList } = trpc.reservations.list.useQuery({ locationId, date: dateFilter });
   const { data: tablesList } = trpc.tables.list.useQuery();
   const createReservation = trpc.reservations.create.useMutation({ onSuccess: () => utils.reservations.list.invalidate() });
   const updateReservation = trpc.reservations.update.useMutation({ onSuccess: () => utils.reservations.list.invalidate() });
@@ -26,6 +27,7 @@ export default function Reservations() {
   const save = async () => {
     if (!form.customerName.trim() || !form.date || !form.time) return;
     await createReservation.mutateAsync({
+      locationId,
       guestName: form.customerName,
       guestPhone: form.customerPhone || undefined,
       guestEmail: form.customerEmail || undefined,
@@ -40,7 +42,7 @@ export default function Reservations() {
   };
 
   const handleStatus = async (id: number, status: string) => {
-    await updateReservation.mutateAsync({ id, status: status as any });
+    await updateReservation.mutateAsync({ locationId, id, status: status as any });
     toast.success(`Reservation ${status}`);
   };
 
@@ -79,8 +81,8 @@ export default function Reservations() {
 
       {/* Timeline view */}
       <div className="space-y-3">
-        {reservationsList?.map(r => {
-          const table = tablesList?.find(t => t.id === r.tableId);
+        {reservationsList?.map((r: any) => {
+          const table = tablesList?.find((t: any) => t.id === r.tableId);
           return (
             <Card key={r.id} className="bg-card border-border">
               <CardContent className="p-4">
@@ -149,7 +151,7 @@ export default function Reservations() {
                 <SelectTrigger><SelectValue placeholder="Auto-assign" /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="auto">Auto-assign</SelectItem>
-                  {tablesList?.map(t => <SelectItem key={t.id} value={String(t.id)}>{t.name} ({t.seats} seats)</SelectItem>)}
+                  {tablesList?.map((t: any) => <SelectItem key={t.id} value={String(t.id)}>{t.name} ({t.seats} seats)</SelectItem>)}
                 </SelectContent>
               </Select>
             </div>

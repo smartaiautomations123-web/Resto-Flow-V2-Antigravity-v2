@@ -26,7 +26,7 @@ export default function Profitability() {
   const { data: byItem } = trpc.profitability.byItem.useQuery({ dateFrom, dateTo });
   const { data: byCategory } = trpc.profitability.byCategory.useQuery({ dateFrom, dateTo });
   const { data: byShift } = trpc.profitability.byShift.useQuery({ dateFrom, dateTo });
-  const { data: topItems } = trpc.profitability.topItems.useQuery({ dateFrom, dateTo, limit: 10 });
+  const { data: topItems } = trpc.profitability.topItems.useQuery({ locationId: 1, dateFrom, dateTo, limit: 10 });
   const { data: bottomItems } = trpc.profitability.bottomItems.useQuery({ dateFrom, dateTo, limit: 10 });
   const { data: trends } = trpc.profitability.trends.useQuery({ dateFrom, dateTo });
 

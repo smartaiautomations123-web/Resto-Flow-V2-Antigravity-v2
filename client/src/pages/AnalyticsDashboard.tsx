@@ -36,11 +36,13 @@ export default function AnalyticsDashboard() {
   });
 
   const { data: revenueTrendData, isLoading: revenueTrendLoading } = trpc.reports.dailySales.useQuery({
+    locationId: 1,
     dateFrom: getDateFromRange(dateRange).start,
     dateTo: getDateFromRange(dateRange).end,
   });
 
   const { data: hourlySalesData, isLoading: hourlySalesLoading } = trpc.salesAnalytics.hourlySalesTrend.useQuery({
+    locationId: 1,
     date: getDateFromRange(dateRange).end,
   });
 

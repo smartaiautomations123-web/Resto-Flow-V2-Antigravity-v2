@@ -30,7 +30,7 @@ export default function OnlineOrdering() {
 
   const filteredItems = useMemo(() => {
     if (!menuItems) return [];
-    return selectedCat ? menuItems.filter(i => i.categoryId === selectedCat && i.isAvailable) : menuItems.filter(i => i.isAvailable);
+    return selectedCat ? menuItems.filter((i: any) => i.categoryId === selectedCat && i.isAvailable) : menuItems.filter((i: any) => i.isAvailable);
   }, [menuItems, selectedCat]);
 
   const subtotal = cart.reduce((s, i) => s + i.unitPrice * i.quantity, 0);
@@ -39,8 +39,8 @@ export default function OnlineOrdering() {
 
   const addToCart = (item: NonNullable<typeof menuItems>[0]) => {
     setCart(prev => {
-      const existing = prev.find(c => c.menuItemId === item.id);
-      if (existing) return prev.map(c => c === existing ? { ...c, quantity: c.quantity + 1 } : c);
+      const existing = prev.find((c: any) => c.menuItemId === item.id);
+      if (existing) return prev.map((c: any) => c === existing ? { ...c, quantity: c.quantity + 1 } : c);
       return [...prev, { menuItemId: item.id, name: item.name, quantity: 1, unitPrice: Number(item.price) }];
     });
   };
@@ -122,7 +122,7 @@ export default function OnlineOrdering() {
         {/* Categories */}
         <div className="flex gap-2 overflow-x-auto pb-4">
           <Button variant={selectedCat === null ? "default" : "outline"} size="sm" onClick={() => setSelectedCat(null)}>All</Button>
-          {categories?.filter(c => c.isActive).map(cat => (
+          {categories?.filter((c: any) => c.isActive).map((cat: any) => (
             <Button key={cat.id} variant={selectedCat === cat.id ? "default" : "outline"} size="sm" onClick={() => setSelectedCat(cat.id)}>
               {cat.name}
             </Button>
@@ -134,8 +134,8 @@ export default function OnlineOrdering() {
           <div className="text-center py-12 text-muted-foreground">No menu items available in this category.</div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {filteredItems.map(item => {
-              const inCart = cart.find(c => c.menuItemId === item.id);
+            {filteredItems.map((item: any) => {
+              const inCart = cart.find((c: any) => c.menuItemId === item.id);
               return (
                 <Card key={item.id} className="bg-card border-border overflow-hidden group hover:border-primary/30 transition-all">
                   <CardContent className="p-4">

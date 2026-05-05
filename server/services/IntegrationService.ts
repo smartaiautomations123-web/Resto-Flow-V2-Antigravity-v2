@@ -41,7 +41,7 @@ export class IntegrationService {
 
   private static async dispatchWebhooks(event: IntegrationEvent, payload: any) {
     const webhooks = await db.listWebhooks();
-    const activeWebhooks = webhooks.filter(w => {
+    const activeWebhooks = (webhooks || []).filter(w => {
         const config = w.config ? JSON.parse(w.config) : {};
         return w.isEnabled && (config.event === event || config.event === "all");
     });
@@ -78,13 +78,13 @@ export class IntegrationService {
     const integrations = await db.getIntegrations();
     
     // Slack
-    const slack = integrations.find(i => i.type === "slack" && i.isEnabled);
+    const slack = (integrations || []).find(i => i.type === "slack" && i.isEnabled);
     if (slack && slack.webhookUrl) {
       await this.sendSlackMessage(slack.webhookUrl, event, payload, slack.id);
     }
 
     // Teams
-    const teams = integrations.find(i => i.type === "teams" && i.isEnabled);
+    const teams = (integrations || []).find(i => i.type === "teams" && i.isEnabled);
     if (teams && teams.webhookUrl) {
       await this.sendTeamsMessage(teams.webhookUrl, event, payload, teams.id);
     }
@@ -155,7 +155,7 @@ export class IntegrationService {
     // ── QuickBooks Online ─────────────────────────────────────────────
     // TODO: Implement OAuth token refresh + QB Journal Entry API call.
     // Reference: https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/journalentry
-    const qb = integrations.find(i => i.type === "quickbooks" && i.isEnabled);
+    const qb = (integrations || []).find(i => i.type === "quickbooks" && i.isEnabled);
     if (qb) {
       await db.logIntegrationAction(
         qb.id,
@@ -169,7 +169,7 @@ export class IntegrationService {
     // ── Xero ─────────────────────────────────────────────────────────
     // TODO: Implement Xero OAuth 2.0 token refresh + Invoice POST.
     // Reference: https://developer.xero.com/documentation/api/accounting/invoices
-    const xero = integrations.find(i => i.type === "xero" && i.isEnabled);
+    const xero = (integrations || []).find(i => i.type === "xero" && i.isEnabled);
     if (xero) {
       await db.logIntegrationAction(
         xero.id,

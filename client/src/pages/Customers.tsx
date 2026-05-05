@@ -14,7 +14,8 @@ import { Link } from "wouter";
 export default function Customers() {
   const utils = trpc.useUtils();
   const [search, setSearch] = useState("");
-  const { data: customersList } = trpc.customers.list.useQuery({ search: search || undefined });
+  const locationId = 1;
+  const { data: customersList } = trpc.customers.list.useQuery({ locationId, search: search || undefined });
   const createCustomer = trpc.customers.create.useMutation({ onSuccess: () => utils.customers.list.invalidate() });
   const updateCustomer = trpc.customers.update.useMutation({ onSuccess: () => utils.customers.list.invalidate() });
   const addPoints = trpc.customers.addPoints.useMutation({ onSuccess: () => utils.customers.list.invalidate() });
@@ -38,10 +39,10 @@ export default function Customers() {
   const save = async () => {
     if (!form.name.trim()) return;
     if (editItem) {
-      await updateCustomer.mutateAsync({ id: editItem.id, ...form });
+      await updateCustomer.mutateAsync({ locationId, id: editItem.id, ...form });
       toast.success("Customer updated");
     } else {
-      await createCustomer.mutateAsync(form);
+      await createCustomer.mutateAsync({ locationId, ...form });
       toast.success("Customer added");
     }
     setShowDialog(false);
@@ -83,7 +84,7 @@ export default function Customers() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Total Revenue</p>
-                <p className="text-2xl font-bold mt-1">${customersList?.reduce((s, c) => s + Number(c.totalSpent || 0), 0).toFixed(2) || "0.00"}</p>
+                <p className="text-2xl font-bold mt-1">${customersList?.reduce((s: number, c: any) => s + Number(c.totalSpent || 0), 0).toFixed(2) || "0.00"}</p>
               </div>
               <div className="h-12 w-12 rounded-xl bg-success/10 flex items-center justify-center"><Star className="h-6 w-6 text-success" /></div>
             </div>
@@ -94,7 +95,7 @@ export default function Customers() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Loyalty Points Issued</p>
-                <p className="text-2xl font-bold mt-1">{customersList?.reduce((s, c) => s + (c.loyaltyPoints || 0), 0).toLocaleString() || "0"}</p>
+                <p className="text-2xl font-bold mt-1">{customersList?.reduce((s: number, c: any) => s + (c.loyaltyPoints || 0), 0).toLocaleString() || "0"}</p>
               </div>
               <div className="h-12 w-12 rounded-xl bg-warning/10 flex items-center justify-center"><Gift className="h-6 w-6 text-warning" /></div>
             </div>
@@ -117,7 +118,7 @@ export default function Customers() {
               </tr>
             </thead>
             <tbody>
-              {customersList?.map(c => (
+              {customersList?.map((c: any) => (
                 <tr key={c.id} className="border-b border-border/50 hover:bg-accent/30 transition-colors">
                   <td className="p-4">
                     <Link href={`/customers/${c.id}`}>

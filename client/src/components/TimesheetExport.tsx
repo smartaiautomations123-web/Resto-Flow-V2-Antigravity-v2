@@ -27,8 +27,10 @@ export function TimesheetExport({ staffList }: TimesheetExportProps) {
   const [role, setRole] = useState<string>("");
   const [isExporting, setIsExporting] = useState(false);
 
+  const locationId = 1;
   const exportCSV = trpc.timesheet.exportCSV.useQuery(
     {
+      locationId,
       startDate: new Date(startDate),
       endDate: new Date(endDate),
       staffId: staffId ? parseInt(staffId) : undefined,
@@ -43,7 +45,7 @@ export function TimesheetExport({ staffList }: TimesheetExportProps) {
       const csv = await exportCSV.refetch();
 
       if (csv.data) {
-        const blob = new Blob([csv.data], { type: "text/csv;charset=utf-8;" });
+        const blob = new Blob([String(csv.data || "")], { type: "text/csv;charset=utf-8;" });
         const link = document.createElement("a");
         const url = URL.createObjectURL(blob);
         link.setAttribute("href", url);

@@ -101,7 +101,7 @@ export async function createUser(openId: string, name?: string, email?: string) 
 // ─── Staff ────────────────────────────────────────────────────────────
 export async function listStaff(locationId: number) {
   const db = await getDb();
-  if (!db) return [];
+  if (!db) return [] as any[];
   return db.select().from(staff).where(and(eq(staff.isActive, true), eq(staff.locationId, locationId))).orderBy(asc(staff.name));
 }
 
@@ -321,11 +321,10 @@ export async function createOrder(data: any) {
 export async function getOrderById(id: number, locationId?: number) {
   const db = await getDb();
   if (!db) return [] as any;
-  const baseQuery = db.select().from(orders).where(eq(orders.id, id));
   if (locationId) {
-    return baseQuery.where(and(eq(orders.id, id), eq(orders.locationId, locationId))).then(rows => rows[0]);
+    return db.select().from(orders).where(and(eq(orders.id, id), eq(orders.locationId, locationId))).then((rows: any) => rows[0]);
   }
-  return baseQuery.then(rows => rows[0]);
+  return db.select().from(orders).where(eq(orders.id, id)).then((rows: any) => rows[0]);
 }
 
 export async function updateOrder(id: number, data: any) {
@@ -383,7 +382,7 @@ export async function completeOrderWithStockDeduction(id: number, data: any, use
   });
 }
 
-export async function getOrdersByTypeAndDateRange(dateFrom: string, dateTo: string) {
+export async function getOrdersByTypeAndDateRange(locationId: number, dateFrom: string, dateTo: string) {
   const db = await getDb();
   if (!db) return [] as any;
 
@@ -473,7 +472,7 @@ export async function deleteIngredient(id: number) {
   return db.update(ingredients).set({ isActive: false }).where(eq(ingredients.id, id)).execute();
 }
 
-export async function getLowStockIngredients() {
+export async function getLowStockIngredients(locationId: number) {
   const db = await getDb();
   if (!db) return [] as any;
   // Return active ingredients where currentStock <= minStock
@@ -817,12 +816,12 @@ export async function generateZReport(date: string, staffId: number, locationId?
   const end = new Date(date + "T23:59:59Z");
 
   // Conditions for the query
-  const conditions = [
+  const conditions: any[] = [
     gte(orders.createdAt, start),
     lte(orders.createdAt, end)
   ];
   if (locationId) {
-    conditions.push(eq(orders.locationId, locationId));
+    conditions.push(eq(orders.locationId, locationId!));
   }
 
   // Fetch all orders for that day
@@ -1824,7 +1823,7 @@ export async function generatePDFReceiptHTML(orderId: number) {
   const receiptData = await generateReceiptData(orderId);
   if (!receiptData) return null;
 
-  const itemsHTML = receiptData.items.map((item) => `<tr><td>${item.itemName}</td><td style="text-align: center;">${item.quantity}</td><td style="text-align: right;">$${parseFloat(item.unitPrice as any).toFixed(2)}</td><td style="text-align: right;">$${parseFloat(item.totalPrice as any).toFixed(2)}</td></tr>`).join("");
+  const itemsHTML = receiptData.items.map((item: any) => `<tr><td>${item.itemName}</td><td style="text-align: center;">${item.quantity}</td><td style="text-align: right;">$${parseFloat(item.unitPrice as any).toFixed(2)}</td><td style="text-align: right;">$${parseFloat(item.totalPrice as any).toFixed(2)}</td></tr>`).join("");
 
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Receipt #${receiptData.orderNumber}</title><style>body{font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px}.header{text-align:center;margin-bottom:20px;border-bottom:2px solid #333;padding-bottom:10px}.order-info{margin-bottom:20px}.order-info p{margin:5px 0}table{width:100%;border-collapse:collapse;margin-bottom:20px}th{text-align:left;border-bottom:1px solid #333;padding:10px 0}td{padding:8px 0}.totals{text-align:right;margin-bottom:20px;border-top:2px solid #333;padding-top:10px}.total-amount{font-size:1.5em;font-weight:bold}.footer{text-align:center;margin-top:20px;color:#666;font-size:0.9em}</style></head><body><div class="header"><h1>RECEIPT</h1><p>Order #${receiptData.orderNumber}</p><p>${new Date(receiptData.createdAt).toLocaleString()}</p></div><div class="order-info"><p><strong>Customer:</strong> ${receiptData.customerName || "N/A"}</p><p><strong>Type:</strong> ${receiptData.type}</p><p><strong>Status:</strong> ${receiptData.status}</p></div><table><thead><tr><th>Item</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Unit Price</th><th style="text-align:right;">Total</th></tr></thead><tbody>${itemsHTML}</tbody></table><div class="totals"><p>Subtotal: $${parseFloat(receiptData.subtotal as any).toFixed(2)}</p><p class="total-amount">Total: $${parseFloat(receiptData.total as any).toFixed(2)}</p><p>Payment Method: ${receiptData.paymentMethod}</p></div><div class="footer"><p>Thank you for your business!</p></div></body></html>`;
 }
@@ -2048,6 +2047,7 @@ export async function getOrderNotificationHistory(orderId: number) {
 
 // ─── Timesheet & Payroll ───────────────────────────────────────────
 export async function getTimesheetData(
+  locationId: number,
   startDate: Date,
   endDate: Date,
   staffId?: number,
@@ -2090,14 +2090,15 @@ export async function getTimesheetData(
 }
 
 export async function calculateTimesheetSummary(
+  locationId: number,
   startDate: Date,
   endDate: Date,
   staffId?: number,
   role?: string
 ) {
   const db = await getDb();
-  if (!db) return [];
-  const timesheetData = await getTimesheetData(startDate, endDate, staffId, role);
+  if (!db) return { totalStaff: 0, totalHours: 0, totalLabourCost: 0, averageHourlyRate: 0, entries: [] };
+  const timesheetData = await getTimesheetData(locationId, startDate, endDate, staffId, role);
 
   const summary = {
     totalStaff: new Set(timesheetData.map((t) => t.staffId)).size,
@@ -2115,6 +2116,7 @@ export async function calculateTimesheetSummary(
 }
 
 export async function generateTimesheetCSV(
+  locationId: number,
   startDate: Date,
   endDate: Date,
   staffId?: number,
@@ -2122,7 +2124,7 @@ export async function generateTimesheetCSV(
 ) {
   const db = await getDb();
   if (!db) return [];
-  const summary = await calculateTimesheetSummary(startDate, endDate, staffId, role);
+  const summary = await calculateTimesheetSummary(locationId, startDate, endDate, staffId, role);
 
   // CSV Header
   const headers = [
@@ -2158,7 +2160,7 @@ export async function generateTimesheetCSV(
 
   // Build CSV string
   let csv = headers.join(",") + "\n";
-  csv += rows.map((row) => row.map((cell) => `"${cell}"`).join(",")).join("\n");
+  csv += rows.map((row: any[]) => row.map((cell: any) => `"${cell}"`).join(",")).join("\n");
 
   return csv;
 }
@@ -2960,7 +2962,7 @@ export async function deleteLocationMenuPrice(id: number) {
 }
 
 // ─── Hourly Sales Trend ─────────────────────────────────────────────
-export async function getHourlySalesTrend(date?: string) {
+export async function getHourlySalesTrend(locationId: number, date?: string) {
   const db = await getDb();
   if (!db) return [];
   const targetDate = date || new Date().toISOString().split("T")[0];
@@ -2975,7 +2977,7 @@ export async function getHourlySalesTrend(date?: string) {
     )
   );
   // Group by hour
-  const hourly: { hour: number; orders: number; revenue: number }[] = [];
+  const hourly: { hour: number; orders: number; revenue: string }[] = [];
   for (let h = 0; h < 24; h++) {
     const hourOrders = dayOrders.filter(o => new Date(o.createdAt).getUTCHours() === h);
     hourly.push({
@@ -2988,7 +2990,7 @@ export async function getHourlySalesTrend(date?: string) {
 }
 
 // ─── Staff Sales Performance ────────────────────────────────────────
-export async function getStaffSalesPerformance(startDate?: string, endDate?: string) {
+export async function getStaffSalesPerformance(locationId: number, startDate?: string, endDate?: string) {
   const db = await getDb();
   if (!db) return [];
   const conditions = [ne(orders.status, "cancelled"), ne(orders.status, "voided")];
@@ -5092,7 +5094,7 @@ export async function getPeakHours(startDate: string, endDate: string) {
 /**
  * Profitability summary for a date range
  */
-export async function getProfitabilitySummary(dateFrom: string, dateTo: string) {
+export async function getProfitabilitySummary(locationId: number, dateFrom: string, dateTo: string) {
   const db = await getDb();
   if (!db) return {
     totalRevenue: 0,
@@ -5144,7 +5146,7 @@ export async function getProfitabilitySummary(dateFrom: string, dateTo: string) 
 /**
  * Profitability breakdown by menu category
  */
-export async function getProfitabilityByCategory(dateFrom: string, dateTo: string) {
+export async function getProfitabilityByCategory(locationId: number, dateFrom: string, dateTo: string) {
   const db = await getDb();
   if (!db) return [];
   const start = new Date(dateFrom + "T00:00:00Z");
@@ -5234,7 +5236,7 @@ export async function getProfitabilityByItem(dateFrom: string, dateTo: string) {
 /**
  * Top N most profitable items
  */
-export async function getTopProfitableItems(limit: number, dateFrom: string, dateTo: string) {
+export async function getTopProfitableItems(locationId: number, limit: number, dateFrom: string, dateTo: string) {
   const items = await getProfitabilityByItem(dateFrom, dateTo);
   return items
     .sort((a, b) => b.grossProfit - a.grossProfit)
@@ -5254,7 +5256,7 @@ export async function getBottomProfitableItems(limit: number, dateFrom: string, 
 /**
  * Daily profit trend
  */
-export async function getDailyProfitTrend(dateFrom: string, dateTo: string) {
+export async function getDailyProfitTrend(locationId: number, dateFrom: string, dateTo: string) {
   const db = await getDb();
   if (!db) return [];
   const start = new Date(dateFrom + "T00:00:00Z");

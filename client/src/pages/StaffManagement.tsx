@@ -14,7 +14,8 @@ import { Plus, Pencil, Trash2, Users, Clock, CalendarDays, LogIn, LogOut, Downlo
 
 export default function StaffManagement() {
   const utils = trpc.useUtils();
-  const { data: staffList } = trpc.staff.list.useQuery();
+  const locationId = 1;
+  const { data: staffList } = trpc.staff.list.useQuery({ locationId });
   const createStaff = trpc.staff.create.useMutation({ onSuccess: () => utils.staff.list.invalidate() });
   const updateStaff = trpc.staff.update.useMutation({ onSuccess: () => utils.staff.list.invalidate() });
   const deleteStaff = trpc.staff.delete.useMutation({ onSuccess: () => utils.staff.list.invalidate() });
@@ -36,7 +37,7 @@ export default function StaffManagement() {
     return dates;
   }, []);
 
-  const { data: shifts } = trpc.shifts.list.useQuery({ dateFrom: weekDates[0], dateTo: weekDates[6] });
+  const { data: shifts } = trpc.shifts.list.useQuery({ locationId, dateFrom: weekDates[0], dateTo: weekDates[6] });
   const createShift = trpc.shifts.create.useMutation({ onSuccess: () => utils.shifts.list.invalidate() });
   const deleteShift = trpc.shifts.delete.useMutation({ onSuccess: () => utils.shifts.list.invalidate() });
 
@@ -62,10 +63,10 @@ export default function StaffManagement() {
       pin: form.pin || undefined, role: form.role as any, hourlyRate: form.hourlyRate || undefined,
     };
     if (editItem) {
-      await updateStaff.mutateAsync({ id: editItem.id, ...data });
+      await updateStaff.mutateAsync({ locationId, id: editItem.id, ...data });
       toast.success("Staff updated");
     } else {
-      await createStaff.mutateAsync(data);
+      await createStaff.mutateAsync({ locationId, ...data });
       toast.success("Staff added");
     }
     setShowDialog(false);
@@ -100,7 +101,7 @@ export default function StaffManagement() {
     toast.success("Clocked out");
   };
 
-  const activeClocks = timeEntries?.filter(e => !e.clockOut) || [];
+  const activeClocks = timeEntries?.filter((e: any) => !e.clockOut) || [];
 
   return (
     <div className="space-y-6">
@@ -138,7 +139,7 @@ export default function StaffManagement() {
                   </tr>
                 </thead>
                 <tbody>
-                  {staffList?.map(s => (
+                  {staffList?.map((s: any) => (
                     <tr key={s.id} className="border-b border-border/50 hover:bg-accent/30 transition-colors">
                       <td className="p-4 font-medium text-sm">{s.name}</td>
                       <td className="p-4"><Badge variant="outline" className="capitalize">{s.role}</Badge></td>
@@ -149,7 +150,7 @@ export default function StaffManagement() {
                       <td className="p-4 text-right">
                         <div className="flex justify-end gap-1">
                           <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => openDialog(s)}><Pencil className="h-4 w-4" /></Button>
-                          <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={async () => { await deleteStaff.mutateAsync({ id: s.id }); toast.success("Deleted"); }}><Trash2 className="h-4 w-4" /></Button>
+                          <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={async () => { await deleteStaff.mutateAsync({ locationId, id: s.id }); toast.success("Deleted"); }}><Trash2 className="h-4 w-4" /></Button>
                         </div>
                       </td>
                     </tr>
@@ -163,8 +164,8 @@ export default function StaffManagement() {
 
         <TabsContent value="clock" className="mt-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {staffList?.filter(s => s.isActive).map(s => {
-              const activeClock = activeClocks.find(c => c.staffId === s.id);
+            {staffList?.filter((s: any) => s.isActive).map((s: any) => {
+              const activeClock = activeClocks.find((c: any) => c.staffId === s.id);
               return (
                 <Card key={s.id} className={`bg-card border-border ${activeClock ? "border-success/30" : ""}`}>
                   <CardContent className="p-4">
@@ -208,7 +209,7 @@ export default function StaffManagement() {
                 <thead>
                   <tr className="border-b border-border">
                     <th className="text-left p-3 text-sm font-medium text-muted-foreground w-32">Staff</th>
-                    {weekDates.map(d => (
+                    {weekDates.map((d: string) => (
                       <th key={d} className="text-center p-3 text-sm font-medium text-muted-foreground">
                         {new Date(d + "T00:00:00").toLocaleDateString("en", { weekday: "short", month: "short", day: "numeric" })}
                       </th>
@@ -216,14 +217,14 @@ export default function StaffManagement() {
                   </tr>
                 </thead>
                 <tbody>
-                  {staffList?.filter(s => s.isActive).map(s => (
+                  {staffList?.filter((s: any) => s.isActive).map((s: any) => (
                     <tr key={s.id} className="border-b border-border/50">
                       <td className="p-3 font-medium text-sm">{s.name}</td>
-                      {weekDates.map(d => {
-                        const dayShifts = (shifts as any[])?.filter(sh => sh.staffId === s.id && (sh.date || sh.shiftDate) === d) || [];
+                      {weekDates.map((d: any) => {
+                        const dayShifts = (shifts as any[])?.filter((sh: any) => sh.staffId === s.id && (sh.date || sh.shiftDate) === d) || [];
                         return (
                           <td key={d} className="p-2 text-center">
-                            {dayShifts.map(sh => (
+                            {dayShifts.map((sh: any) => (
                               <div key={sh.id || Math.random()} className="text-xs bg-primary/10 text-primary rounded px-1 py-0.5 mb-1 cursor-pointer hover:bg-primary/20" onClick={async () => { if (sh.id) { await deleteShift.mutateAsync({ id: sh.id }); toast.success("Shift removed"); } }}>
                                 {sh.startTime || (sh.clockIn ? new Date(sh.clockIn).toLocaleTimeString() : '')}-{sh.endTime || (sh.clockOut ? new Date(sh.clockOut).toLocaleTimeString() : '')}
                               </div>
@@ -256,7 +257,7 @@ export default function StaffManagement() {
                 <Select value={form.role} onValueChange={v => setForm(p => ({ ...p, role: v }))}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    {["owner", "manager", "server", "bartender", "kitchen"].map(r => <SelectItem key={r} value={r} className="capitalize">{r}</SelectItem>)}
+                    {["owner", "manager", "server", "bartender", "kitchen"].map((r: any) => <SelectItem key={r} value={r} className="capitalize">{r}</SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
@@ -278,7 +279,7 @@ export default function StaffManagement() {
               <Select value={shiftForm.staffId} onValueChange={v => setShiftForm(p => ({ ...p, staffId: v }))}>
                 <SelectTrigger><SelectValue placeholder="Select staff" /></SelectTrigger>
                 <SelectContent>
-                  {staffList?.filter(s => s.isActive).map(s => <SelectItem key={s.id} value={String(s.id)}>{s.name}</SelectItem>)}
+                  {staffList?.filter((s: any) => s.isActive).map((s: any) => <SelectItem key={s.id} value={String(s.id)}>{s.name}</SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
@@ -291,7 +292,7 @@ export default function StaffManagement() {
           <DialogFooter>
             <Button onClick={async () => {
               if (!shiftForm.staffId || !shiftForm.date) return;
-              await createShift.mutateAsync({ staffId: Number(shiftForm.staffId), date: shiftForm.date, startTime: shiftForm.startTime, endTime: shiftForm.endTime });
+              await createShift.mutateAsync({ locationId, staffId: Number(shiftForm.staffId), date: shiftForm.date, startTime: shiftForm.startTime, endTime: shiftForm.endTime });
               toast.success("Shift added");
               setShowShiftDialog(false);
             }}>Save</Button>

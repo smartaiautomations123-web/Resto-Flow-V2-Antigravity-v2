@@ -10,6 +10,7 @@ seedMultiYearRouter.post("/seed-multi-year", async (req, res) => {
     try {
         console.log("Starting multi-year data seed...");
         const db = await getDb();
+  if (!db) throw new Error("DB connection failed");
 
         // 1. Ensure we have basic categories and items to attach orders to
         let cats = await db.select().from(menuCategories);

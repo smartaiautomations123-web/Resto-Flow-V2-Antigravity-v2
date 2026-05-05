@@ -14,9 +14,10 @@ import { AiInvoiceScanner } from "./components/AiInvoiceScanner";
 
 export default function Suppliers() {
   const utils = trpc.useUtils();
+  const locationId = 1;
   const { data: suppliersList } = trpc.suppliers.list.useQuery();
   const { data: purchaseOrdersList } = trpc.purchaseOrders.list.useQuery();
-  const { data: ingredients } = trpc.ingredients.list.useQuery();
+  const { data: ingredients } = trpc.ingredients.list.useQuery({ locationId: 1 });
   const createSupplier = trpc.suppliers.create.useMutation({ onSuccess: () => utils.suppliers.list.invalidate() });
   const updateSupplier = trpc.suppliers.update.useMutation({ onSuccess: () => utils.suppliers.list.invalidate() });
   const deleteSupplier = trpc.suppliers.delete.useMutation({ onSuccess: () => utils.suppliers.list.invalidate() });
@@ -63,12 +64,12 @@ export default function Suppliers() {
 
   const savePO = async () => {
     if (!poForm.supplierId) return;
-    const validItems = poForm.items.filter(i => i.ingredientId && i.quantity && i.unitCost);
+    const validItems = poForm.items.filter((i: any) => i.ingredientId && i.quantity && i.unitCost);
     if (validItems.length === 0) { toast.error("Add at least one item"); return; }
     await createPO.mutateAsync({
       supplierId: Number(poForm.supplierId),
       notes: poForm.notes || undefined,
-      items: validItems.map(i => ({
+      items: validItems.map((i: any) => ({
         ingredientId: Number(i.ingredientId), quantity: i.quantity, unitCost: i.unitCost,
         totalCost: (Number(i.quantity) * Number(i.unitCost)).toFixed(2),
       })),
@@ -117,7 +118,7 @@ export default function Suppliers() {
 
         <TabsContent value="suppliers" className="mt-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {suppliersList?.map(s => (
+            {suppliersList?.map((s: any) => (
               <SupplierCard
                 key={s.id}
                 supplier={s}
@@ -145,8 +146,8 @@ export default function Suppliers() {
                   </tr>
                 </thead>
                 <tbody>
-                  {purchaseOrdersList?.map(po => {
-                    const supplier = suppliersList?.find(s => s.id === po.supplierId);
+                  {purchaseOrdersList?.map((po: any) => {
+                    const supplier = suppliersList?.find((s: any) => s.id === po.supplierId);
                     const isExpanded = expandedPOs.has(po.id);
                     return (
                       <PORow
@@ -198,7 +199,7 @@ export default function Suppliers() {
               <Label>Supplier</Label>
               <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm" value={poForm.supplierId} onChange={e => setPoForm(p => ({ ...p, supplierId: e.target.value }))}>
                 <option value="">Select supplier</option>
-                {suppliersList?.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                {suppliersList?.map((s: any) => <option key={s.id} value={s.id}>{s.name}</option>)}
               </select>
             </div>
             <div className="space-y-2">
@@ -206,7 +207,7 @@ export default function Suppliers() {
                 <div key={i} className="grid grid-cols-3 gap-2">
                   <select className="rounded-md border border-input bg-background px-2 py-2 text-sm" value={item.ingredientId} onChange={e => { const items = [...poForm.items]; items[i] = { ...items[i], ingredientId: e.target.value }; setPoForm(p => ({ ...p, items })); }}>
                     <option value="">Ingredient</option>
-                    {ingredients?.map(ing => <option key={ing.id} value={ing.id}>{ing.name}</option>)}
+                    {ingredients?.map((ing: any) => <option key={ing.id} value={ing.id}>{ing.name}</option>)}
                   </select>
                   <Input placeholder="Qty" type="number" value={item.quantity} onChange={e => { const items = [...poForm.items]; items[i] = { ...items[i], quantity: e.target.value }; setPoForm(p => ({ ...p, items })); }} />
                   <Input placeholder="Unit cost" type="number" step="0.01" value={item.unitCost} onChange={e => { const items = [...poForm.items]; items[i] = { ...items[i], unitCost: e.target.value }; setPoForm(p => ({ ...p, items })); }} />
@@ -308,7 +309,7 @@ function PORow({ po, supplier, isExpanded, ingredients, statusClass, onToggle, o
                 </thead>
                 <tbody>
                   {poItems.map((item: any) => {
-                    const ing = ingredients?.find(i => i.id === item.ingredientId);
+                    const ing = ingredients?.find((i: any) => i.id === item.ingredientId);
                     return (
                       <tr key={item.id}>
                         <td className="py-1">{ing?.name || `ID ${item.ingredientId}`}</td>

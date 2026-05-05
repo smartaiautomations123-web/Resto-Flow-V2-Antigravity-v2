@@ -30,22 +30,24 @@ export default function Dashboard() {
     return d.toISOString().split("T")[0];
   }, []);
 
+  const locationId = 1;
+
   // Today's stats
-  const { data: stats } = trpc.reports.salesStats.useQuery({ dateFrom: today, dateTo: tomorrow });
+  const { data: stats } = trpc.reports.salesStats.useQuery({ locationId, dateFrom: today, dateTo: tomorrow });
   // Yesterday's stats for comparison
-  const { data: yesterdayStats } = trpc.reports.salesStats.useQuery({ dateFrom: yesterday, dateTo: today });
+  const { data: yesterdayStats } = trpc.reports.salesStats.useQuery({ locationId, dateFrom: yesterday, dateTo: today });
   // Low stock
-  const { data: lowStock } = trpc.ingredients.lowStock.useQuery();
+  const { data: lowStock } = trpc.ingredients.lowStock.useQuery({ locationId });
   // Recent orders
-  const { data: recentOrders } = trpc.orders.list.useQuery({ dateFrom: today });
+  const { data: recentOrders } = trpc.orders.list.useQuery({ locationId, dateFrom: today });
   // Staff on duty
   const { data: staffOnDuty } = trpc.dashboard.staffOnDuty.useQuery();
   // Shifts ending soon
   const { data: shiftsEndingSoon } = trpc.dashboard.shiftsEndingSoon.useQuery();
   // AI Insights
-  const { data: aiInsights, isLoading: isLoadingAi } = trpc.ai.getDashboardInsights.useQuery({ dateFrom: today, dateTo: tomorrow });
+  const { data: aiInsights, isLoading: isLoadingAi } = trpc.ai.getDashboardInsights.useQuery({ locationId, dateFrom: today, dateTo: tomorrow });
 
-  const activeOrders = recentOrders?.filter(o => ["pending", "preparing", "ready"].includes(o.status)) || [];
+  const activeOrders = recentOrders?.filter((o: any) => ["pending", "preparing", "ready"].includes(o.status)) || [];
 
   // Calculate percentage changes
   const todayRevenue = Number(stats?.totalRevenue || 0);
@@ -73,7 +75,7 @@ export default function Dashboard() {
   ];
 
   // Derive order types real distribution if possible, or fallback
-  const orderCounts = recentOrders?.reduce((acc: Record<string, number>, order) => {
+  const orderCounts = recentOrders?.reduce((acc: Record<string, number>, order: any) => {
     acc[order.type] = (acc[order.type] || 0) + 1;
     return acc;
   }, {}) || {};
@@ -285,7 +287,7 @@ export default function Dashboard() {
 
         {recentOrders && recentOrders.length > 0 ? (
           <div className="space-y-3">
-            {recentOrders.slice(0, 5).map(order => {
+            {recentOrders.slice(0, 5).map((order: any) => {
               let statusColor = "bg-secondary text-muted-foreground";
               if (order.status === "completed") statusColor = "bg-success/15 text-success";
               if (order.status === "cancelled") statusColor = "bg-destructive/15 text-destructive";

@@ -11,9 +11,9 @@ export default function ReservationsOverview() {
   const { data: waitlist } = trpc.waitlist.queue.useQuery({ locationId });
   const { data: tables } = trpc.tables.list.useQuery();
 
-  const activeReservations = reservations?.filter(r => r.status === "confirmed" || r.status === "seated") || [];
-  const activeWaitlist = waitlist?.filter(w => w.status === "waiting" || w.status === "called") || [];
-  const occupiedTables = tables?.filter(t => t.status === "occupied") || [];
+  const activeReservations = reservations?.filter((r: any) => r.status === "confirmed" || r.status === "seated") || [];
+  const activeWaitlist = waitlist?.filter((w: any) => w.status === "waiting" || w.status === "called") || [];
+  const occupiedTables = tables?.filter((t: any) => t.status === "occupied") || [];
 
   return (
     <div className="space-y-6">
@@ -73,7 +73,7 @@ export default function ReservationsOverview() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {activeReservations.reduce((acc, curr) => acc + (curr.partySize || 0), 0)}
+              {activeReservations.reduce((acc: any, curr: any) => acc + (curr.partySize || 0), 0)}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
               Guests booked today

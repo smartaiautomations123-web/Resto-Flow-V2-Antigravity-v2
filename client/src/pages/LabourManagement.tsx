@@ -22,7 +22,7 @@ function toDateStr(d: Date) {
 }
 
 export default function LabourManagement() {
-  const { data: staffList } = trpc.staff.list.useQuery();
+  const { data: staffList } = trpc.staff.list.useQuery({ locationId: 1 });
   const [selectedStaffId, setSelectedStaffId] = useState<string>("");
 
   const startDate = toDateStr(startOfWeek);
@@ -41,7 +41,7 @@ export default function LabourManagement() {
   });
 
   const { data: certAlerts } = trpc.labourManagement.certificationAlerts.useQuery({ daysUntilExpiry: 30 });
-  const { data: tipPooling } = trpc.labourManagement.tipPooling.useQuery({ locationId: undefined });
+  const { data: tipPooling } = trpc.labourManagement.tipPooling.useQuery({ locationId: 1 });
   const { data: wageTheft } = trpc.labourManagement.wageTheftPrevention.useQuery();
   // compliance and overtimeAlerts come from timesheet summary — no separate router endpoint
   const complianceData: unknown = undefined;

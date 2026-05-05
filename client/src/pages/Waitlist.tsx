@@ -12,8 +12,9 @@ import { trpc } from "@/lib/trpc";
 
 export default function Waitlist() {
   const utils = trpc.useUtils();
-  const { data: queue, isLoading } = trpc.waitlist.queue.useQuery(undefined, { refetchInterval: 5000 });
-  const { data: stats } = trpc.waitlist.stats.useQuery(undefined, { refetchInterval: 5000 });
+  const locationId = 1;
+  const { data: queue, isLoading } = trpc.waitlist.queue.useQuery({ locationId }, { refetchInterval: 5000 });
+  const { data: stats } = trpc.waitlist.stats.useQuery({ locationId }, { refetchInterval: 5000 });
 
   const addToWaitlist = trpc.waitlist.add.useMutation({
     onSuccess: () => {
@@ -58,6 +59,7 @@ export default function Waitlist() {
     }
 
     await addToWaitlist.mutateAsync({
+      locationId,
       guestName: formData.name,
       guestPhone: formData.phone || undefined,
       guestEmail: formData.email || undefined,
@@ -126,7 +128,7 @@ export default function Waitlist() {
             <p className="text-muted-foreground text-center py-8">Loading...</p>
           ) : queue && queue.length > 0 ? (
             <div className="space-y-3">
-              {queue.map((guest) => (
+              {queue.map((guest: any) => (
                 <div
                   key={guest.id}
                   className="flex items-center justify-between p-4 border border-border/50 rounded-lg hover:bg-accent/30 transition-colors"
@@ -164,7 +166,7 @@ export default function Waitlist() {
                       variant="ghost"
                       size="icon"
                       className="h-8 w-8"
-                      onClick={() => promoteGuest.mutate({ id: guest.id })}
+                      onClick={() => promoteGuest.mutate({ id: guest.id, locationId })}
                       disabled={promoteGuest.isPending}
                     >
                       <PhoneCall className="h-4 w-4 text-success" />
@@ -173,7 +175,7 @@ export default function Waitlist() {
                       variant="ghost"
                       size="icon"
                       className="h-8 w-8 text-destructive"
-                      onClick={() => removeGuest.mutate({ id: guest.id })}
+                      onClick={() => removeGuest.mutate({ id: guest.id, locationId })}
                       disabled={removeGuest.isPending}
                     >
                       <Trash2 className="h-4 w-4" />
@@ -199,7 +201,7 @@ export default function Waitlist() {
               <Label>Guest Name *</Label>
               <Input
                 value={formData.name}
-                onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
+                onChange={(e) => setFormData((p: any) => ({ ...p, name: e.target.value }))}
                 placeholder="John Smith"
               />
             </div>
@@ -207,7 +209,7 @@ export default function Waitlist() {
               <Label>Phone Number</Label>
               <Input
                 value={formData.phone}
-                onChange={(e) => setFormData((p) => ({ ...p, phone: e.target.value }))}
+                onChange={(e) => setFormData((p: any) => ({ ...p, phone: e.target.value }))}
                 placeholder="+1 (555) 123-4567"
               />
             </div>
@@ -215,7 +217,7 @@ export default function Waitlist() {
               <Label>Email</Label>
               <Input
                 value={formData.email}
-                onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
+                onChange={(e) => setFormData((p: any) => ({ ...p, email: e.target.value }))}
                 placeholder="john@example.com"
               />
             </div>
@@ -225,14 +227,14 @@ export default function Waitlist() {
                 type="number"
                 min="1"
                 value={formData.partySize}
-                onChange={(e) => setFormData((p) => ({ ...p, partySize: e.target.value }))}
+                onChange={(e) => setFormData((p: any) => ({ ...p, partySize: e.target.value }))}
               />
             </div>
             <div>
               <Label>Notes</Label>
               <Textarea
                 value={formData.notes}
-                onChange={(e) => setFormData((p) => ({ ...p, notes: e.target.value }))}
+                onChange={(e) => setFormData((p: any) => ({ ...p, notes: e.target.value }))}
                 placeholder="High chair needed, allergies, etc."
               />
             </div>

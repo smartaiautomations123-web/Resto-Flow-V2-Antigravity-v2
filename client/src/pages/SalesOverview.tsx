@@ -14,10 +14,12 @@ export default function SalesOverview() {
   // Use locationId 1 as default for now, similar to other places
   const locationId = 1;
 
-  const { data: stats } = trpc.reports.salesStats.useQuery({ dateFrom: today, dateTo: tomorrow });
+  const { data: stats } = trpc.reports.salesStats.useQuery({
+    locationId: 1,
+    dateFrom: today, dateTo: tomorrow });
   const { data: recentOrders } = trpc.orders.list.useQuery({ locationId, dateFrom: today });
 
-  const activeOrders = recentOrders?.filter(o => ["pending", "preparing", "ready"].includes(o.status)) || [];
+  const activeOrders = recentOrders?.filter((o: any) => ["pending", "preparing", "ready"].includes(o.status)) || [];
 
   return (
     <div className="space-y-6">

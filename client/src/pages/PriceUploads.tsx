@@ -85,7 +85,7 @@ function UploadTab() {
                 <SelectValue placeholder="Choose a vendor..." />
               </SelectTrigger>
               <SelectContent>
-                {(suppliersQ.data || []).map(s => (
+                {(suppliersQ.data || []).map((s: any) => (
                   <SelectItem key={s.id} value={String(s.id)}>{s.name}</SelectItem>
                 ))}
               </SelectContent>
@@ -153,7 +153,7 @@ function UploadHistory() {
 
   const supplierMap = useMemo(() => {
     const m = new Map<number, string>();
-    (suppliersQ.data || []).forEach(s => m.set(s.id, s.name));
+    (suppliersQ.data || []).forEach((s: any) => m.set(s.id, s.name));
     return m;
   }, [suppliersQ.data]);
 
@@ -199,7 +199,7 @@ function UploadHistory() {
             </div>
           ) : (
             <div className="space-y-2">
-              {uploadsQ.data.map(u => (
+              {uploadsQ.data.map((u: any) => (
                 <div
                   key={u.id}
                   className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-accent/30 transition-colors cursor-pointer"
@@ -256,7 +256,7 @@ function ReviewDialog({ uploadId, onClose }: { uploadId: number; onClose: () => 
   const filtered = useMemo(() => {
     if (!search) return items;
     const q = search.toLowerCase();
-    return items.filter(i =>
+    return items.filter((i: any) =>
       (i.description as string).toLowerCase().includes(q) || i.vendorCode.includes(q)
     );
   }, [items, search]);
@@ -282,9 +282,9 @@ function ReviewDialog({ uploadId, onClose }: { uploadId: number; onClose: () => 
       : <ArrowDownRight className="h-3.5 w-3.5 text-emerald-400" />;
   };
 
-  const increases = items.filter(i => i.priceChange && Number(i.priceChange) > 0).length;
-  const decreases = items.filter(i => i.priceChange && Number(i.priceChange) < 0).length;
-  const newItems = items.filter(i => i.isNew).length;
+  const increases = items.filter((i: any) => i.priceChange && Number(i.priceChange) > 0).length;
+  const decreases = items.filter((i: any) => i.priceChange && Number(i.priceChange) < 0).length;
+  const newItems = items.filter((i: any) => i.isNew).length;
 
   return (
     <Dialog open onOpenChange={() => onClose()}>
@@ -341,7 +341,7 @@ function ReviewDialog({ uploadId, onClose }: { uploadId: number; onClose: () => 
               <span className="text-right">Change</span>
               <span className="text-center">Status</span>
             </div>
-            {filtered.map(item => (
+            {filtered.map((item: any) => (
               <div
                 key={item.id}
                 className={`grid grid-cols-[80px_1fr_100px_100px_80px_80px] gap-2 px-4 py-2.5 text-sm border-b last:border-0 hover:bg-accent/20 transition-colors
@@ -407,14 +407,14 @@ function CatalogTab() {
     const items = productsQ.data || [];
     if (!search) return items;
     const q = search.toLowerCase();
-    return items.filter(i =>
+    return items.filter((i: any) =>
       (i.description as string).toLowerCase().includes(q) || i.vendorCode.includes(q)
     );
   }, [productsQ.data, search]);
 
   const supplierMap = useMemo(() => {
     const m = new Map<number, string>();
-    (suppliersQ.data || []).forEach(s => m.set(s.id, s.name));
+    (suppliersQ.data || []).forEach((s: any) => m.set(s.id, s.name));
     return m;
   }, [suppliersQ.data]);
 
@@ -427,7 +427,7 @@ function CatalogTab() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Vendors</SelectItem>
-            {(suppliersQ.data || []).map(s => (
+            {(suppliersQ.data || []).map((s: any) => (
               <SelectItem key={s.id} value={String(s.id)}>{s.name}</SelectItem>
             ))}
           </SelectContent>
@@ -457,7 +457,7 @@ function CatalogTab() {
                   <span>Pack Size</span>
                   <span className="text-right">Updated</span>
                 </div>
-                {filtered.map(p => (
+                {filtered.map((p: any) => (
                   <div
                     key={p.id}
                     className="grid grid-cols-[80px_1fr_120px_100px_100px_100px_100px] gap-2 px-4 py-2.5 text-sm border-b last:border-0 hover:bg-accent/20 transition-colors cursor-pointer"
@@ -497,7 +497,7 @@ function PriceHistoryDialog({ productId, onClose }: { productId: number; onClose
   const product = productQ.data;
   const history = (historyQ.data || []).slice().reverse();
 
-  const chartData = history.map(h => ({
+  const chartData = history.map((h: any) => ({
     date: new Date(h.recordedAt).toLocaleDateString(),
     casePrice: Number(h.casePrice || 0),
     unitPrice: Number(h.unitPrice || 0),
@@ -564,7 +564,7 @@ function PriceHistoryDialog({ productId, onClose }: { productId: number; onClose
               <span className="text-right">Case Price</span>
               <span className="text-right">Unit Price</span>
             </div>
-            {(historyQ.data || []).map(h => (
+            {(historyQ.data || []).map((h: any) => (
               <div key={h.id} className="grid grid-cols-[1fr_100px_100px] gap-2 px-4 py-2 text-sm border-b last:border-0">
                 <span className="text-muted-foreground">{new Date(h.recordedAt).toLocaleDateString()}</span>
                 <span className="text-right font-mono">${Number(h.casePrice || 0).toFixed(2)}</span>
@@ -598,20 +598,20 @@ function MappingsTab() {
   const mappingsQ = trpc.vendorMappings.list.useQuery(
     selectedSupplierId !== "all" ? { supplierId: Number(selectedSupplierId) } : undefined
   );
-  const ingredientsQ = trpc.ingredients.list.useQuery();
+  const ingredientsQ = trpc.ingredients.list.useQuery({ locationId: 1 });
   const createMappingMut = trpc.vendorMappings.create.useMutation();
   const deleteMappingMut = trpc.vendorMappings.delete.useMutation();
   const utils = trpc.useUtils();
 
   const mappingMap = useMemo(() => {
     const m = new Map<number, { mappingId: number; ingredientId: number }>();
-    (mappingsQ.data || []).forEach(mp => m.set(mp.vendorProductId, { mappingId: mp.id, ingredientId: mp.ingredientId }));
+    (mappingsQ.data || []).forEach((mp: any) => m.set(mp.vendorProductId, { mappingId: mp.id, ingredientId: mp.ingredientId }));
     return m;
   }, [mappingsQ.data]);
 
   const ingredientMap = useMemo(() => {
     const m = new Map<number, string>();
-    (ingredientsQ.data || []).forEach(i => m.set(i.id, i.name));
+    (ingredientsQ.data || []).forEach((i: any) => m.set(i.id, i.name));
     return m;
   }, [ingredientsQ.data]);
 
@@ -619,7 +619,7 @@ function MappingsTab() {
     const items = productsQ.data || [];
     if (!search) return items;
     const q = search.toLowerCase();
-    return items.filter(i =>
+    return items.filter((i: any) =>
       (i.description as string).toLowerCase().includes(q) || i.vendorCode.includes(q)
     );
   }, [productsQ.data, search]);
@@ -650,8 +650,8 @@ function MappingsTab() {
     }
   };
 
-  const mapped = filtered.filter(p => mappingMap.has(p.id));
-  const unmapped = filtered.filter(p => !mappingMap.has(p.id));
+  const mapped = filtered.filter((p: any) => mappingMap.has(p.id));
+  const unmapped = filtered.filter((p: any) => !mappingMap.has(p.id));
 
   return (
     <div className="space-y-4">
@@ -662,7 +662,7 @@ function MappingsTab() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Vendors</SelectItem>
-            {(suppliersQ.data || []).map(s => (
+            {(suppliersQ.data || []).map((s: any) => (
               <SelectItem key={s.id} value={String(s.id)}>{s.name}</SelectItem>
             ))}
           </SelectContent>
@@ -698,7 +698,7 @@ function MappingsTab() {
           </CardHeader>
           <CardContent className="p-0">
             <div className="max-h-[300px] overflow-auto">
-              {unmapped.map(p => (
+              {unmapped.map((p: any) => (
                 <div key={p.id} className="flex items-center justify-between px-4 py-2.5 border-b last:border-0 hover:bg-accent/20 transition-colors">
                   <div className="min-w-0">
                     <p className="text-sm truncate">{p.description as string}</p>
@@ -725,7 +725,7 @@ function MappingsTab() {
           </CardHeader>
           <CardContent className="p-0">
             <div className="max-h-[400px] overflow-auto">
-              {mapped.map(p => {
+              {mapped.map((p: any) => {
                 const m = mappingMap.get(p.id)!;
                 return (
                   <div key={p.id} className="flex items-center justify-between px-4 py-2.5 border-b last:border-0 hover:bg-accent/20 transition-colors">
@@ -766,7 +766,7 @@ function MappingsTab() {
                 <SelectValue placeholder="Choose an ingredient..." />
               </SelectTrigger>
               <SelectContent>
-                {(ingredientsQ.data || []).map(i => (
+                {(ingredientsQ.data || []).map((i: any) => (
                   <SelectItem key={i.id} value={String(i.id)}>{i.name} ({i.unit})</SelectItem>
                 ))}
               </SelectContent>

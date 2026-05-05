@@ -49,10 +49,11 @@ import {
 } from "recharts";
 
 export default function SalesForecasting() {
+  const locationId = 1;
     const today = new Date().toISOString().split('T')[0];
     const nextWeek = addDays(new Date(), 7).toISOString().split('T')[0];
 
-    const { data: forecasts = [], isLoading: loadingForecasts } = trpc.forecasting.getForecasts.useQuery({
+    const { data: forecasts, isLoading: loadingForecasts } = trpc.forecasting.getForecasts.useQuery({
         startDate: today,
         endDate: nextWeek
     });
@@ -78,7 +79,7 @@ export default function SalesForecasting() {
         );
     }
 
-    const todayForecast = forecasts[0] || null;
+    const todayForecast = (forecasts || [])[0] || null;
 
     return (
         <div className="flex-1 space-y-4 p-8 pt-6">
@@ -200,7 +201,7 @@ export default function SalesForecasting() {
                         <CardContent className="pl-2">
                             <div className="h-[350px]">
                                 <ResponsiveContainer width="100%" height="100%">
-                                    <ComposedChart data={forecasts}>
+                                    <ComposedChart data={forecasts || []}>
                                         <CartesianGrid strokeDasharray="3 3" vertical={false} />
                                         <XAxis dataKey="dayOfWeek" />
                                         <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
@@ -275,14 +276,14 @@ export default function SalesForecasting() {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {stockAlerts.length === 0 ? (
+                                    {(stockAlerts || []).length === 0 ? (
                                         <TableRow>
                                             <TableCell colSpan={4} className="text-center py-6 text-muted-foreground">
                                                 No active stock alerts. Run the analysis engine to detect insights.
                                             </TableCell>
                                         </TableRow>
                                     ) : (
-                                        stockAlerts.map((alert: any) => (
+                                        (stockAlerts || []).map((alert: any) => (
                                             <TableRow key={alert.id}>
                                                 <TableCell className="font-medium">
                                                     Ingredient #{alert.ingredientId}

@@ -32,7 +32,7 @@ export default function WasteTracking() {
     notes: "",
   });
 
-  const { data: ingredients } = trpc.ingredients.list.useQuery();
+  const { data: ingredients } = trpc.ingredients.list.useQuery({ locationId: 1 });
   const { data: currentUser } = trpc.auth.me.useQuery();
   const { data: wasteByReason, refetch: refetchReason } = trpc.waste.getByReason.useQuery({
     startDate: new Date(startDate), endDate: new Date(endDate),
@@ -68,7 +68,7 @@ export default function WasteTracking() {
   };
 
   const handleIngredientChange = (id: string) => {
-    const ing = ingredients?.find(i => String(i.id) === id);
+    const ing = ingredients?.find((i: any) => String(i.id) === id);
     setLogForm(p => ({
       ...p,
       ingredientId: id,
@@ -78,7 +78,7 @@ export default function WasteTracking() {
   };
 
   const handleQuantityChange = (q: string) => {
-    const ing = ingredients?.find(i => String(i.id) === logForm.ingredientId);
+    const ing = ingredients?.find((i: any) => String(i.id) === logForm.ingredientId);
     setLogForm(p => ({
       ...p,
       quantity: q,
@@ -200,7 +200,7 @@ export default function WasteTracking() {
                   </thead>
                   <tbody>
                     {wasteLogs?.map((log: any) => {
-                      const ing = ingredients?.find(i => i.id === log.ingredientId);
+                      const ing = ingredients?.find((i: any) => i.id === log.ingredientId);
                       return (
                         <tr key={log.id} className="border-b border-border/50 hover:bg-accent/30 transition-colors">
                           <td className="p-4 text-sm text-muted-foreground">{new Date(log.loggedAt || log.createdAt).toLocaleDateString()}</td>
@@ -238,7 +238,7 @@ export default function WasteTracking() {
                 </thead>
                 <tbody>
                   {wasteByIngredient?.map((row: any) => {
-                    const ing = ingredients?.find(i => i.id === row.ingredientId);
+                    const ing = ingredients?.find((i: any) => i.id === row.ingredientId);
                     return (
                       <tr key={row.ingredientId} className="border-b border-border/50 hover:bg-accent/30 transition-colors">
                         <td className="p-4 text-sm font-medium">{ing?.name || `#${row.ingredientId}`}</td>
@@ -268,7 +268,7 @@ export default function WasteTracking() {
               <Select value={logForm.ingredientId} onValueChange={handleIngredientChange}>
                 <SelectTrigger><SelectValue placeholder="Select ingredient" /></SelectTrigger>
                 <SelectContent>
-                  {ingredients?.map(i => <SelectItem key={i.id} value={String(i.id)}>{i.name} ({i.unit})</SelectItem>)}
+                  {ingredients?.map((i: any) => <SelectItem key={i.id} value={String(i.id)}>{i.name} ({i.unit})</SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
@@ -287,7 +287,7 @@ export default function WasteTracking() {
               <Select value={logForm.reason} onValueChange={v => setLogForm(p => ({ ...p, reason: v }))}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  {WASTE_REASONS.map(r => <SelectItem key={r} value={r} className="capitalize">{r}</SelectItem>)}
+                  {WASTE_REASONS.map((r: any) => <SelectItem key={r} value={r} className="capitalize">{r}</SelectItem>)}
                 </SelectContent>
               </Select>
             </div>

@@ -41,7 +41,7 @@ export default function SupplierTracking() {
     },
   });
 
-  const selectedSupplier = suppliersList?.find(s => s.id === selectedSupplierId);
+  const selectedSupplier = suppliersList?.find((s: any) => s.id === selectedSupplierId);
 
   const handleRecord = async () => {
     if (!selectedSupplierId || !recordForm.totalOrders) return;
@@ -75,7 +75,7 @@ export default function SupplierTracking() {
 
       {/* Supplier selector */}
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
-        {suppliersList?.map(s => (
+        {suppliersList?.map((s: any) => (
           <button
             key={s.id}
             onClick={() => setSelectedSupplierId(s.id === selectedSupplierId ? null : s.id)}
@@ -152,7 +152,7 @@ export default function SupplierTracking() {
           {/* Quality rating stars visual */}
           {scorecard && (
             <div className="flex items-center gap-1">
-              {[1, 2, 3, 4, 5].map(star => (
+              {[1, 2, 3, 4, 5].map((star: any) => (
                 <Star
                   key={star}
                   className={`h-5 w-5 ${star <= Math.round(qualityRating) ? "text-amber-500 fill-amber-500" : "text-muted-foreground"}`}

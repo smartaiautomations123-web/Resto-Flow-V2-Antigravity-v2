@@ -11,3 +11,9 @@ tmp
 *.xlsx
 .claude/
 test-results.json
+*.cjs
+*.txt
+fix_*.js
+fix_*.py
+fix_*.cjs
+find_*.cjs

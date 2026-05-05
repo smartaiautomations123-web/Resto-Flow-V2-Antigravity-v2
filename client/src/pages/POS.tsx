@@ -25,6 +25,7 @@ type CartItem = {
 };
 
 export default function POS() {
+  const locationId = 1;
   const utils = trpc.useUtils();
   const { data: categories } = trpc.categories.list.useQuery();
   const { data: allMenuItems } = trpc.menu.list.useQuery();
@@ -60,7 +61,7 @@ export default function POS() {
   const [pendingDiscount, setPendingDiscount] = useState<{ name: string; type: string; value: number; amount: number; requiresApproval: boolean } | null>(null);
   const [managerPin, setManagerPin] = useState("");
 
-  const cartItemIds = useMemo(() => cart.map(c => c.menuItemId), [cart]);
+  const cartItemIds = useMemo(() => cart.map((c: any) => c.menuItemId), [cart]);
   const { data: upsells } = trpc.ai.getRealtimeUpsells.useQuery({ cartItemIds }, { enabled: cart.length > 0 });
 
   const createOrder = trpc.orders.create.useMutation();
@@ -77,7 +78,7 @@ export default function POS() {
 
   const filteredItems = useMemo(() => {
     if (!allMenuItems) return [];
-    return selectedCategory ? allMenuItems.filter(i => i.categoryId === selectedCategory && i.isAvailable) : allMenuItems.filter(i => i.isAvailable);
+    return selectedCategory ? allMenuItems.filter((i: any) => i.categoryId === selectedCategory && i.isAvailable) : allMenuItems.filter((i: any) => i.isAvailable);
   }, [allMenuItems, selectedCategory]);
 
   const subtotal = cart.reduce((s, i) => s + (i.unitPrice + i.modifiers.reduce((m, mod) => m + mod.price, 0)) * i.quantity, 0);
@@ -88,8 +89,8 @@ export default function POS() {
 
   const addToCart = (item: NonNullable<typeof allMenuItems>[0]) => {
     setCart(prev => {
-      const existing = prev.find(c => c.menuItemId === item.id && c.modifiers.length === 0);
-      if (existing) return prev.map(c => c === existing ? { ...c, quantity: c.quantity + 1 } : c);
+      const existing = prev.find((c: any) => c.menuItemId === item.id && c.modifiers.length === 0);
+      if (existing) return prev.map((c: any) => c === existing ? { ...c, quantity: c.quantity + 1 } : c);
       return [...prev, { menuItemId: item.id, name: item.name, quantity: 1, unitPrice: Number(item.price), modifiers: [], notes: "" }];
     });
   };
@@ -289,7 +290,7 @@ export default function POS() {
               <Select value={selectedTable} onValueChange={setSelectedTable}>
                 <SelectTrigger className="w-36"><SelectValue placeholder="Select table" /></SelectTrigger>
                 <SelectContent>
-                  {tablesList?.filter(t => t.status === "free").map(t => (
+                  {tablesList?.filter((t: any) => t.status === "free").map((t: any) => (
                     <SelectItem key={t.id} value={String(t.id)}>{t.name} ({t.seats} seats)</SelectItem>
                   ))}
                 </SelectContent>
@@ -326,7 +327,7 @@ export default function POS() {
         {/* Menu grid */}
         <ScrollArea className="flex-1">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-            {filteredItems.map(item => (
+            {filteredItems.map((item: any) => (
               <button key={item.id} onClick={() => addToCart(item)}
                 className="p-4 rounded-xl bg-card border border-border hover:border-primary/50 hover:bg-accent/50 transition-all text-left group">
                 <p className="font-medium text-sm truncate group-hover:text-primary transition-colors">{item.name}</p>
@@ -466,7 +467,7 @@ export default function POS() {
               <Label className="text-sm text-muted-foreground">Tip</Label>
               <div className="flex gap-2 mt-1">
                 <div className="flex gap-1">
-                  {[10, 15, 20].map(pct => (
+                  {[10, 15, 20].map((pct: any) => (
                     <Button key={pct} variant={tipType === "percent" && tip === pct ? "default" : "outline"} size="sm"
                       onClick={() => { setTipType("percent"); setTip(pct); }}>
                       {pct}%
@@ -537,7 +538,7 @@ export default function POS() {
                 )}
               </div>
             ))}
-            {splitPayments.length > 0 && splitPayments.every(p => p.paid) && (
+            {splitPayments.length > 0 && splitPayments.every((p: any) => p.paid) && (
               <Button className="w-full" onClick={resetOrder}>All Paid — Close Order</Button>
             )}
           </div>
@@ -554,7 +555,7 @@ export default function POS() {
               <Select value={mergePrimary} onValueChange={setMergePrimary}>
                 <SelectTrigger><SelectValue placeholder="Select primary table" /></SelectTrigger>
                 <SelectContent>
-                  {tablesList?.filter(t => t.status === "free").map(t => (
+                  {tablesList?.filter((t: any) => t.status === "free").map((t: any) => (
                     <SelectItem key={t.id} value={String(t.id)}>{t.name} ({t.seats} seats)</SelectItem>
                   ))}
                 </SelectContent>
@@ -563,10 +564,10 @@ export default function POS() {
             <div>
               <Label>Tables to Merge</Label>
               <div className="flex gap-2 flex-wrap mt-2">
-                {tablesList?.filter(t => t.status === "free" && String(t.id) !== mergePrimary).map(t => (
+                {tablesList?.filter((t: any) => t.status === "free" && String(t.id) !== mergePrimary).map((t: any) => (
                   <Button key={t.id} size="sm"
                     variant={mergeSecondary.includes(t.id) ? "default" : "outline"}
-                    onClick={() => setMergeSecondary(prev => prev.includes(t.id) ? prev.filter(id => id !== t.id) : [...prev, t.id])}>
+                    onClick={() => setMergeSecondary(prev => prev.includes(t.id) ? prev.filter((id: any) => id !== t.id) : [...prev, t.id])}>
                     {t.name}
                   </Button>
                 ))}

@@ -10,6 +10,7 @@ import { DollarSign, TrendingUp, Users, ShoppingCart, Clock, Award, Download, Sp
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Reports() {
+  const locationId = 1;
   const [dateRange, setDateRange] = useState(() => {
     const now = new Date();
     const weekAgo = new Date(now);
@@ -20,17 +21,17 @@ export default function Reports() {
 
   const stableDateRange = useMemo(() => dateRange, [dateRange.from, dateRange.to]);
 
-  const { data: stats } = trpc.reports.salesStats.useQuery({ dateFrom: stableDateRange.from, dateTo: stableDateRange.to });
-  const { data: dailySales } = trpc.reports.dailySales.useQuery({ dateFrom: stableDateRange.from, dateTo: stableDateRange.to });
-  const { data: topItems } = trpc.reports.topItems.useQuery({ dateFrom: stableDateRange.from, dateTo: stableDateRange.to, limit: 10 });
-  const { data: byCategory } = trpc.reports.salesByCategory.useQuery({ dateFrom: stableDateRange.from, dateTo: stableDateRange.to });
-  const { data: labourCosts } = trpc.reports.labourCosts.useQuery({ dateFrom: stableDateRange.from, dateTo: stableDateRange.to });
-  const { data: byType } = trpc.reports.ordersByType.useQuery({ dateFrom: stableDateRange.from, dateTo: stableDateRange.to });
-  const { data: hourlyTrend } = trpc.salesAnalytics.hourlySalesTrend.useQuery({ date: hourlyDate });
-  const { data: staffPerf } = trpc.salesAnalytics.staffPerformance.useQuery({ startDate: stableDateRange.from, endDate: stableDateRange.to });
-  const { data: aiInsights, isLoading: isLoadingAI } = trpc.reports.getSmartReportingInsights.useQuery({ dateFrom: stableDateRange.from, dateTo: stableDateRange.to });
+  const { data: stats } = trpc.reports.salesStats.useQuery({ locationId,  dateFrom: stableDateRange.from, dateTo: stableDateRange.to });
+  const { data: dailySales } = trpc.reports.dailySales.useQuery({ locationId, dateFrom: stableDateRange.from, dateTo: stableDateRange.to });
+  const { data: topItems } = trpc.reports.topItems.useQuery({ locationId,  dateFrom: stableDateRange.from, dateTo: stableDateRange.to, limit: 10 });
+  const { data: byCategory } = trpc.reports.salesByCategory.useQuery({ locationId,  dateFrom: stableDateRange.from, dateTo: stableDateRange.to });
+  const { data: labourCosts } = trpc.reports.labourCosts.useQuery({ locationId,  dateFrom: stableDateRange.from, dateTo: stableDateRange.to });
+  const { data: byType } = trpc.reports.ordersByType.useQuery({ locationId,  dateFrom: stableDateRange.from, dateTo: stableDateRange.to });
+  const { data: hourlyTrend } = trpc.salesAnalytics.hourlySalesTrend.useQuery({ locationId,  date: hourlyDate });
+  const { data: staffPerf } = trpc.salesAnalytics.staffPerformance.useQuery({ locationId,  startDate: stableDateRange.from, endDate: stableDateRange.to });
+  const { data: aiInsights, isLoading: isLoadingAI } = trpc.reports.getSmartReportingInsights.useQuery({ locationId,  dateFrom: stableDateRange.from, dateTo: stableDateRange.to });
 
-  const totalLabour = labourCosts?.totalLabourCost || 0;
+  const totalLabour = (labourCosts as any)?.totalLabourCost || 0;
   const revenue = Number(stats?.totalRevenue || 0);
   const labourPct = revenue > 0 ? ((totalLabour / revenue) * 100).toFixed(1) : "0";
 
@@ -38,7 +39,7 @@ export default function Reports() {
   const exportCSV = (data: any[], filename: string) => {
     if (!data || data.length === 0) return;
     const headers = Object.keys(data[0]);
-    const csv = [headers.join(","), ...data.map(row => headers.map(h => `"${row[h] ?? ""}"`).join(","))].join("\n");
+    const csv = [headers.join(","), ...data.map(row => headers.map((h: any) => `"${row[h] ?? ""}"`).join(","))].join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -353,7 +354,7 @@ export default function Reports() {
                       </tr>
                     </thead>
                     <tbody>
-                      {labourCosts.entries.map((l: any, i: number) => (
+                      {(labourCosts as any)?.entries?.map((l: any, i: number) => (
                         <tr key={i} className="border-b border-border/50">
                           <td className="p-3 font-medium text-sm">{l.staffName}</td>
                           <td className="p-3 text-sm">{Number(l.hoursWorked).toFixed(1)}h</td>
@@ -363,7 +364,7 @@ export default function Reports() {
                       ))}
                       <tr className="font-bold">
                         <td className="p-3">Total</td>
-                        <td className="p-3">{Number(labourCosts.totalHours || 0).toFixed(1)}h</td>
+                        <td className="p-3">{Number((labourCosts as any)?.totalHours || 0).toFixed(1)}h</td>
                         <td className="p-3"></td>
                         <td className="p-3 text-primary">${totalLabour.toFixed(2)}</td>
                       </tr>

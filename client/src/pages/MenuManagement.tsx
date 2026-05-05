@@ -92,7 +92,7 @@ export default function MenuManagement() {
     setShowItemDialog(false);
   };
 
-  const filteredItems = menuItems?.filter(i => !selectedCat || i.categoryId === selectedCat) || [];
+  const filteredItems = menuItems?.filter((i: any) => !selectedCat || i.categoryId === selectedCat) || [];
 
   return (
     <div className="space-y-6">
@@ -115,10 +115,10 @@ export default function MenuManagement() {
       {/* Categories */}
       <div className="flex gap-2 overflow-x-auto pb-1">
         <Button variant={selectedCat === null ? "default" : "outline"} size="sm" onClick={() => setSelectedCat(null)}>All ({menuItems?.length || 0})</Button>
-        {categories?.map(cat => (
+        {categories?.map((cat: any) => (
           <div key={cat.id} className="flex items-center gap-1">
             <Button variant={selectedCat === cat.id ? "default" : "outline"} size="sm" onClick={() => setSelectedCat(cat.id)}>
-              {cat.name} ({menuItems?.filter(i => i.categoryId === cat.id).length || 0})
+              {cat.name} ({menuItems?.filter((i: any) => i.categoryId === cat.id).length || 0})
             </Button>
             <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => openCatDialog(cat)}>
               <Pencil className="h-3 w-3" />
@@ -144,8 +144,8 @@ export default function MenuManagement() {
                 </tr>
               </thead>
               <tbody>
-                {filteredItems.map(item => {
-                  const cat = categories?.find(c => c.id === item.categoryId);
+                {filteredItems.map((item: any) => {
+                  const cat = categories?.find((c: any) => c.id === item.categoryId);
                   return (
                     <tr key={item.id} className="border-b border-border/50 hover:bg-accent/30 transition-colors">
                       <td className="p-4">
@@ -225,7 +225,7 @@ export default function MenuManagement() {
                 <Select value={itemForm.categoryId} onValueChange={v => setItemForm(p => ({ ...p, categoryId: v }))}>
                   <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
                   <SelectContent>
-                    {categories?.map(c => <SelectItem key={c.id} value={String(c.id)}>{c.name}</SelectItem>)}
+                    {categories?.map((c: any) => <SelectItem key={c.id} value={String(c.id)}>{c.name}</SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
@@ -234,7 +234,7 @@ export default function MenuManagement() {
                 <Select value={itemForm.station} onValueChange={v => setItemForm(p => ({ ...p, station: v }))}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    {["grill", "fryer", "salad", "dessert", "bar", "general"].map(s => <SelectItem key={s} value={s} className="capitalize">{s}</SelectItem>)}
+                    {["grill", "fryer", "salad", "dessert", "bar", "general"].map((s: any) => <SelectItem key={s} value={s} className="capitalize">{s}</SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
